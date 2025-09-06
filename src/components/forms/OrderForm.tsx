@@ -13,10 +13,6 @@ interface OrderFormInputs {
   budget: string;
 }
 
-const SECRET_TOKEN = "Password";
-
-
-
 const OrderForm = () => {
   const { 
     register, 
@@ -25,30 +21,37 @@ const OrderForm = () => {
     reset
   } = useForm<OrderFormInputs>();
 
-const WEB_APP_URL = "/api/order"; // এখন এই API route ব্যবহার করবে
+  const WEB_APP_URL = "/api/order"; // এখন Vercel API route ব্যবহার
 
-const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
-  try {
-    const response = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+  const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
+    try {
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
 
-    const text = await response.text();
-    const result = JSON.parse(text);
+      const text = await response.text();
 
-    if (result.status === "success") {
-      alert("Your order has been submitted successfully!");
-      reset();
-    } else {
-      alert("Failed to submit order: " + (result.message || "Unknown error"));
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (err) {
+        console.error("Invalid JSON response:", text);
+        throw new Error("Server returned invalid JSON");
+      }
+
+      if (result.status === "success") {
+        alert("Your order has been submitted successfully!");
+        reset();
+      } else {
+        alert("Failed to submit order: " + (result.message || "Unknown error"));
+      }
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the order: " + error.message);
     }
-  } catch (error: any) {
-    console.error("Error submitting form:", error);
-    alert("An error occurred while submitting the order: " + error.message);
-  }
-};
+  };
 
 
   return (
