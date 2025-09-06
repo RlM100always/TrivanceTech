@@ -13,7 +13,6 @@ interface OrderFormInputs {
   budget: string;
 }
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOsTHVz9_mG0W9mPAKMjhjP92ypAtyQfj6qXmF_VKZRN5QSYvmo60LdYvmOh-lrNOotw/exec";
 const SECRET_TOKEN = "Password";
 
 
@@ -26,32 +25,18 @@ const OrderForm = () => {
     reset
   } = useForm<OrderFormInputs>();
 
-  const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
-  try {
-    const payload = {
-      token: SECRET_TOKEN,
-      ...data
-    };
+const WEB_APP_URL = "/api/order"; // এখন এই API route ব্যবহার করবে
 
+const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
+  try {
     const response = await fetch(WEB_APP_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
     });
 
-    // প্রথমে text হিসেবে নাও
     const text = await response.text();
-
-    // পরে parse করার চেষ্টা
-    let result;
-    try {
-      result = JSON.parse(text);
-    } catch (err) {
-      console.error("Invalid JSON response:", text);
-      throw new Error("Server returned invalid JSON");
-    }
+    const result = JSON.parse(text);
 
     if (result.status === "success") {
       alert("Your order has been submitted successfully!");
@@ -64,7 +49,6 @@ const OrderForm = () => {
     alert("An error occurred while submitting the order: " + error.message);
   }
 };
-
 
 
   return (
