@@ -8,7 +8,12 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    host: '0.0.0.0',
-    port: 5173,
+   proxy: {
+      '/api': {
+        target: 'https://script.google.com/macros/s/AKfycby_Utr0k2z_pGkeKRmmPmstYW0QaehBzqPSOQWXZ7vNT--Aht7EizvrlnILzRwa2CFiPg/exec',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
 });

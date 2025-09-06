@@ -22,7 +22,7 @@ const PremiumHero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 dark:from-gray-950 dark:via-primary-950 dark:to-primary-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 dark:from-gray-950 dark:via-primary-950 dark:to-primary-900  my-2 sm:my-2 lg:my-2">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient Overlay */}
@@ -54,9 +54,9 @@ const PremiumHero: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="opacity-100 translate-y-0">
           {/* Badge */}
-          <div className="inline-flex items-center px-3 py-3 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-white mb-6 sm:mb-8 border border-white/20">
+          <div className="inline-flex items-center px-3 py-3 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-white mb-6 sm:mb-8 border border-white/20    my-8 sm:my-8 lg:my-8">
             <Sparkles size={14} className="mr-2" />
-            <span className="text-center leading-tight">Bangladesh's Premier IT Solutions Company</span>
+            <span className="text-center leading-tight ">IT Solutions Agency</span>
           </div>
 
           {/* Main Headline */}
@@ -73,7 +73,7 @@ const PremiumHero: React.FC = () => {
             <span className="text-primary-300 font-semibold transition-all duration-500">
               {rotatingTexts[currentText]}
             </span>
-            <span> worldwide</span>
+            {/* <span> worldwide</span> */}
           </div>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
@@ -98,7 +98,7 @@ const PremiumHero: React.FC = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto px-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto px-4  my-8 sm:my-8 lg:my-8">
             <div className="text-center group">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Award className="w-6 h-6 sm:w-8 sm:h-8 text-primary-400" />

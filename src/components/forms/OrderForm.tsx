@@ -12,6 +12,12 @@ interface OrderFormInputs {
   fileUrl: string;
   budget: string;
 }
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/"; // Free CORS proxy
+
+const WEB_APP_URL = "/api";
+const SECRET_TOKEN = "Password";
+
+
 
 const OrderForm = () => {
   const { 
@@ -22,16 +28,34 @@ const OrderForm = () => {
   } = useForm<OrderFormInputs>();
 
   const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
-    // In a real application, this would submit to Google Sheets via an API
-    console.log('Form submitted:', data);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Display success message and reset form
-    alert('Your order has been submitted successfully!');
-    reset();
+    try {
+      const payload = {
+        token: SECRET_TOKEN,
+        ...data
+      };
+
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      
+      if (result.status === "success") {
+        alert("Your order has been submitted successfully!");
+        reset();
+      } else {
+        alert("Failed to submit order: " + result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the order.");
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
