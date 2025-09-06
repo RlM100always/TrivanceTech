@@ -12,9 +12,8 @@ interface OrderFormInputs {
   fileUrl: string;
   budget: string;
 }
-const PROXY_URL = "https://cors-anywhere.herokuapp.com/"; // Free CORS proxy
 
-const WEB_APP_URL = "/api";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOsTHVz9_mG0W9mPAKMjhjP92ypAtyQfj6qXmF_VKZRN5QSYvmo60LdYvmOh-lrNOotw/exec";
 const SECRET_TOKEN = "Password";
 
 
@@ -28,33 +27,44 @@ const OrderForm = () => {
   } = useForm<OrderFormInputs>();
 
   const onSubmit: SubmitHandler<OrderFormInputs> = async (data) => {
+  try {
+    const payload = {
+      token: SECRET_TOKEN,
+      ...data
+    };
+
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    // প্রথমে text হিসেবে নাও
+    const text = await response.text();
+
+    // পরে parse করার চেষ্টা
+    let result;
     try {
-      const payload = {
-        token: SECRET_TOKEN,
-        ...data
-      };
-
-      const response = await fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-      
-      if (result.status === "success") {
-        alert("Your order has been submitted successfully!");
-        reset();
-      } else {
-        alert("Failed to submit order: " + result.message);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("An error occurred while submitting the order.");
+      result = JSON.parse(text);
+    } catch (err) {
+      console.error("Invalid JSON response:", text);
+      throw new Error("Server returned invalid JSON");
     }
-  };
+
+    if (result.status === "success") {
+      alert("Your order has been submitted successfully!");
+      reset();
+    } else {
+      alert("Failed to submit order: " + (result.message || "Unknown error"));
+    }
+  } catch (error: any) {
+    console.error("Error submitting form:", error);
+    alert("An error occurred while submitting the order: " + error.message);
+  }
+};
+
 
 
   return (
