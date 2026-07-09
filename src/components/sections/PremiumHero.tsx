@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Globe, Users, Award } from 'lucide-react';
 import HeroScene from '../three/HeroScene';
 
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
 const PremiumHero: React.FC = () => {
   const [currentText, setCurrentText] = useState(0);
-  const [isVisible, setIsVisible] = useState(true); // Changed to true for immediate visibility
 
   const rotatingTexts = [
     "International Students",
@@ -56,37 +66,47 @@ const PremiumHero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="opacity-100 translate-y-0">
+        <motion.div variants={stagger} initial="hidden" animate="visible">
           {/* Badge */}
-          <div className="inline-flex items-center px-3 py-3 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-white mb-6 sm:mb-8 border border-white/20    my-8 sm:my-8 lg:my-8">
+          <motion.div variants={fadeUp} className="inline-flex items-center px-3 py-3 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-white mb-6 sm:mb-8 border border-white/20    my-8 sm:my-8 lg:my-8">
             <Sparkles size={14} className="mr-2" />
             <span className="text-center leading-tight ">IT Solutions Agency</span>
-          </div>
+          </motion.div>
 
           {/* Main Headline */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
+          <motion.h1 variants={fadeUp} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2">
             Empowering the Future with
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 animate-gradient-x mt-2">
               Innovative Software Solutions
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Dynamic Subheading */}
-          <div className="text-lg sm:text-xl md:text-2xl text-gray-200 mb-2 sm:mb-4 h-8 px-4">
+          <motion.div variants={fadeUp} className="text-lg sm:text-xl md:text-2xl text-gray-200 mb-2 sm:mb-4 h-8 px-4">
             <span>Trusted by </span>
-            <span className="text-primary-300 font-semibold transition-all duration-500">
-              {rotatingTexts[currentText]}
+            <span className="inline-block relative">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingTexts[currentText]}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="inline-block text-primary-300 font-semibold"
+                >
+                  {rotatingTexts[currentText]}
+                </motion.span>
+              </AnimatePresence>
             </span>
-            {/* <span> worldwide</span> */}
-          </div>
+          </motion.div>
 
-          <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
-            Remote-first, we deliver cutting-edge web development, mobile applications, 
+          <motion.p variants={fadeUp} className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+            Remote-first, we deliver cutting-edge web development, mobile applications,
             digital transformation services, university projects, thesis, assignments, and UI/UX design that drive success globally.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4">
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4">
             <Link
               to="/order"
               className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-primary-500/25 flex items-center justify-center"
@@ -99,10 +119,10 @@ const PremiumHero: React.FC = () => {
               <Play size={20} className="mr-2 group-hover:scale-110 transition-transform" />
               Watch Our Story
             </button>
-          </div>
+          </motion.div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto px-4  my-8 sm:my-8 lg:my-8">
+          <motion.div variants={fadeUp} className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto px-4  my-8 sm:my-8 lg:my-8">
             <div className="text-center group">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Award className="w-6 h-6 sm:w-8 sm:h-8 text-primary-400" />
@@ -134,8 +154,8 @@ const PremiumHero: React.FC = () => {
               <div className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">4+</div>
               <div className="text-gray-300 text-xs sm:text-sm">Years Excellence</div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator */}

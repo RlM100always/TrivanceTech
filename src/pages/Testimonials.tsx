@@ -67,20 +67,20 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <div className="inline-block p-3 bg-primary-100 rounded-lg mb-4">
-            <MessageSquare size={30} className="text-primary-600" />
+          <div className="inline-block p-3 bg-primary-100 dark:bg-primary-900/40 rounded-lg mb-4">
+            <MessageSquare size={30} className="text-primary-600 dark:text-primary-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">What Our Clients Say</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Don't just take our word for it. Here's what our satisfied clients have to say about our services.
           </p>
         </div>
 
         {/* Featured Testimonial */}
-        <div className="mb-16 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="mb-16 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
           <div className="md:grid md:grid-cols-2">
             <div className="bg-primary-700 py-12 px-6 flex items-center">
               <div className="text-white space-y-4">
@@ -130,7 +130,7 @@ const Testimonials = () => {
           <div className="flex justify-center mt-12">
             <button 
               onClick={goToPrevPage}
-              className="mx-1 p-2 rounded-md text-gray-600 hover:bg-gray-200 transition-colors"
+              className="mx-1 p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Previous page"
             >
               <ChevronLeft size={24} />
@@ -143,7 +143,7 @@ const Testimonials = () => {
                 className={`mx-1 w-10 h-10 rounded-md ${
                   currentPage === index
                     ? 'bg-primary-600 text-white'
-                    : 'text-gray-600 hover:bg-gray-200'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 } transition-colors`}
               >
                 {index + 1}
@@ -152,7 +152,7 @@ const Testimonials = () => {
             
             <button 
               onClick={goToNextPage}
-              className="mx-1 p-2 rounded-md text-gray-600 hover:bg-gray-200 transition-colors"
+              className="mx-1 p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Next page"
             >
               <ChevronRight size={24} />

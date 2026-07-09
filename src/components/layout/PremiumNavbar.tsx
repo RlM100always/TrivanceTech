@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight, Sparkles, UserCircle } from 'lucide-react';
 import Logo from '../ui/Logo';
 import DarkModeToggle from '../ui/DarkModeToggle';
@@ -127,8 +128,15 @@ const PremiumNavbar: React.FC = () => {
           </div>
 
           {/* Mobile Navigation */}
+          <AnimatePresence>
           {isMobileMenuOpen && (
-            <div className="lg:hidden border-t border-gray-200/60 dark:border-gray-700/60 animate-slide-in-from-top duration-300">
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="lg:hidden border-t border-gray-200/60 dark:border-gray-700/60 overflow-hidden"
+            >
               <div className="px-1 pt-3 pb-4 space-y-1">
                 {mobileNavItems.map((item) => (
                   <Link
@@ -162,8 +170,9 @@ const PremiumNavbar: React.FC = () => {
                   Get Started
                 </Link>
               </div>
-            </div>
+            </motion.div>
           )}
+          </AnimatePresence>
         </div>
       </nav>
     </div>

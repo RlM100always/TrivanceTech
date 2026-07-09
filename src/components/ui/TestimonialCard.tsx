@@ -15,8 +15,8 @@ interface TestimonialCardProps {
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 relative">
-      <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 relative">
+      <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center">
         {testimonial.avatar ? (
           <img 
             src={testimonial.avatar} 
@@ -29,8 +29,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
       </div>
       
       <div className="pt-6 text-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">{testimonial.clientName}</h3>
-        <p className="text-sm text-gray-600">{testimonial.projectTitle}</p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{testimonial.clientName}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.projectTitle}</p>
       </div>
       
       <div className="flex justify-center mb-4">
@@ -41,7 +41,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
             viewBox="0 0 24 24" 
             fill={i < testimonial.rating ? "currentColor" : "none"}
             stroke={i < testimonial.rating ? "none" : "currentColor"}
-            className={`w-5 h-5 ${i < testimonial.rating ? "text-yellow-400" : "text-gray-300"}`}
+            className={`w-5 h-5 ${i < testimonial.rating ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}`}
           >
             <path 
               strokeLinecap="round" 
@@ -53,7 +53,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
         ))}
       </div>
       
-      <p className="text-gray-700 text-center italic">{testimonial.feedback}</p>
+      <p className="text-gray-700 dark:text-gray-300 text-center italic">{testimonial.feedback}</p>
     </div>
   );
 };
