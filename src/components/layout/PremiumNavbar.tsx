@@ -42,16 +42,14 @@ const PremiumNavbar: React.FC = () => {
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'pt-2 sm:pt-3 px-2 sm:px-4' : 'pt-0 px-0'}`}>
       <nav
-        className={`mx-auto max-w-7xl transition-all duration-500 ${
+        className={`mx-auto max-w-7xl transition-all duration-500 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 ${
           isScrolled
-            ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-gray-200/60 dark:border-gray-700/60 rounded-2xl'
-            : 'bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm rounded-none'
+            ? 'shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded-2xl border'
+            : 'shadow-[0_1px_0_rgba(0,0,0,0.04)] rounded-none'
         }`}
       >
-        {/* Top accent line — brand gradient hairline, only visible when floating */}
-        {isScrolled && (
-          <div className="h-[3px] w-full rounded-t-2xl bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 bg-[length:200%_100%] animate-gradient-x" />
-        )}
+        {/* Top accent line — brand gradient hairline, always present */}
+        <div className={`h-[3px] w-full bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500 bg-[length:200%_100%] animate-gradient-x ${isScrolled ? 'rounded-t-2xl' : ''}`} />
 
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -72,12 +70,10 @@ const PremiumNavbar: React.FC = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
+                    className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 ${
                       active
                         ? 'text-white shadow-lg shadow-primary-500/30'
-                        : isScrolled
-                          ? 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                          : 'text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
                     }`}
                   >
                     {active && (
@@ -108,7 +104,7 @@ const PremiumNavbar: React.FC = () => {
               </Link>
               <Link
                 to="/order"
-                className="group relative inline-flex items-center gap-1.5 px-5 py-2.5 overflow-hidden text-sm font-semibold text-white rounded-full shadow-lg shadow-accent-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-500/40 hover:scale-105"
+                className="group relative inline-flex items-center gap-1.5 px-5 py-2.5 overflow-hidden text-sm font-semibold text-white rounded-full shadow-lg shadow-accent-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-accent-500/40 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-primary-600 via-accent-500 to-primary-600 bg-[length:200%_100%] group-hover:animate-gradient-x" />
                 <Sparkles size={14} className="relative" />
@@ -123,11 +119,7 @@ const PremiumNavbar: React.FC = () => {
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-                className={`p-2 rounded-full transition-colors duration-300 ${
-                  isScrolled
-                    ? 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
-                    : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                }`}
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
               >
                 {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
