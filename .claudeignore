@@ -1,0 +1,50 @@
+# Dependencies and build output — never needed for editing source
+node_modules/
+dist/
+dist-ssr/
+build/
+
+# Lockfiles — huge, machine-generated, never read for context
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Version control / editor / OS metadata
+.git/
+.vscode/
+.idea/
+.DS_Store
+
+# Logs and local env
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+*.local
+
+# Bolt scaffold metadata — not project source
+.bolt/
+
+# Binary / media assets — Claude can't usefully read these as text
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.mp4
+*.pdf
+
+# Generated type declarations
+*.d.ts.map
+
+# Coverage / cache
+coverage/
+.cache/
+.vite/
