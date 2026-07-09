@@ -1,116 +1,12 @@
 import React, { useState } from 'react';
-import { Search, Calendar, User, Tag, ArrowRight, Clock, Eye, Share2 } from 'lucide-react';
+import { Search, Calendar, ArrowRight, Clock, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  authorImage: string;
-  publishDate: string;
-  readTime: string;
-  views: number;
-  category: string;
-  tags: string[];
-  featuredImage: string;
-  featured?: boolean;
-}
+import { blogPosts, blogCategories } from '../data/blogPosts';
+import SEO from '../components/seo/SEO';
 
 const Blog: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const blogPosts: BlogPost[] = [
-    {
-      id: '1',
-      title: 'The Future of Web Development in Bangladesh',
-      excerpt: 'Exploring emerging technologies and trends shaping the web development landscape in Bangladesh and how local companies are adapting.',
-      content: '',
-      author: 'Md. Rahman Ahmed',
-      authorImage: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1',
-      publishDate: '2024-01-15',
-      readTime: '8 min read',
-      views: 1250,
-      category: 'Technology',
-      tags: ['Web Development', 'Bangladesh', 'Future Tech'],
-      featuredImage: 'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1',
-      featured: true
-    },
-    {
-      id: '2',
-      title: 'Building Scalable Mobile Apps for International Markets',
-      excerpt: 'Best practices for developing mobile applications that can scale globally while maintaining performance and user experience.',
-      content: '',
-      author: 'Shamshur Rahman sami',
-      authorImage: 'https://avatars.githubusercontent.com/u/109974472?v=4',
-      publishDate: '2024-01-10',
-      readTime: '12 min read',
-      views: 980,
-      category: 'Mobile Development',
-      tags: ['Mobile Apps', 'Scalability', 'International'],
-      featuredImage: 'https://images.pexels.com/photos/147413/twitter-facebook-together-exchange-of-information-147413.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
-    },
-    {
-      id: '3',
-      title: 'AI and Machine Learning: Opportunities for Students',
-      excerpt: 'How university students can leverage AI and ML technologies to build innovative projects and advance their careers.',
-      content: '',
-      author: 'Dr. Fatima Begum',
-      authorImage: 'https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1',
-      publishDate: '2024-01-08',
-      readTime: '10 min read',
-      views: 1450,
-      category: 'AI & ML',
-      tags: ['Artificial Intelligence', 'Students', 'Career'],
-      featuredImage: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
-    },
-    {
-      id: '4',
-      title: 'Cybersecurity Best Practices for Small Businesses',
-      excerpt: 'Essential cybersecurity measures that small and medium businesses should implement to protect their digital assets.',
-      content: '',
-      author: 'Arif Hassan',
-      authorImage: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1',
-      publishDate: '2024-01-05',
-      readTime: '6 min read',
-      views: 750,
-      category: 'Cybersecurity',
-      tags: ['Security', 'Small Business', 'Best Practices'],
-      featuredImage: 'https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
-    },
-    {
-      id: '5',
-      title: 'Cloud Migration Strategies for Bangladeshi Enterprises',
-      excerpt: 'A comprehensive guide to cloud migration for local enterprises, including cost considerations and implementation strategies.',
-      content: '',
-      author: 'Karim Ahmed',
-      authorImage: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1',
-      publishDate: '2024-01-03',
-      readTime: '15 min read',
-      views: 620,
-      category: 'Cloud Computing',
-      tags: ['Cloud Migration', 'Enterprise', 'Bangladesh'],
-      featuredImage: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
-    },
-    {
-      id: '6',
-      title: 'Remote Work Culture in Tech: Lessons from Dhaka',
-      excerpt: 'How tech companies in Dhaka are building successful remote work cultures and maintaining team productivity.',
-      content: '',
-      author: 'Nadia Rahman',
-      authorImage: 'https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1',
-      publishDate: '2024-01-01',
-      readTime: '9 min read',
-      views: 890,
-      category: 'Work Culture',
-      tags: ['Remote Work', 'Tech Culture', 'Productivity'],
-      featuredImage: 'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
-    }
-  ];
-
-  const categories = ['all', 'Technology', 'Mobile Development', 'AI & ML', 'Cybersecurity', 'Cloud Computing', 'Work Culture'];
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,10 +17,32 @@ const Blog: React.FC = () => {
   });
 
   const featuredPost = blogPosts.find(post => post.featured);
-  const regularPosts = filteredPosts.filter(post => !post.featured);
+  const regularPosts = filteredPosts.filter(post => post.id !== featuredPost?.id);
+
+  const blogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'AiTechWorlds Tech Insights & Innovation',
+    url: 'https://www.aitechworlds.com/blog',
+    description: 'Practical insights on web development, mobile apps, AI/ML, cybersecurity, and remote-first tech from the AiTechWorlds team.',
+    blogPost: blogPosts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      url: `https://www.aitechworlds.com/blog/${post.id}`,
+      datePublished: post.publishDate,
+      author: { '@type': 'Person', name: post.author },
+    })),
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+      <SEO
+        title="Tech Insights & Innovation Blog"
+        description="Practical, no-hype insights on web development, mobile apps, AI/ML, cybersecurity, cloud, and remote-first tech culture from the AiTechWorlds team."
+        path="/blog"
+        keywords={['tech blog', 'web development blog', 'AI insights', 'software development tips', 'AiTechWorlds blog']}
+        jsonLd={blogJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -132,7 +50,7 @@ const Blog: React.FC = () => {
             Tech Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Innovation</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Stay updated with the latest trends, insights, and innovations in technology from our expert team in Dhaka.
+            Stay updated with the latest trends, insights, and innovations in technology from our remote-first expert team.
           </p>
         </div>
 
@@ -149,9 +67,9 @@ const Blog: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
+
             <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
+              {blogCategories.map(category => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
@@ -175,8 +93,8 @@ const Blog: React.FC = () => {
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
               <div className="md:flex">
                 <div className="md:w-1/2">
-                  <img 
-                    src={featuredPost.featuredImage} 
+                  <img
+                    src={featuredPost.featuredImage}
                     alt={featuredPost.title}
                     className="w-full h-64 md:h-full object-cover"
                   />
@@ -196,8 +114,8 @@ const Blog: React.FC = () => {
                   </p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <img 
-                        src={featuredPost.authorImage} 
+                      <img
+                        src={featuredPost.authorImage}
                         alt={featuredPost.author}
                         className="w-10 h-10 rounded-full mr-3"
                       />
@@ -230,8 +148,8 @@ const Blog: React.FC = () => {
           {regularPosts.map(post => (
             <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
               <div className="relative overflow-hidden">
-                <img 
-                  src={post.featuredImage} 
+                <img
+                  src={post.featuredImage}
                   alt={post.title}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -241,18 +159,18 @@ const Blog: React.FC = () => {
                   </span>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
                   <Link to={`/blog/${post.id}`}>
                     {post.title}
                   </Link>
                 </h3>
-                
+
                 <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                   {post.excerpt}
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2 mb-4">
                   {post.tags.slice(0, 2).map(tag => (
                     <span key={tag} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
@@ -260,11 +178,11 @@ const Blog: React.FC = () => {
                     </span>
                   ))}
                 </div>
-                
+
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
                   <div className="flex items-center">
-                    <img 
-                      src={post.authorImage} 
+                    <img
+                      src={post.authorImage}
                       alt={post.author}
                       className="w-8 h-8 rounded-full mr-2"
                     />
@@ -276,7 +194,7 @@ const Blog: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                     <Eye size={14} className="mr-1" />
                     {post.views}

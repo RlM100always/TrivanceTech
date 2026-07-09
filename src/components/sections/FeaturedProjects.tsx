@@ -55,11 +55,15 @@ const FeaturedProjects: React.FC = () => {
               style={{ transitionDelay: `${index * 200}ms` }}
             >
               <Link to={`/projects/${project.id}`}>
-                <div className="relative h-48 sm:h-56 overflow-hidden">
-                  <img 
-                    src={project.imageUrl} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${project.category === 'Mobile' ? 'h-48 sm:h-56 flex items-center justify-center' : 'h-48 sm:h-56'}`}>
+                  <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    loading="lazy"
+                    className={project.category === 'Mobile'
+                      ? 'h-full w-auto max-w-[75%] object-contain transition-transform duration-500 group-hover:scale-110 rounded-md shadow-md'
+                      : 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
+                    }
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute top-4 right-4">

@@ -5,6 +5,7 @@ import ProjectCard from '../components/ui/ProjectCard';
 import { Search, Filter, FolderOpen } from 'lucide-react';
 
 import { projectsData } from '../data/projects';
+import SEO from '../components/seo/SEO';
 
 const categories = [
   { id: 'all', name: 'All Projects' },
@@ -46,6 +47,12 @@ const Projects = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
+      <SEO
+        title="Our Portfolio — Real Web, Mobile & AI Projects"
+        description="Browse real client projects delivered by AiTechWorlds — web platforms, Android apps, and academic software, with live demos and Play Store links."
+        path="/projects"
+        keywords={['software portfolio', 'web development portfolio', 'mobile app portfolio', 'AiTechWorlds projects']}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">

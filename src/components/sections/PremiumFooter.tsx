@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Instagram, Twitter, Linkedin, Facebook, Send, ArrowRight, MessageCircle } from 'lucide-react';
+import { Mail, Instagram, Linkedin, Facebook, Youtube, Send, ArrowRight, MessageCircle, X as XIcon } from 'lucide-react';
 import Logo from '../ui/Logo';
+import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../../utils/socialLinks';
 
 const PremiumFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -49,9 +50,9 @@ const PremiumFooter: React.FC = () => {
               <p className="text-gray-400 mb-6 leading-relaxed">
                 AI, tech &amp; software solutions for the world — web, mobile, AI/ML, and academic project support, delivered remotely to clients everywhere.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap gap-3">
                 <a
-                  href="https://www.linkedin.com/company/aitechworlds"
+                  href={SOCIAL_LINKS.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="AiTechWorlds on LinkedIn"
@@ -60,7 +61,7 @@ const PremiumFooter: React.FC = () => {
                   <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
                 </a>
                 <a
-                  href="https://facebook.com/aitechworlds"
+                  href={SOCIAL_LINKS.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="AiTechWorlds on Facebook"
@@ -69,22 +70,48 @@ const PremiumFooter: React.FC = () => {
                   <Facebook size={18} className="group-hover:scale-110 transition-transform" />
                 </a>
                 <a
-                  href="https://twitter.com/aitechworlds"
+                  href={SOCIAL_LINKS.x}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="AiTechWorlds on X (Twitter)"
                   className="w-10 h-10 bg-gray-800 dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-300 group"
                 >
-                  <Twitter size={18} className="group-hover:scale-110 transition-transform" />
+                  <XIcon size={18} className="group-hover:scale-110 transition-transform" />
                 </a>
                 <a
-                  href="https://instagram.com/aitechworlds"
+                  href={SOCIAL_LINKS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="AiTechWorlds on Instagram"
                   className="w-10 h-10 bg-gray-800 dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-300 group"
                 >
                   <Instagram size={18} className="group-hover:scale-110 transition-transform" />
+                </a>
+                <a
+                  href={SOCIAL_LINKS.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="AiTechWorlds on YouTube"
+                  className="w-10 h-10 bg-gray-800 dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-300 group"
+                >
+                  <Youtube size={18} className="group-hover:scale-110 transition-transform" />
+                </a>
+                <a
+                  href={SOCIAL_LINKS.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="AiTechWorlds on Telegram"
+                  className="w-10 h-10 bg-gray-800 dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-300 group"
+                >
+                  <Send size={18} className="group-hover:scale-110 transition-transform" />
+                </a>
+              </div>
+              <div className="flex gap-4 mt-4 text-sm">
+                <a href={SOCIAL_LINKS.pinterest} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  Pinterest
+                </a>
+                <a href={SOCIAL_LINKS.quora} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  Quora
                 </a>
               </div>
             </div>
@@ -150,10 +177,10 @@ const PremiumFooter: React.FC = () => {
                 <div className="flex items-center group">
                   <Mail className="h-5 w-5 text-primary-500 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform" />
                   <a
-                    href="mailto:infoaitechworlds@gmail.com"
+                    href={`mailto:${CONTACT_EMAIL}`}
                     className="text-gray-400 hover:text-white transition-colors duration-200"
                   >
-                    infoaitechworlds@gmail.com
+                    {CONTACT_EMAIL}
                   </a>
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -164,7 +191,7 @@ const PremiumFooter: React.FC = () => {
               {/* Quick contact buttons */}
               <div className="mt-6 flex flex-col gap-3">
                 <a
-                  href="https://wa.me/message/AITECHWORLDS"
+                  href={whatsappChatLink("Hi AiTechWorlds! I'd like to start a project.")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-300"
@@ -173,7 +200,7 @@ const PremiumFooter: React.FC = () => {
                   Chat on WhatsApp
                 </a>
                 <a
-                  href="https://t.me/aitechworlds"
+                  href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-sky-600 hover:bg-sky-700 text-white font-medium rounded-lg transition-colors duration-300"

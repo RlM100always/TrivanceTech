@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Code, Smartphone, Cloud, Brain, Shield, Database, Globe, Zap, CheckCircle, ArrowRight, Play, GraduationCap, Palette } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/seo/SEO';
 
 const Services: React.FC = () => {
   const [activeService, setActiveService] = useState<number | null>(null);
@@ -178,6 +179,12 @@ const Services: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
+      <SEO
+        title="Our Services — Web, Mobile, AI/ML & Cybersecurity Solutions"
+        description="Explore AiTechWorlds' services: custom web development, mobile apps, AI & machine learning, cybersecurity, cloud, and academic project support — delivered remotely worldwide."
+        path="/services"
+        keywords={['software development services', 'web development company', 'mobile app development', 'AI development services', 'cybersecurity services']}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">

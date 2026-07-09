@@ -10,12 +10,15 @@ import ProjectDetails from './pages/ProjectDetails';
 import Order from './pages/Order';
 import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
-import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 import Careers from './pages/Careers';
 import JobDetails from './pages/JobDetails';
 import JobApplication from './pages/JobApplication';
 import BlogDetails from './pages/BlogDetails';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import AdminPanel from './pages/AdminPanel';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
   return (
@@ -38,7 +41,23 @@ function App() {
         <Route path="careers" element={<Careers />} />
         <Route path="careers/job/:id" element={<JobDetails />} />
         <Route path="careers/apply/:id" element={<JobApplication />} />
-        <Route path="admin" element={<Admin />} />
+        <Route path="login" element={<Login />} />
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute role="client">
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminPanel />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

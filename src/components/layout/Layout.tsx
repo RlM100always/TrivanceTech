@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import PremiumNavbar from './PremiumNavbar';
 import PremiumFooter from '../sections/PremiumFooter';
 import BottomNav from './BottomNav';
+import WhatsAppFloatingButton from '../ui/WhatsAppFloatingButton';
 
 const Layout = () => {
   return (
@@ -12,6 +13,7 @@ const Layout = () => {
       </main>
       <PremiumFooter />
       <BottomNav />
+      <WhatsAppFloatingButton />
     </div>
   );
 };

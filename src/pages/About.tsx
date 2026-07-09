@@ -1,5 +1,6 @@
-import { Users, Award, Globe, Target, Eye, Heart, Zap, Code, Smartphone, Database, Cloud, Shield, Cpu, ArrowRight, Play, CheckCircle, Star, TrendingUp, Building, MapPin } from 'lucide-react';
+import { Users, Award, Globe, Target, Eye, Heart, Zap, Code, Smartphone, Database, Cloud, Shield, Cpu, ArrowRight, Play, CheckCircle, Star, TrendingUp, Building, MapPin, Bug } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/seo/SEO';
 
 const About = () => {
   const stats = [
@@ -51,21 +52,34 @@ const About = () => {
     {
       name: 'Md. Rakib Hossain',
       position: 'CEO & Founder',
-      image: 'https://media.licdn.com/dms/image/v2/D5603AQFwWtuaiFDuLA/profile-displayphoto-shrink_800_800/B56ZV24OmtHoAg-/0/1741456208507?e=1758153600&v=beta&t=YUb3zgFanOJV55Mtn8ssIbdwkeSbjvyCdCumeIWFK48',
-      description: 'Visionary leader with 5+ years in IT industry'
+      badge: 'Founder',
+      icon: Zap,
+      image: 'https://media.licdn.com/dms/image/v2/D5603AQFVSIKpkRw5FQ/profile-displayphoto-crop_800_800/B56Z866GhOGoAI-/0/1783399738471?e=1785369600&v=beta&t=N8KW4fVDVQzNbaqcDhICasW5Lm5qRR1DQKTNRR3kePs',
+      description: 'Visionary leader with 5+ years in IT industry, driving AiTechWorlds’ remote-first mission worldwide.'
     },
-     {
-      name: 'Shamshur Rahman',
-      position: 'CEO & Co-Founder',
-      image: 'https://avatars.githubusercontent.com/u/109974472?v=4',
-      description: 'Full-stack developer with expertise in modern frameworks'
-    },
-   
     {
-      name: 'Fatima Begum',
-      position: 'UI/UX Director',
-      image: 'https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=1',
-      description: 'Creative designer focused on user-centered design'
+      name: 'Md Al Habib',
+      position: 'Software Engineer & AI Developer',
+      badge: 'Vibe Coding Expert',
+      icon: Cpu,
+      image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2011_40_57%20AM.webp',
+      description: 'AI-focused software engineer turning ideas into intelligent, production-ready products through rapid, AI-assisted development.'
+    },
+    {
+      name: 'Shamshur Rahman',
+      position: 'Problem Solver and Cloud Expert',
+      badge: 'Cloud Expert',
+      icon: Cloud,
+      image: 'https://avatars.githubusercontent.com/u/109974472?v=4',
+      description: 'Solves complex infrastructure challenges and architects reliable, scalable cloud deployments for every project.'
+    },
+    {
+      name: 'Abdullah Al Arman Emon',
+      position: 'Software Testing Expert & Prompt Engineer',
+      badge: 'QA & Prompt Engineering',
+      icon: Bug,
+      image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2001_31_41%20PM.webp',
+      description: 'Ensures every release is bug-free through rigorous testing, and crafts high-precision prompts that power our AI-driven workflows.'
     }
   ];
 
@@ -78,6 +92,12 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <SEO
+        title="About AiTechWorlds — Remote-First AI & Tech Team"
+        description="Meet the remote-first team behind AiTechWorlds — real engineers delivering web, mobile, and AI solutions to clients worldwide, no physical office required."
+        path="/about"
+        keywords={['about AiTechWorlds', 'remote tech team', 'software development company team']}
+      />
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 dark:from-gray-950 dark:via-primary-950 dark:to-primary-900 text-white py-16 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -228,21 +248,30 @@ const About = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {team.map((member, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative mb-4 sm:mb-6">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 mx-auto rounded-2xl overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-300">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
+              <div
+                key={index}
+                className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-300 transform hover:-translate-y-2 text-center"
+              >
+                <div className="relative mb-5 sm:mb-6">
+                  <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto rounded-full p-1 bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 shadow-lg group-hover:shadow-primary-500/30 transition-shadow duration-300">
+                    <div className="w-full h-full rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-800">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
                   </div>
-                  <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center">
-                    <Zap size={12} className="text-white sm:w-4 sm:h-4" />
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-md ring-4 ring-white dark:ring-gray-800">
+                    <member.icon size={16} className="text-white" />
                   </div>
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">{member.name}</h3>
-                <p className="text-primary-600 dark:text-primary-400 font-semibold mb-3">{member.position}</p>
+                <span className="inline-block px-3 py-1 mb-3 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+                  {member.badge}
+                </span>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1.5">{member.name}</h3>
+                <p className="text-primary-600 dark:text-primary-400 font-semibold text-sm mb-3">{member.position}</p>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{member.description}</p>
               </div>
             ))}

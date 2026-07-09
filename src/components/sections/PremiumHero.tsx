@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play, Sparkles, Globe, Users, Award } from 'lucide-react';
+import HeroScene from '../three/HeroScene';
 
 const PremiumHero: React.FC = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -48,6 +49,9 @@ const PremiumHero: React.FC = () => {
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-400/5 rounded-full blur-3xl animate-spin" style={{ animationDuration: '20s' }} />
+
+        {/* Premium Three.js constellation layer — lazy-loaded, skipped for reduced-motion/no-WebGL */}
+        <HeroScene className="absolute inset-0 opacity-70" />
       </div>
 
       {/* Content */}

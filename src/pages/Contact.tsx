@@ -1,6 +1,8 @@
 import { Mail, Send, MessageCircle, Linkedin, Globe } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../utils/socialLinks';
+import SEO from '../components/seo/SEO';
 
 interface ContactFormInputs {
   name: string;
@@ -33,6 +35,12 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
+      <SEO
+        title="Contact Us — Get In Touch"
+        description="Have a quick question? Reach AiTechWorlds via email, WhatsApp, Telegram, or LinkedIn — remote-first, replying to clients worldwide."
+        path="/contact"
+        keywords={['contact AiTechWorlds', 'hire a developer', 'software company contact']}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
@@ -62,8 +70,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold">Email</h3>
                     <p className="text-primary-100">
-                      <a href="mailto:infoaitechworlds@gmail.com" className="hover:text-white transition-colors">
-                        infoaitechworlds@gmail.com
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-white transition-colors">
+                        {CONTACT_EMAIL}
                       </a>
                     </p>
                   </div>
@@ -74,10 +82,10 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold">WhatsApp / Telegram</h3>
                     <p className="text-primary-100">
-                      <a href="https://wa.me/message/AITECHWORLDS" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                      <a href={whatsappChatLink("Hi AiTechWorlds! I have a quick question.")} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                         Chat on WhatsApp
                       </a><br />
-                      <a href="https://t.me/aitechworlds" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                      <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                         Message on Telegram
                       </a>
                     </p>
@@ -89,7 +97,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold">LinkedIn</h3>
                     <p className="text-primary-100">
-                      <a href="https://www.linkedin.com/company/aitechworlds" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                         linkedin.com/company/aitechworlds
                       </a>
                     </p>

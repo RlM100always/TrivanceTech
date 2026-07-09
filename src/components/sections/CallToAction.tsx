@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Mail, MessageCircle, MessageSquare } from 'lucide-react';
+import { CONTACT_EMAIL } from '../../utils/socialLinks';
 
 const CallToAction: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -52,7 +53,7 @@ const CallToAction: React.FC = () => {
                 <Mail size={20} className="mr-3 text-accent-400" />
                 <div>
                   <p className="text-sm text-gray-300">Email Us</p>
-                  <p className="font-semibold">infoaitechworlds@gmail.com</p>
+                  <p className="font-semibold">{CONTACT_EMAIL}</p>
                 </div>
               </div>
               <div className="flex items-center justify-center lg:justify-start">

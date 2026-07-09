@@ -10,15 +10,20 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [showReview, setShowReview] = useState(false);
+  const isMobileApp = project.category === 'Mobile';
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group">
       <Link to={`/projects/${project.id}`}>
-        <div className="relative h-48 sm:h-56 overflow-hidden">
-          <img 
-            src={project.imageUrl} 
-            alt={project.title} 
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${isMobileApp ? 'h-56 sm:h-64 flex items-center justify-center' : 'h-48 sm:h-56'}`}>
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            loading="lazy"
+            className={isMobileApp
+              ? 'h-full w-auto max-w-[75%] object-contain transition-transform duration-300 group-hover:scale-105 rounded-md shadow-md'
+              : 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+            }
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="absolute top-3 right-3">
