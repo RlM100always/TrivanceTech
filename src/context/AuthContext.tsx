@@ -20,51 +20,67 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
+    let cancelled = false;
     fetch('/api/auth/session', { credentials: 'include' })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => setUser(data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (!cancelled) setUser(data);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const signInWithGoogle = useCallback(async (idToken: string) => {
-    let res: Response;
     try {
-      res = await fetch('/api/auth/google', {
+      const res = await fetch('/api/auth/google', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_token: idToken }),
       });
-    } catch {
-      throw new Error(
-        'Cannot reach /api/auth/google. Are you running plain `npm run dev`? The /api routes are Cloudflare Pages Functions — use `npm run pages:dev` instead.'
-      );
-    }
 
-    const contentType = res.headers.get('content-type') ?? '';
-    const data = contentType.includes('application/json')
-      ? await res.json().catch(() => null)
-      : null;
+      const contentType = res.headers.get('content-type') ?? '';
+      const data = contentType.includes('application/json')
+        ? await res.json().catch(() => null)
+        : null;
 
-    if (!res.ok) {
-      const message = (data as { error?: string } | null)?.error;
-      throw new Error(message ?? `Sign-in failed (${res.status})`);
-    }
-    if (!data) {
-      throw new Error(
-        'Sign-in failed: server returned non-JSON. You are likely hitting `npm run dev` (no /api routes) instead of `npm run pages:dev`.'
-      );
-    }
+      if (!res.ok) {
+        const message = (data as { error?: string } | null)?.error;
+        throw new Error(message ?? `Sign-in failed (${res.status})`);
+      }
+      if (!data) {
+        throw new Error(
+          'Sign-in failed: server returned non-JSON. Run `npm run pages:dev` for API routes.'
+        );
+      }
 
-    const user = data as AuthUser;
-    setUser(user);
-    return user;
+      const user = data as AuthUser;
+      setUser(user);
+      return user;
+    } catch (err) {
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        throw new Error(
+          'Cannot reach /api/auth/google. Run `npm run pages:dev` instead of `npm run dev` for API routes.'
+        );
+      }
+      throw err;
+    }
   }, []);
 
   const signOut = useCallback(async () => {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch {
+      // Ignore network errors for logout
+    }
     setUser(null);
   }, []);
 

@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
 
 const Services: React.FC = () => {
+  const [imageErrors, setImageErrors] = React.useState<Set<string>>(new Set());
+  const handleImageError = (id: string) => {
+    setImageErrors(prev => new Set(prev).add(id));
+  };
   const services = [
     {
       id: 'web',
@@ -24,7 +28,7 @@ const Services: React.FC = () => {
       color: 'from-blue-500 to-blue-700',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20',
       textColor: 'text-blue-600 dark:text-blue-400',
-      image: 'https://loremflickr.com/800/600/webdesign?lock=10'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/17.jpg'
     },
     {
       id: 'mobile',
@@ -45,7 +49,7 @@ const Services: React.FC = () => {
       color: 'from-purple-500 to-purple-700',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
       textColor: 'text-purple-600 dark:text-purple-400',
-      image: 'https://loremflickr.com/800/600/smartphone?lock=11'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/3.jpg'
     },
     // {
     //   id: 'cloud',
@@ -87,7 +91,7 @@ const Services: React.FC = () => {
       color: 'from-orange-500 to-orange-700',
       bgColor: 'bg-orange-50 dark:bg-orange-900/20',
       textColor: 'text-orange-600 dark:text-orange-400',
-      image: 'https://loremflickr.com/800/600/artificialintelligence?lock=12'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/15.jpg'
     },
     {
       id: 'security',
@@ -108,7 +112,7 @@ const Services: React.FC = () => {
       color: 'from-red-500 to-red-700',
       bgColor: 'bg-red-50 dark:bg-red-900/20',
       textColor: 'text-red-600 dark:text-red-400',
-      image: 'https://loremflickr.com/800/600/cybersecurity?lock=13'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/5.jpg'
     },
     {
       id: 'database',
@@ -129,7 +133,7 @@ const Services: React.FC = () => {
       color: 'from-indigo-500 to-indigo-700',
       bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
       textColor: 'text-indigo-600 dark:text-indigo-400',
-      image: 'https://loremflickr.com/800/600/database?lock=14'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/7.jpg'
     },
     {
       id: 'academic',
@@ -150,7 +154,7 @@ const Services: React.FC = () => {
       color: 'from-teal-500 to-teal-700',
       bgColor: 'bg-teal-50 dark:bg-teal-900/20',
       textColor: 'text-teal-600 dark:text-teal-400',
-      image: 'https://loremflickr.com/800/600/graduation?lock=15'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/16.jpg'
     },
     {
       id: 'design',
@@ -171,7 +175,7 @@ const Services: React.FC = () => {
       color: 'from-pink-500 to-pink-700',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
       textColor: 'text-pink-600 dark:text-pink-400',
-      image: 'https://loremflickr.com/800/600/uxdesign?lock=16'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/10.jpg'
     },
     {
       id: 'personal-branding',
@@ -192,7 +196,7 @@ const Services: React.FC = () => {
       color: 'from-rose-500 to-rose-700',
       bgColor: 'bg-rose-50 dark:bg-rose-900/20',
       textColor: 'text-rose-600 dark:text-rose-400',
-      image: 'https://loremflickr.com/800/600/personalbranding?lock=17'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/2.jpg'
     },
     {
       id: 'digital-marketing',
@@ -213,7 +217,7 @@ const Services: React.FC = () => {
       color: 'from-fuchsia-500 to-fuchsia-700',
       bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
       textColor: 'text-fuchsia-600 dark:text-fuchsia-400',
-      image: 'https://loremflickr.com/800/600/digitalmarketing?lock=18'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/12.jpg'
     },
     {
       id: 'programming',
@@ -234,7 +238,7 @@ const Services: React.FC = () => {
       color: 'from-cyan-500 to-cyan-700',
       bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
       textColor: 'text-cyan-600 dark:text-cyan-400',
-      image: 'https://loremflickr.com/800/600/programming?lock=19'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/13.jpg'
     },
     {
       id: 'custom-software',
@@ -255,7 +259,7 @@ const Services: React.FC = () => {
       color: 'from-violet-500 to-violet-700',
       bgColor: 'bg-violet-50 dark:bg-violet-900/20',
       textColor: 'text-violet-600 dark:text-violet-400',
-      image: 'https://loremflickr.com/800/600/softwaredevelopment?lock=20'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/11.jpg'
     },
     {
       id: 'prompt-engineering',
@@ -276,7 +280,7 @@ const Services: React.FC = () => {
       color: 'from-amber-500 to-amber-700',
       bgColor: 'bg-amber-50 dark:bg-amber-900/20',
       textColor: 'text-amber-600 dark:text-amber-400',
-      image: 'https://loremflickr.com/800/600/chatbot?lock=21'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/0.jpg'
     },
     {
       id: 'vibe-coding',
@@ -297,7 +301,7 @@ const Services: React.FC = () => {
       color: 'from-emerald-500 to-emerald-700',
       bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
       textColor: 'text-emerald-600 dark:text-emerald-400',
-      image: 'https://loremflickr.com/800/600/coding?lock=22'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/8.jpg'
     },
     {
       id: 'bug-fixing',
@@ -318,7 +322,7 @@ const Services: React.FC = () => {
       color: 'from-red-500 to-red-700',
       bgColor: 'bg-red-50 dark:bg-red-900/20',
       textColor: 'text-red-600 dark:text-red-400',
-      image: 'https://loremflickr.com/800/600/debugging?lock=23'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/4.jpg'
     },
     {
       id: 'seo-aeo-geo',
@@ -360,7 +364,7 @@ const Services: React.FC = () => {
       color: 'from-sky-500 to-sky-700',
       bgColor: 'bg-sky-50 dark:bg-sky-900/20',
       textColor: 'text-sky-600 dark:text-sky-400',
-      image: 'https://loremflickr.com/800/600/business?lock=25'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/9.jpg'
     },
     {
       id: 'content-writing',
@@ -381,7 +385,7 @@ const Services: React.FC = () => {
       color: 'from-yellow-500 to-yellow-700',
       bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
       textColor: 'text-yellow-600 dark:text-yellow-400',
-      image: 'https://loremflickr.com/800/600/writing?lock=26'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/14.jpg'
     },
     {
       id: 'articles-blog',
@@ -402,7 +406,7 @@ const Services: React.FC = () => {
       color: 'from-orange-500 to-orange-700',
       bgColor: 'bg-orange-50 dark:bg-orange-900/20',
       textColor: 'text-orange-600 dark:text-orange-400',
-      image: 'https://loremflickr.com/800/600/blog?lock=27'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/1.jpg'
     },
     {
       id: 'content-strategy',
@@ -488,48 +492,7 @@ const Services: React.FC = () => {
       textColor: 'text-sky-600 dark:text-sky-400',
       image: 'https://loremflickr.com/800/600/typewriter?lock=31'
     },
-    {
-      id: 'podcast-writing',
-      icon: Mic,
-      title: 'Podcast Writing',
-      description: 'Launch and grow a podcast people finish. We write episode outlines, intros, and talking points that keep listeners hooked and coming back every single week.',
-      features: [
-        'Episode Outlines & Scripts',
-        'Cold Open & Hooks',
-        'Interview Questions',
-        'Show Notes & Timestamps',
-        'Sponsor Ad Reads',
-        'Season Planning'
-      ],
-      technologies: ['Descript', 'Notion', 'Google Docs', 'Headliner'],
-      pricing: 'Starting from $70/episode',
-      deliveryTime: '2-4 days',
-      color: 'from-indigo-500 to-indigo-700',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-      textColor: 'text-indigo-600 dark:text-indigo-400',
-      image: 'https://loremflickr.com/800/600/podcast?lock=32'
-    },
-    {
-      id: 'speechwriting',
-      icon: PenTool,
-      title: 'Speechwriting',
-      description: 'Command the room. We write powerful speeches for keynotes, weddings, and corporate events — structured to inspire, persuade, and leave a lasting impression.',
-      features: [
-        'Keynote & Conference Speeches',
-        'Wedding & Toast Speeches',
-        'Investor Pitch Scripts',
-        'Persuasive Story Arcs',
-        'Pauses & Emphasis Cues',
-        'Rehearsal Notes'
-      ],
-      technologies: ['Google Docs', 'Notion', 'Grammarly'],
-      pricing: 'Starting from $90/speech',
-      deliveryTime: '2-4 days',
-      color: 'from-violet-500 to-violet-700',
-      bgColor: 'bg-violet-50 dark:bg-violet-900/20',
-      textColor: 'text-violet-600 dark:text-violet-400',
-      image: 'https://loremflickr.com/800/600/microphone?lock=33'
-    },
+
     {
       id: 'research-summaries',
       icon: BookOpen,
@@ -570,7 +533,7 @@ const Services: React.FC = () => {
       color: 'from-pink-500 to-pink-700',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
       textColor: 'text-pink-600 dark:text-pink-400',
-      image: 'https://loremflickr.com/800/600/aiart?lock=35'
+      image: 'https://img.aitechworlds.com/aitechworlds-services/6.jpg'
     },
     {
       id: 'ai-poster-book',
@@ -693,11 +656,26 @@ const Services: React.FC = () => {
               <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
                 <div className="relative group">
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.color} rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-300`}></div>
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="relative z-10 max-w-full h-auto object-contain rounded-2xl shadow-xl group-hover:shadow-2xl transition-shadow duration-300"
-                  />
+                  <div className="relative z-10 aspect-video overflow-hidden rounded-2xl">
+                    {!imageErrors.has(service.id) ? (
+                      <img 
+                        src={service.image} 
+                        alt={service.title}
+                        loading="lazy"
+                        onError={() => handleImageError(service.id)}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700">
+                        <div className="text-center p-4">
+                          <svg className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">Image unavailable</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   {/* <div className="absolute inset-0 flex items-center justify-center z-20">
                     <button className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
                       <Play size={20} className="text-white ml-1 sm:w-6 sm:h-6" />
