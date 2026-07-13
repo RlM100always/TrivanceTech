@@ -6,6 +6,7 @@ import { Search, Filter, FolderOpen } from 'lucide-react';
 
 import { projectsData } from '../data/projects';
 import SEO from '../components/seo/SEO';
+import SectionHeading from '../components/ui/motion/SectionHeading';
 
 const categories = [
   { id: 'all', name: 'All Projects' },
@@ -54,18 +55,13 @@ const Projects = () => {
         keywords={['software portfolio', 'web development portfolio', 'mobile app portfolio', 'AiTechWorlds projects']}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <FolderOpen size={16} className="mr-2" />
-            Our Portfolio
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Projects</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Browse through our portfolio of successfully delivered projects across various domains.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Our Portfolio"
+          eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
+          title="Our"
+          highlight="Projects"
+          description="Browse through our portfolio of successfully delivered projects across various domains."
+        />
 
         {/* Search and Filter */}
         <div className="mb-8 sm:mb-12">

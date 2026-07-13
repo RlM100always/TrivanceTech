@@ -36,7 +36,7 @@ const OrderForm = () => {
       let result;
       try {
         result = JSON.parse(text);
-      } catch (err) {
+      } catch {
         console.error("Invalid JSON response:", text);
         throw new Error("Server returned invalid JSON");
       }
@@ -47,9 +47,9 @@ const OrderForm = () => {
       } else {
         alert("Failed to submit order: " + (result.message || "Unknown error"));
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred while submitting the order: " + error.message);
+      alert("An error occurred while submitting the order: " + (error instanceof Error ? error.message : String(error)));
     }
   };
 

@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Clock, DollarSign, Briefcase, Users, Calendar, Share2 } from 'lucide-react';
 
 const JobDetails: React.FC = () => {
-  const { id } = useParams();
+  useParams();
 
   // Sample job data (in a real app, this would come from an API)
   const job = {

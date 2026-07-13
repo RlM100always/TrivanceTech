@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Code, Smartphone, Cloud, Brain, Shield, Database, Globe, Zap, ChevronRight, CheckCircle, GraduationCap, Palette } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, ChevronRight, CheckCircle, GraduationCap, Palette, Code, Smartphone, Brain, Shield, Database } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SectionHeading from '../ui/motion/SectionHeading';
+import Reveal, { StaggerContainer, StaggerItem } from '../ui/motion/Reveal';
+import Tilt from '../ui/motion/Tilt';
+import SpotlightCard from '../ui/motion/SpotlightCard';
 
 interface PremiumServicesProps {
   /** Show only the first N services with a "View all services" link, instead of the full grid + CTA banner. Use on Home; the full list lives on /services. */
@@ -8,9 +12,7 @@ interface PremiumServicesProps {
 }
 
 const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const [expandedService, setExpandedService] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   const services = [
     {
@@ -19,8 +21,8 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Custom websites and web applications built with cutting-edge technologies',
       features: ['Responsive Design', 'Modern Frameworks', 'SEO Optimization', 'Performance Focused'],
       color: 'from-blue-500 to-blue-700',
-      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-      textColor: 'text-blue-600 dark:text-blue-400'
+      textColor: 'text-blue-600 dark:text-blue-400',
+      glow: 'rgba(59, 130, 246, 0.18)',
     },
     {
       icon: Smartphone,
@@ -28,26 +30,17 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Native and cross-platform mobile applications for iOS and Android',
       features: ['Native iOS & Android', 'Cross-platform Solutions', 'UI/UX Excellence', 'App Store Optimization'],
       color: 'from-purple-500 to-purple-700',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-      textColor: 'text-purple-600 dark:text-purple-400'
+      textColor: 'text-purple-600 dark:text-purple-400',
+      glow: 'rgba(168, 85, 247, 0.18)',
     },
-    // {
-    //   icon: Cloud,
-    //   title: 'Cloud Solutions',
-    //   description: 'Scalable cloud infrastructure and migration services',
-    //   features: ['AWS & Azure', 'DevOps & CI/CD', 'Microservices', 'Auto-scaling'],
-    //   color: 'from-green-500 to-green-700',
-    //   bgColor: 'bg-green-50 dark:bg-green-900/20',
-    //   textColor: 'text-green-600 dark:text-green-400'
-    // },
     {
       icon: Brain,
       title: 'AI & Machine Learning',
       description: 'Intelligent solutions powered by artificial intelligence',
       features: ['Custom AI Models', 'Data Analytics', 'Automation', 'Predictive Analysis'],
       color: 'from-orange-500 to-orange-700',
-      bgColor: 'bg-orange-50 dark:bg-orange-900/20',
-      textColor: 'text-orange-600 dark:text-orange-400'
+      textColor: 'text-orange-600 dark:text-orange-400',
+      glow: 'rgba(249, 115, 22, 0.18)',
     },
     {
       icon: Shield,
@@ -55,8 +48,8 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Comprehensive security solutions and vulnerability assessments',
       features: ['Security Audits', 'Penetration Testing', 'Compliance', 'Risk Assessment'],
       color: 'from-red-500 to-red-700',
-      bgColor: 'bg-red-50 dark:bg-red-900/20',
-      textColor: 'text-red-600 dark:text-red-400'
+      textColor: 'text-red-600 dark:text-red-400',
+      glow: 'rgba(239, 68, 68, 0.18)',
     },
     {
       icon: Database,
@@ -64,8 +57,8 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Robust database design, optimization, and management',
       features: ['Database Design', 'Performance Tuning', 'Data Migration', 'Backup Solutions'],
       color: 'from-indigo-500 to-indigo-700',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-      textColor: 'text-indigo-600 dark:text-indigo-400'
+      textColor: 'text-indigo-600 dark:text-indigo-400',
+      glow: 'rgba(99, 102, 241, 0.18)',
     },
     {
       icon: GraduationCap,
@@ -73,8 +66,8 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Professional assistance for university students with projects, thesis, and assignments',
       features: ['Research Projects', 'Thesis Writing', 'Assignment Help', 'Academic Consultation'],
       color: 'from-teal-500 to-teal-700',
-      bgColor: 'bg-teal-50 dark:bg-teal-900/20',
-      textColor: 'text-teal-600 dark:text-teal-400'
+      textColor: 'text-teal-600 dark:text-teal-400',
+      glow: 'rgba(20, 184, 166, 0.18)',
     },
     {
       icon: Palette,
@@ -82,174 +75,136 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
       description: 'Beautiful and intuitive user interfaces that deliver exceptional user experiences',
       features: ['User Research', 'Wireframing', 'Interactive Prototypes', 'Design Systems'],
       color: 'from-pink-500 to-pink-700',
-      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
-      textColor: 'text-pink-600 dark:text-pink-400'
-    }
+      textColor: 'text-pink-600 dark:text-pink-400',
+      glow: 'rgba(236, 72, 153, 0.18)',
+    },
   ];
 
   const visibleServices = limit ? services.slice(0, limit) : services;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.01 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <Zap size={16} className="mr-2" />
-            Our Expertise
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 px-4">
-            Comprehensive <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">IT Solutions</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-            From web development to AI solutions, we deliver cutting-edge technology services that drive business growth and innovation.
-          </p>
+    <section className="overflow-hidden bg-gray-50 py-16 dark:bg-gray-800 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Our Expertise"
+          eyebrowIcon={<Zap size={16} className="mr-1" />}
+          title="Comprehensive IT Solutions"
+          highlight="IT Solutions"
+          description="From web development to AI solutions, we deliver cutting-edge technology services that drive business growth and innovation."
+        >
           {limit && (
             <Link
               to="/services"
-              className="inline-flex items-center mt-6 text-primary-600 dark:text-primary-400 font-semibold hover:underline"
+              className="mt-4 inline-flex items-center font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
               View all services <ChevronRight size={18} className="ml-1" />
             </Link>
           )}
-        </div>
+        </SectionHeading>
 
-         
-          {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-        {visibleServices.map((service, index) => (
-          <div
-            key={index}
-            className={`group relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg 
-                        hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-400 transform hover:-translate-y-2 
-                        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-            style={{ transitionDelay: `${index * 100}ms` }}
-          >
-            {/* Gradient Background */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none`}
-            />
-
-            {/* Content */}
-            <div className="relative p-6 sm:p-8">
-              {/* Icon */}
-              <div
-                className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
-              >
-                <service.icon size={24} className="text-white sm:w-7 sm:h-7" />
-              </div>
-
-              <h3
-                className={`text-lg sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 
-                           group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`}
-              >
-                {service.title}
-              </h3>
-
-              <p className="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                {service.description}
-              </p>
-
-              {/* Features */}
-              <div
-                className={`space-y-2 mb-4 sm:mb-6 transition-all duration-300 ${
-                  expandedService === index
-                    ? "max-h-40 opacity-100"
-                    : "max-h-0 opacity-0 overflow-hidden"
-                }`}
-              >
-                {service.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center">
-                    <CheckCircle
-                      size={14}
-                      className={`mr-2 ${service.textColor} flex-shrink-0`}
+        {/* Services Grid */}
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" stagger={0.07}>
+          {visibleServices.map((service, index) => (
+            <StaggerItem key={index}>
+              <Tilt max={8} className="h-full">
+                <SpotlightCard glowColor={service.glow} className="h-full bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-gray-900">
+                  <div className="group relative h-full overflow-hidden rounded-2xl border border-gray-100 transition-colors duration-300 hover:border-blue-400/60 dark:border-gray-700">
+                    {/* Gradient Background */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-5`}
                     />
-                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                      {feature}
-                    </span>
+
+                    {/* Content */}
+                    <div className="relative p-6 sm:p-8">
+                      {/* Icon */}
+                      <div
+                        className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.color} shadow-lg transition-transform duration-300 group-hover:scale-110 sm:mb-6 sm:h-16 sm:w-16`}
+                      >
+                        <service.icon size={24} className="text-white sm:h-7 sm:w-7" />
+                      </div>
+
+                      <h3 className="mb-3 text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400 sm:mb-4 sm:text-2xl">
+                        {service.title}
+                      </h3>
+
+                      <p className="mb-4 leading-relaxed text-sm text-gray-600 dark:text-gray-300 sm:mb-6 sm:text-base">
+                        {service.description}
+                      </p>
+
+                      {/* Features */}
+                      <div
+                        className={`mb-4 space-y-2 transition-all duration-300 sm:mb-6 ${
+                          expandedService === index
+                            ? 'max-h-40 opacity-100'
+                            : 'max-h-0 overflow-hidden opacity-0'
+                        }`}
+                      >
+                        {service.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-center">
+                            <CheckCircle
+                              size={14}
+                              className={`mr-2 flex-shrink-0 ${service.textColor}`}
+                            />
+                            <span className="text-xs text-gray-600 dark:text-gray-300 sm:text-sm">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+                        <button
+                          onClick={() =>
+                            setExpandedService(expandedService === index ? null : index)
+                          }
+                          className="text-xs font-medium text-primary-600 transition-colors hover:underline dark:text-primary-400 sm:text-sm"
+                        >
+                          {expandedService === index ? 'Show Less' : 'Learn More'}
+                        </button>
+
+                        <Link
+                          to="/order"
+                          className="w-full rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white transition-all duration-300 hover:bg-blue-700 hover:shadow-md sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
+                        >
+                          Get Started
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </div>
-
-              {/* Actions */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <button
-                  onClick={() =>
-                    setExpandedService(expandedService === index ? null : index)
-                  }
-                  className={`text-xs sm:text-sm font-medium ${service.textColor} hover:underline transition-colors duration-200`}
-                >
-                  {expandedService === index ? "Show Less" : "Learn More"}
-                </button>
-
-                <Link
-                  to="/order"
-                  className="w-full sm:w-auto inline-flex items-center justify-center
-                             px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg
-                             hover:bg-blue-700 hover:shadow-md transition-all duration-300
-                             text-xs sm:text-sm font-medium"
-                >
-                  Get Started
-                </Link>
-              </div>
-            </div>
-
-            {/* Hover Border Effect */}
-            <div
-              className={`absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
-            />
-          </div>
-        ))}
-      </div>
-  
-
+                </SpotlightCard>
+              </Tilt>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
 
         {/* CTA Section — Home already has its own CallToAction section, so skip this banner when limited */}
         {!limit && (
-        <div className={`text-center mt-16 sm:mt-20 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-6 sm:p-8 md:p-12 text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-black/10" />
-            <div className="relative z-10">
-              <Globe size={32} className="mx-auto mb-4 sm:mb-6 opacity-80 sm:w-12 sm:h-12" />
-              <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Ready to Transform Your Business?</h3>
-              <p className="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto px-4">
-                Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-                <Link
-                  to="/order"
-                  className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  Start Your Project
-                </Link>
-
-                <Link
-                  to="/projects"
-                  className="px-6 py-3 sm:px-8 sm:py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
-                >
-                  View Our Work
-                </Link>
+          <Reveal className="mt-16 sm:mt-20">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary-600 to-accent-600 p-6 text-white md:p-12 sm:p-8">
+              <div className="absolute inset-0 bg-black/10" />
+              <div className="relative z-10 text-center">
+                <h3 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready to Transform Your Business?</h3>
+                <p className="mb-6 max-w-2xl px-4 text-lg opacity-90 sm:mb-8 sm:text-xl">
+                  Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
+                </p>
+                <div className="flex flex-col justify-center gap-4 px-4 sm:flex-row">
+                  <Link
+                    to="/order"
+                    className="rounded-xl bg-white px-6 py-3 font-semibold text-primary-600 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 sm:px-8 sm:py-4"
+                  >
+                    Start Your Project
+                  </Link>
+                  <Link
+                    to="/projects"
+                    className="rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-semibold backdrop-blur-sm transition-all duration-300 hover:bg-white/20 sm:px-8 sm:py-4"
+                  >
+                    View Our Work
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Reveal>
         )}
       </div>
     </section>

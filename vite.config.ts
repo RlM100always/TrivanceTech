@@ -7,7 +7,19 @@ import react from '@vitejs/plugin-react';
 // runs `wrangler pages dev` and serves the built frontend + functions together.
 export default defineConfig({
   plugins: [react()],
-  base: '/',  // ← ADD THIS LINE (matching your repo name)
+  base: '/', // ← ADD THIS LINE (matching your repo name)
+  // Dev proxy: lets plain `npm run dev` reach the Cloudflare Pages Functions.
+  // Run the functions server in a second terminal (`npm run dev:api`, which
+  // serves them on :8788) and Vite will forward /api/* there. Without this,
+  // sign-in (and every /api call) fails with a generic "Sign-in failed".
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8788',
+        changeOrigin: true,
+      },
+    },
+  },
   optimizeDeps: {
     exclude: ['lucide-react'],
   },

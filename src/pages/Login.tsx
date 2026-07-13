@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/seo/SEO';
@@ -18,7 +18,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <SEO
-        title="Sign In"
+        title="Client Sign In"
         description="Sign in to your AiTechWorlds client portal to chat with our team and manage your project files."
         path="/login"
       />
@@ -31,6 +31,9 @@ const Login = () => {
           Sign in with Google to chat with our team, share project files, and track your requests.
         </p>
         <GoogleSignInButton />
+        <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
+          Are you an admin? <Link to="/admin/login" className="text-primary-600 dark:text-primary-400 hover:underline">Sign in here</Link>
+        </p>
       </div>
     </div>
   );

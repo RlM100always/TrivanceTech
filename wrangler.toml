@@ -6,3 +6,8 @@ pages_build_output_dir = "dist"
 binding = "DB"
 database_name = "aitechworlds-db"
 database_id = "ab4139aa-ab4f-4e7f-b37a-f0138c298403"
+
+[vars]
+ADMIN_EMAILS = 'rakib100rlms@gmail.com'
+GOOGLE_CLIENT_ID = '222990716349-q8pkufkl5lj6tqmu9e3fb40jg0fcsp49.apps.googleusercontent.com'
+SESSION_SECRET = '7Zfwc5CZ8TDzA5163Bq5aLqhrMj8FtoMQbZTsskqFg0='

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building, Zap, Smartphone, ShoppingCart, Play, Star, CheckCircle, ArrowRight, Users, Globe, Shield } from 'lucide-react';
+import { Building, Zap, Smartphone, ShoppingCart, Play, Star, CheckCircle, ArrowRight, Users, Globe, Shield, LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Product {
@@ -23,13 +23,10 @@ interface Product {
   }[];
   techStack: string[];
   clients: number;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
 }
 
 const Products: React.FC = () => {
-  const [activeProduct, setActiveProduct] = useState<string | null>(null);
-  const [selectedPricing, setSelectedPricing] = useState<'starter' | 'professional' | 'enterprise'>('professional');
-
   const products: Product[] = [
     {
       id: 'enterprise-erp',

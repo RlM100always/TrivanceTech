@@ -1,140 +1,119 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, ExternalLink, FolderOpen } from 'lucide-react';
 import { projectsData } from '../../data/projects';
 import { getCategoryColor } from '../../utils/categoryColor';
+import SectionHeading from '../ui/motion/SectionHeading';
+import Reveal, { StaggerContainer, StaggerItem } from '../ui/motion/Reveal';
+import Tilt from '../ui/motion/Tilt';
+import SpotlightCard from '../ui/motion/SpotlightCard';
 
 const FeaturedProjects: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   const featuredProjects = projectsData.slice(0, 3);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <FolderOpen size={16} className="mr-2" />
-            Featured Work
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-            Our Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Projects</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Take a look at some of our recent successful projects that showcase our expertise and quality of work.
-          </p>
-        </div>
+    <section className="bg-white py-16 dark:bg-gray-900 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Featured Work"
+          eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
+          title="Our Latest"
+          highlight="Projects"
+          description="Take a look at some of our recent successful projects that showcase our expertise and quality of work."
+        />
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
-          {featuredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-700 transform hover:-translate-y-2 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${index * 200}ms` }}
-            >
-              <Link to={`/projects/${project.id}`}>
-                <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${project.category === 'Mobile' ? 'h-48 sm:h-56 flex items-center justify-center' : 'h-48 sm:h-56'}`}>
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    loading="lazy"
-                    className={project.category === 'Mobile'
-                      ? 'h-full w-auto max-w-[75%] object-contain transition-transform duration-500 group-hover:scale-110 rounded-md shadow-md'
-                      : 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-110'
-                    }
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 ${getCategoryColor(project.category)} text-white text-xs font-medium rounded-full shadow-lg`}>
-                      {project.category}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <ExternalLink size={20} className="text-white" />
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
+          {featuredProjects.map((project) => {
+            const isMobile = project.category === 'Mobile';
+            return (
+              <StaggerItem key={project.id}>
+                <Tilt max={8} className="h-full">
+                  <SpotlightCard glowColor="rgba(37, 99, 235, 0.16)" className="h-full rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-gray-800">
+                    <div className="group overflow-hidden rounded-2xl border border-gray-100 transition-colors duration-300 hover:border-primary-300 dark:border-gray-700 dark:hover:border-primary-700">
+                      <Link to={`/projects/${project.id}`}>
+                        <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${isMobile ? 'flex h-48 items-center justify-center sm:h-56' : 'h-48 sm:h-56'}`}>
+                          <img
+                            src={project.imageUrl}
+                            alt={project.title}
+                            loading="lazy"
+                            className={isMobile
+                              ? 'h-full w-auto max-w-[75%] rounded-md object-contain shadow-md transition-transform duration-500 group-hover:scale-110'
+                              : 'h-full w-full object-cover transition-transform duration-500 group-hover:scale-110'
+                            }
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                          <div className="absolute right-4 top-4">
+                            <span className={`rounded-full px-3 py-1 text-xs font-medium text-white shadow-lg ${getCategoryColor(project.category)}`}>
+                              {project.category}
+                            </span>
+                          </div>
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+                              <ExternalLink size={20} className="text-white" />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+
+                      <div className="p-6">
+                        <Link to={`/projects/${project.id}`}>
+                          <h3 className="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
+                            {project.title}
+                          </h3>
+                        </Link>
+
+                        <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600 dark:text-gray-300">
+                          {project.description}
+                        </p>
+
+                        <div className="mb-4 flex items-center justify-between">
+                          <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
+                            {project.clientName}
+                          </span>
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                size={16}
+                                className={`${i < (project.rating || 0) ? 'fill-current text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                              />
+                            ))}
+                            <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                              ({project.rating || 0}/5)
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                            {project.deliveryTime}
+                          </span>
+                          <Link
+                            to={`/projects/${project.id}`}
+                            className="group/link inline-flex items-center text-sm font-medium text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                          >
+                            View Details
+                            <ArrowRight size={16} className="ml-1 transition-transform group-hover/link:translate-x-1" />
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </Link>
-              
-              <div className="p-6">
-                <Link to={`/projects/${project.id}`}>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300 line-clamp-2">
-                    {project.title}
-                  </h3>
-                </Link>
-                
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed line-clamp-3">
-                  {project.description}
-                </p>
-                
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-primary-600 dark:text-primary-400 font-medium text-sm">
-                    {project.clientName}
-                  </span>
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        size={16} 
-                        className={`${i < (project.rating || 0) ? "text-yellow-400 fill-current" : "text-gray-300 dark:text-gray-600"}`}
-                      />
-                    ))}
-                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                      ({project.rating || 0}/5)
-                    </span>
-                  </div>
-                </div>
+                  </SpotlightCard>
+                </Tilt>
+              </StaggerItem>
+            );
+          })}
+        </StaggerContainer>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {project.deliveryTime}
-                  </span>
-                  <Link
-                    to={`/projects/${project.id}`}
-                    className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium text-sm transition-colors duration-200 group/link"
-                  >
-                    View Details
-                    <ArrowRight size={16} className="ml-1 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className={`text-center transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <Link 
-            to="/projects" 
-            className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        <Reveal className="mt-12 text-center">
+          <Link
+            to="/projects"
+            className="inline-flex items-center rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary-700 hover:shadow-xl sm:px-8 sm:py-4"
           >
             View All Projects
             <ArrowRight size={20} className="ml-2" />
           </Link>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

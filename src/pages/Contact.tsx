@@ -1,4 +1,5 @@
 import { Mail, Send, MessageCircle, Linkedin, Globe } from 'lucide-react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../utils/socialLinks';
@@ -14,23 +15,41 @@ interface ContactFormInputs {
 }
 
 const Contact = () => {
-  const { 
-    register, 
-    handleSubmit, 
+  const {
+    register,
+    handleSubmit,
     formState: { errors, isSubmitting },
     reset
   } = useForm<ContactFormInputs>();
 
+  const [submitError, setSubmitError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
   const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
-    // In a real application, this would send the contact form data
-    console.log('Contact form submitted:', data);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Display success message and reset form
-    alert('Your message has been sent successfully!');
-    reset();
+    setSubmitError('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          company: data.company,
+          subject: data.subject,
+          message: data.message,
+          source: 'contact',
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: res.statusText }));
+        throw new Error((err as { error?: string }).error || 'Failed to send your message.');
+      }
+      setSubmitted(true);
+      reset();
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -123,7 +142,18 @@ const Contact = () => {
             
             <div className="md:w-3/5 p-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Us a Message</h2>
-              
+
+              {submitted && (
+                <div className="mb-6 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-4 py-3 text-sm text-green-700 dark:text-green-300">
+                  Thanks! Your message has been sent — we'll get back to you within 24 hours.
+                </div>
+              )}
+              {submitError && (
+                <div className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+                  {submitError}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>

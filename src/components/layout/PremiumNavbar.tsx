@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowRight, UserCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, UserCircle, Info, Users, Newspaper, LucideIcon } from 'lucide-react';
 import Logo from '../ui/Logo';
 import DarkModeToggle from '../ui/DarkModeToggle';
 import { useAuth } from '../../context/AuthContext';
 
-const navItems = [
+interface NavItem {
+  name: string;
+  path: string;
+  icon?: LucideIcon;
+}
+
+const navItems: NavItem[] = [
   { name: 'Home', path: '/' },
   { name: 'Services', path: '/services' },
   { name: 'Projects', path: '/projects' },
-  { name: 'About', path: '/about' },
-  { name: 'Careers', path: '/careers' },
-  { name: 'Blog', path: '/blog' },
+  { name: 'About', path: '/about', icon: Info },
+  { name: 'Careers', path: '/careers', icon: Users },
+  { name: 'Blog', path: '/blog', icon: Newspaper },
   { name: 'Contact', path: '/contact' },
 ];
 
@@ -33,10 +39,18 @@ const PremiumNavbar: React.FC = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Lock body scroll while the mobile drawer is open (native app feel)
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const isActive = (path: string) => location.pathname === path;
 
-  // Home/Services/Projects/Contact already live in the mobile BottomNav tab bar —
-  // keep the hamburger drawer to the remaining items so the two nav surfaces don't duplicate.
+  // Items already in the mobile BottomNav tab bar — keep them out of the
+  // hamburger drawer so the two surfaces don't duplicate (standard app pattern).
   const bottomNavPaths = ['/', '/services', '/projects', '/contact'];
   const mobileNavItems = navItems.filter((item) => !bottomNavPaths.includes(item.path));
 
@@ -44,9 +58,7 @@ const PremiumNavbar: React.FC = () => {
     <header className="fixed top-0 left-0 right-0 z-50">
       <nav
         className={`mx-auto transition-all duration-500 ease-out ${
-          isScrolled
-            ? 'mt-3 max-w-6xl px-2 sm:px-0'
-            : 'mt-0 max-w-none'
+          isScrolled ? 'mt-3 max-w-6xl px-2 sm:px-0' : 'mt-0 max-w-none'
         }`}
       >
         <div
@@ -128,55 +140,97 @@ const PremiumNavbar: React.FC = () => {
               </button>
             </div>
           </div>
+        </div>
+      </nav>
 
-          {/* Mobile Navigation */}
-          <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="lg:hidden border-t border-gray-200/60 dark:border-white/5 overflow-hidden"
+      {/* Mobile Navigation — Android app style slide-in drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="lg:hidden fixed inset-0 z-[60]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <button
+              aria-label="Close menu"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            />
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', bounce: 0.12, duration: 0.4 }}
+              className="absolute right-0 top-0 h-full w-full max-w-sm bg-white dark:bg-gray-950 shadow-2xl flex flex-col"
             >
-              <div className="px-3 pt-2 pb-4 space-y-0.5">
-                {mobileNavItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={`block px-4 py-2.5 text-[15px] font-medium rounded-xl transition-colors duration-200 ${
-                      isActive(item.path)
-                        ? 'text-primary-700 dark:text-white bg-primary-500/10 dark:bg-white/10'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-900/5 dark:hover:bg-white/5'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+              {/* Drawer header */}
+              <div className="flex items-center justify-between px-5 h-16 border-b border-gray-100 dark:border-gray-800">
+                <Logo variant="dark" size="sm" />
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                  className="p-2 -mr-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                >
+                  <X size={22} />
+                </button>
+              </div>
+
+              {/* Nav list */}
+              <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+                {mobileNavItems.map((item) => {
+                  const active = isActive(item.path);
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[16px] font-medium transition-colors duration-200 ${
+                        active
+                          ? 'bg-primary-500/10 text-primary-700 dark:text-primary-300'
+                          : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      }`}
+                    >
+                      {Icon && (
+                        <Icon
+                          size={20}
+                          className={active ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400'}
+                        />
+                      )}
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Footer actions */}
+              <div className="px-4 py-5 border-t border-gray-100 dark:border-gray-800 space-y-3">
                 <Link
                   to={user ? portalPath : '/login'}
-                  className="flex items-center gap-2 px-4 py-2.5 text-[15px] font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-900/5 dark:hover:bg-white/5 transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl text-[15px] font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
                 >
                   {user?.picture ? (
                     <img src={user.picture} alt="" className="w-5 h-5 rounded-full" />
                   ) : (
-                    <UserCircle size={17} />
+                    <UserCircle size={18} />
                   )}
                   {user ? user.name.split(' ')[0] : 'Sign in'}
                 </Link>
                 <Link
                   to="/order"
-                  className="flex items-center justify-center gap-1.5 w-full mt-2.5 px-4 py-3 text-[15px] font-semibold text-white bg-gray-900 dark:bg-white dark:text-gray-900 rounded-xl shadow-sm"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-1.5 w-full px-4 py-3 rounded-xl text-[15px] font-semibold text-white bg-primary-600 hover:bg-primary-700 shadow-sm transition-colors duration-200"
                 >
                   Get Started
-                  <ArrowRight size={15} strokeWidth={2.5} />
+                  <ArrowRight size={16} strokeWidth={2.5} />
                 </Link>
               </div>
-            </motion.div>
-          )}
-          </AnimatePresence>
-        </div>
-      </nav>
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

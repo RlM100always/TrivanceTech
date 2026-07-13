@@ -16,9 +16,17 @@ import JobDetails from './pages/JobDetails';
 import JobApplication from './pages/JobApplication';
 import BlogDetails from './pages/BlogDetails';
 import Login from './pages/Login';
+import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
-import AdminPanel from './pages/AdminPanel';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminLayout from './components/layout/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminClients from './pages/admin/AdminClients';
+import AdminMessages from './pages/admin/AdminMessages';
+import AdminTasks from './pages/admin/AdminTasks';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminReports from './pages/admin/AdminReports';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   return (
@@ -42,23 +50,20 @@ function App() {
         <Route path="careers/job/:id" element={<JobDetails />} />
         <Route path="careers/apply/:id" element={<JobApplication />} />
         <Route path="login" element={<Login />} />
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute role="client">
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute role="admin">
-              <AdminPanel />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="dashboard" element={<ProtectedRoute role="client"><Dashboard /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
+      </Route>
+
+      {/* Admin — standalone UI, separate from the public marketing site */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<ProtectedRoute role="admin" redirectTo="/admin/login"><AdminLayout /></ProtectedRoute>}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="clients" element={<AdminClients />} />
+        <Route path="messages" element={<AdminMessages />} />
+        <Route path="tasks" element={<AdminTasks />} />
+        <Route path="orders" element={<AdminOrders />} />
+        <Route path="reports" element={<AdminReports />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
     </Routes>
   );

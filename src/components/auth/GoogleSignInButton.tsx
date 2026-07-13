@@ -20,8 +20,8 @@ const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({ onSignedIn }) =
         setError(null);
         await signInWithGoogle(idToken);
         onSignedIn?.();
-      } catch {
-        setError('Sign-in failed. Please try again.');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Sign-in failed. Please try again.');
       }
     })
       .then(() => setLoaded(true))

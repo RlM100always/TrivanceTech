@@ -7,8 +7,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (!session) return unauthorized();
 
   if (session.role === 'admin') {
+    // unread_count = messages from the client (other party) not yet read by admin.
     const { results } = await env.DB.prepare(
-      `SELECT conversations.*, clients.name as client_name, clients.email as client_email, clients.avatar_url as client_avatar
+      `SELECT conversations.*, clients.name as client_name, clients.email as client_email, clients.avatar_url as client_avatar,
+              (SELECT COUNT(*) FROM messages m
+               WHERE m.conversation_id = conversations.id AND m.sender_type = 'client' AND m.read_at IS NULL) as unread_count
        FROM conversations
        JOIN clients ON clients.id = conversations.client_id
        ORDER BY conversations.last_message_at DESC`
@@ -22,7 +25,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (!client) return json({ conversations: [] });
 
   const { results } = await env.DB.prepare(
-    'SELECT * FROM conversations WHERE client_id = ? ORDER BY last_message_at DESC'
+    `SELECT conversations.*,
+            (SELECT COUNT(*) FROM messages m
+             WHERE m.conversation_id = conversations.id AND m.sender_type = 'admin' AND m.read_at IS NULL) as unread_count
+     FROM conversations WHERE client_id = ? ORDER BY last_message_at DESC`
   ).bind(client.id).all();
 
   return json({ conversations: results });

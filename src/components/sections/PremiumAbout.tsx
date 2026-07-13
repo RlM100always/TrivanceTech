@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Users, Award, Globe, Target, Eye, Heart, TrendingUp, Building, MapPin, ArrowRight } from 'lucide-react';
+import { Play, Users, Award, Target, Eye, Heart, TrendingUp, Building, MapPin, ArrowRight } from 'lucide-react';
+import Reveal, { StaggerContainer, StaggerItem } from '../ui/motion/Reveal';
+import SectionHeading from '../ui/motion/SectionHeading';
+import Tilt from '../ui/motion/Tilt';
 
 interface PremiumAboutProps {
   /** Renders a condensed teaser (header + mission blurb + link) instead of the full About story, stats, and timeline. Use on Home; the full version lives on /about. */
@@ -8,7 +11,6 @@ interface PremiumAboutProps {
 }
 
 const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const [counters, setCounters] = useState({ projects: 0, clients: 0, experts: 0, satisfaction: 0 });
   const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -31,7 +33,6 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          setIsVisible(true);
           animateCounters();
           setHasAnimated(true);
         }
@@ -54,14 +55,14 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
     stats.forEach((stat, index) => {
       let currentValue = 0;
       const increment = stat.number / steps;
-      
+
       const timer = setInterval(() => {
         currentValue += increment;
         if (currentValue >= stat.number) {
           currentValue = stat.number;
           clearInterval(timer);
         }
-        
+
         setCounters(prev => ({
           ...prev,
           [index === 0 ? 'projects' : index === 1 ? 'clients' : index === 2 ? 'experts' : 'satisfaction']: Math.round(currentValue)
@@ -71,143 +72,148 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
   };
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-20 bg-white dark:bg-gray-900 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <MapPin size={16} className="mr-2" />
-            Remote-First · Worldwide
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 px-4">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">AiTechWorlds</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-            We are a remote-first AI & technology solutions company, dedicated to transforming businesses through innovative technology and exceptional service delivery.
-          </p>
+    <section ref={sectionRef} className="overflow-hidden bg-white py-16 dark:bg-gray-900 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="Remote-First · Worldwide"
+          eyebrowIcon={<MapPin size={16} className="mr-1" />}
+          title="About"
+          highlight="AiTechWorlds"
+          description="We are a remote-first AI & technology solutions company, dedicated to transforming businesses through innovative technology and exceptional service delivery."
+        >
           {compact && (
             <Link
               to="/about"
-              className="inline-flex items-center mt-6 text-primary-600 dark:text-primary-400 font-semibold hover:underline"
+              className="mt-4 inline-flex items-center font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
               Learn more about us <ArrowRight size={18} className="ml-1" />
             </Link>
           )}
-        </div>
+        </SectionHeading>
 
         {compact ? null : (
-        <>
-        {/* Video & Story Section */}
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center mb-16 sm:mb-20 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="relative group order-2 lg:order-1">
-            <div className="aspect-video bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
-                  <Play size={24} className="text-white ml-1 sm:ml-2" />
-                </button>
-              </div>
-              <img 
-                src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" 
-                alt="AiTechWorlds Team" 
-                className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-300"
-              />
-            </div>
-            <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 w-20 h-20 sm:w-24 sm:h-24 bg-accent-500 rounded-2xl flex items-center justify-center shadow-xl">
-              <Award size={24} className="text-white sm:w-8 sm:h-8" />
-            </div>
-          </div>
-          
-          <div className="space-y-6 sm:space-y-8 order-1 lg:order-2 px-4 lg:px-0">
-            <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Target size={20} className="text-white sm:w-6 sm:h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Mission</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-accent-500 to-accent-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Eye size={20} className="text-white sm:w-6 sm:h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Vision</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-secondary-500 to-secondary-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Heart size={20} className="text-white sm:w-6 sm:h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">Our Values</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className={`grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-16 sm:mb-20 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center group">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <stat.icon size={24} className="text-white sm:w-8 sm:h-8" />
-              </div>
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                {index === 0 ? counters.projects : index === 1 ? counters.clients : index === 2 ? counters.experts : counters.satisfaction}
-                {stat.suffix}
-              </div>
-              <div className="text-gray-600 dark:text-gray-300 font-medium text-sm sm:text-base">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Timeline */}
-        <div className={`transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="text-center mb-12 sm:mb-16">
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Journey</h3>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-              Key milestones in our path to becoming a trusted global technology partner
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary-500 to-primary-700 rounded-full"></div>
-            
-            <div className="space-y-8 sm:space-y-12">
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                  <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? 'pr-4 sm:pr-8 text-right' : 'pl-4 sm:pl-8 text-left'}`}>
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group hover:scale-105">
-                      <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 mb-2">{milestone.year}</div>
-                      <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">{milestone.title}</h4>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">{milestone.description}</p>
+          <>
+            {/* Video & Story Section */}
+            <Reveal direction="up" className="mb-16 sm:mb-20">
+              <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
+                <div className="group relative order-2 lg:order-1">
+                  <Tilt max={6}>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 shadow-2xl">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <button className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 sm:h-20 sm:w-20">
+                          <Play size={24} className="ml-1 text-white sm:ml-2" />
+                        </button>
+                      </div>
+                      <img
+                        src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1"
+                        alt="AiTechWorlds Team"
+                        className="h-full w-full object-cover opacity-60 transition-opacity duration-300 group-hover:opacity-80"
+                      />
                     </div>
+                  </Tilt>
+                  <div className="absolute -bottom-4 -right-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-accent-500 shadow-xl sm:-bottom-6 sm:-right-6 sm:h-24 sm:w-24">
+                    <Award size={24} className="text-white sm:h-8 sm:w-8" />
                   </div>
-                  
-                  <div className="relative z-10 flex-shrink-0">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-lg">
-                      <TrendingUp size={16} className="text-white sm:w-5 sm:h-5" />
-                    </div>
-                  </div>
-                  
-                  <div className="w-full sm:w-1/2"></div>
                 </div>
+
+                <div className="order-1 space-y-6 px-4 sm:space-y-8 lg:order-2 lg:px-0">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg sm:h-12 sm:w-12">
+                      <Target size={20} className="text-white sm:h-6 sm:w-6" />
+                    </div>
+                    <div>
+                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Mission</h3>
+                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                        To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-700 shadow-lg sm:h-12 sm:w-12">
+                      <Eye size={20} className="text-white sm:h-6 sm:w-6" />
+                    </div>
+                    <div>
+                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Vision</h3>
+                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                        To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-700 shadow-lg sm:h-12 sm:w-12">
+                      <Heart size={20} className="text-white sm:h-6 sm:w-6" />
+                    </div>
+                    <div>
+                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Values</h3>
+                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                        Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Stats Section */}
+            <StaggerContainer className="mb-16 grid grid-cols-2 gap-6 sm:gap-8 sm:mb-20 lg:grid-cols-4" stagger={0.1}>
+              {stats.map((stat, index) => (
+                <StaggerItem key={index}>
+                  <Tilt max={6}>
+                    <div className="group text-center">
+                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg transition-transform duration-300 group-hover:scale-110 sm:mb-6 sm:h-20 sm:w-20">
+                        <stat.icon size={24} className="text-white sm:h-8 sm:w-8" />
+                      </div>
+                      <div className="mb-2 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                        {index === 0 ? counters.projects : index === 1 ? counters.clients : index === 2 ? counters.experts : counters.satisfaction}
+                        {stat.suffix}
+                      </div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-300 sm:text-base">{stat.label}</div>
+                    </div>
+                  </Tilt>
+                </StaggerItem>
               ))}
-            </div>
-          </div>
-        </div>
-        </>
+            </StaggerContainer>
+
+            {/* Timeline */}
+            <Reveal>
+              <div className="mb-12 text-center sm:mb-16">
+                <h3 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">Our Journey</h3>
+                <p className="mx-auto max-w-2xl px-4 text-base text-gray-600 dark:text-gray-300 sm:text-lg">
+                  Key milestones in our path to becoming a trusted global technology partner
+                </p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute left-1/2 h-full w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary-500 to-primary-700"></div>
+
+                <StaggerContainer className="space-y-8 sm:space-y-12" stagger={0.12}>
+                  {milestones.map((milestone, index) => (
+                    <StaggerItem key={index}>
+                      <div className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                        <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? 'pr-4 text-right sm:pr-8' : 'pl-4 text-left sm:pl-8'}`}>
+                          <div className="group rounded-xl border border-gray-100 bg-white p-4 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                            <div className="mb-2 text-xl font-bold text-primary-600 dark:text-primary-400 sm:text-2xl">{milestone.year}</div>
+                            <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-white sm:mb-3 sm:text-xl">{milestone.title}</h4>
+                            <p className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm sm:text-base">{milestone.description}</p>
+                          </div>
+                        </div>
+
+                        <div className="relative z-10 flex-shrink-0">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg sm:h-12 sm:w-12">
+                            <TrendingUp size={16} className="text-white sm:h-5 sm:w-5" />
+                          </div>
+                        </div>
+
+                        <div className="w-full sm:w-1/2"></div>
+                      </div>
+                    </StaggerItem>
+                  ))}
+                </StaggerContainer>
+              </div>
+            </Reveal>
+          </>
         )}
       </div>
     </section>

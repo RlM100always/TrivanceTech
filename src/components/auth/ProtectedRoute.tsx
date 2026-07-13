@@ -5,9 +5,10 @@ import { Loader2 } from 'lucide-react';
 interface ProtectedRouteProps {
   role: AuthUser['role'];
   children: React.ReactNode;
+  redirectTo?: string;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ role, children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ role, children, redirectTo = '/login' }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -18,7 +19,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ role, children }) => {
     );
   }
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to={redirectTo} replace />;
   if (user.role !== role) return <Navigate to="/" replace />;
 
   return <>{children}</>;

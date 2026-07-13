@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MapPin, Clock, DollarSign, Users, Award, Heart, Globe, ChevronRight, Star, Play, Briefcase, GraduationCap } from 'lucide-react';
+import { Search, MapPin, Clock, DollarSign, Users, Award, Heart, Globe, ChevronRight, Star, Play, Briefcase, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Job {

@@ -59,7 +59,7 @@ const JobApplication: React.FC = () => {
     location: 'Dhaka/Remote'
   };
 
-  const onSubmit: SubmitHandler<ApplicationFormData> = async (data) => {
+  const onSubmit: SubmitHandler<ApplicationFormData> = async () => {
     setIsSubmitting(true);
     
     // Simulate API call

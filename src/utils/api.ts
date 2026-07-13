@@ -46,7 +46,7 @@ export const submitOrderToGoogleSheets = async (orderData: OrderData): Promise<{
  * Retrieve orders from Google Sheets
  * In a real implementation, this would connect to a Google Apps Script endpoint
  */
-export const getOrdersFromGoogleSheets = async (): Promise<any[]> => {
+export const getOrdersFromGoogleSheets = async (): Promise<unknown[]> => {
   try {
     // This is a placeholder for demonstration purposes
     console.log('Fetching orders from Google Sheets');

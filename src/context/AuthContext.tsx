@@ -29,16 +29,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const signInWithGoogle = useCallback(async (idToken: string) => {
-    const res = await fetch('/api/auth/google', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id_token: idToken }),
-    });
-    if (!res.ok) throw new Error('Sign-in failed');
-    const data: AuthUser = await res.json();
-    setUser(data);
-    return data;
+    let res: Response;
+    try {
+      res = await fetch('/api/auth/google', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token: idToken }),
+      });
+    } catch {
+      throw new Error(
+        'Cannot reach /api/auth/google. Are you running plain `npm run dev`? The /api routes are Cloudflare Pages Functions — use `npm run pages:dev` instead.'
+      );
+    }
+
+    const contentType = res.headers.get('content-type') ?? '';
+    const data = contentType.includes('application/json')
+      ? await res.json().catch(() => null)
+      : null;
+
+    if (!res.ok) {
+      const message = (data as { error?: string } | null)?.error;
+      throw new Error(message ?? `Sign-in failed (${res.status})`);
+    }
+    if (!data) {
+      throw new Error(
+        'Sign-in failed: server returned non-JSON. You are likely hitting `npm run dev` (no /api routes) instead of `npm run pages:dev`.'
+      );
+    }
+
+    const user = data as AuthUser;
+    setUser(user);
+    return user;
   }, []);
 
   const signOut = useCallback(async () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Calendar, ArrowRight, Clock, Eye } from 'lucide-react';
+import { Search, Calendar, ArrowRight, Clock, Eye, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { blogPosts, blogCategories } from '../data/blogPosts';
 import SEO from '../components/seo/SEO';
@@ -8,23 +8,26 @@ const Blog: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredPosts = blogPosts.filter((post) => {
+    const term = searchTerm.toLowerCase();
+    const matchesSearch =
+      post.title.toLowerCase().includes(term) ||
+      post.excerpt.toLowerCase().includes(term) ||
+      post.tags.some((tag) => tag.toLowerCase().includes(term));
     const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const featuredPost = blogPosts.find(post => post.featured);
-  const regularPosts = filteredPosts.filter(post => post.id !== featuredPost?.id);
+  const featuredPost = blogPosts.find((post) => post.featured);
+  const regularPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id);
 
   const blogJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
     name: 'AiTechWorlds Tech Insights & Innovation',
     url: 'https://www.aitechworlds.com/blog',
-    description: 'Practical insights on web development, mobile apps, AI/ML, cybersecurity, and remote-first tech from the AiTechWorlds team.',
+    description:
+      'Practical insights on web development, mobile apps, AI/ML, cybersecurity, and remote-first tech from the AiTechWorlds team.',
     blogPost: blogPosts.map((post) => ({
       '@type': 'BlogPosting',
       headline: post.title,
@@ -35,7 +38,7 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEO
         title="Tech Insights & Innovation Blog"
         description="Practical, no-hype insights on web development, mobile apps, AI/ML, cybersecurity, cloud, and remote-first tech culture from the AiTechWorlds team."
@@ -43,194 +46,172 @@ const Blog: React.FC = () => {
         keywords={['tech blog', 'web development blog', 'AI insights', 'software development tips', 'AiTechWorlds blog']}
         jsonLd={blogJsonLd}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Tech Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Innovation</span>
+
+      {/* Header */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-gray-900 text-white">
+        <div className="absolute inset-0">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
+          <span className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+            <TrendingUp size={16} className="mr-2" />
+            {blogPosts.length} articles · {blogCategories.length - 1} topics
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Tech Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-300 to-primary-300">Innovation</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Stay updated with the latest trends, insights, and innovations in technology from our remote-first expert team.
+          <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+            Practical, no-hype playbooks on web, mobile, AI, and security — written from real client work, not from a content calendar.
           </p>
         </div>
+      </section>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search and Filter */}
-        <div className="mb-12">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="relative max-w-md w-full">
-              <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search articles..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {blogCategories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                    selectedCategory === category
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20'
-                  }`}
-                >
-                  {category === 'all' ? 'All Categories' : category}
-                </button>
-              ))}
-            </div>
+        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between mb-12">
+          <div className="relative w-full lg:max-w-md">
+            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search articles, topics, tags…"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {blogCategories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full font-medium transition-colors duration-200 ${
+                  selectedCategory === category
+                    ? 'bg-primary-600 text-white shadow-md'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700'
+                }`}
+              >
+                {category === 'all' ? 'All Topics' : category}
+              </button>
+            ))}
           </div>
         </div>
 
         {/* Featured Post */}
         {featuredPost && selectedCategory === 'all' && !searchTerm && (
           <div className="mb-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Article</h2>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+            <h2 className="flex items-center text-sm font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400 mb-5">
+              <TrendingUp size={16} className="mr-2" /> Featured
+            </h2>
+            <Link
+              to={`/blog/${featuredPost.id}`}
+              className="group block bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+            >
               <div className="md:flex">
-                <div className="md:w-1/2">
+                <div className="md:w-1/2 relative overflow-hidden">
                   <img
                     src={featuredPost.featuredImage}
                     alt={featuredPost.title}
-                    className="w-full h-64 md:h-full object-cover"
+                    className="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="md:w-1/2 p-8">
-                  <div className="flex items-center mb-4">
-                    <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
-                      {featuredPost.category}
-                    </span>
-                    <span className="ml-4 text-sm text-gray-500 dark:text-gray-400">Featured</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                <div className="md:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
+                  <span className="self-start px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium mb-4">
+                    {featuredPost.category}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-snug group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                     {featuredPost.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <img
-                        src={featuredPost.authorImage}
-                        alt={featuredPost.author}
-                        className="w-10 h-10 rounded-full mr-3"
-                      />
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{featuredPost.excerpt}</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <img src={featuredPost.authorImage} alt={featuredPost.author} className="w-9 h-9 rounded-full mr-3" />
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">{featuredPost.author}</p>
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                          <Calendar size={14} className="mr-1" />
+                        <p className="flex items-center">
+                          <Calendar size={12} className="mr-1" />
                           {new Date(featuredPost.publishDate).toLocaleDateString()}
-                          <Clock size={14} className="ml-3 mr-1" />
+                          <Clock size={12} className="ml-3 mr-1" />
                           {featuredPost.readTime}
-                        </div>
+                        </p>
                       </div>
                     </div>
-                    <Link
-                      to={`/blog/${featuredPost.id}`}
-                      className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200"
-                    >
-                      Read More
-                      <ArrowRight size={16} className="ml-2" />
-                    </Link>
+                    <span className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg group-hover:bg-primary-700 transition-colors duration-200">
+                      Read more <ArrowRight size={16} className="ml-2" />
+                    </span>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         )}
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {regularPosts.map(post => (
-            <article key={post.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-              <div className="relative overflow-hidden">
-                <img
-                  src={post.featuredImage}
-                  alt={post.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white rounded-full text-sm font-medium">
-                    {post.category}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
-                  <Link to={`/blog/${post.id}`}>
-                    {post.title}
-                  </Link>
-                </h3>
-
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <div className="flex items-center">
+        {filteredPosts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {regularPosts.map((post) => (
+              <Link key={post.id} to={`/blog/${post.id}`} className="group">
+                <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+                  <div className="relative overflow-hidden">
                     <img
-                      src={post.authorImage}
-                      alt={post.author}
-                      className="w-8 h-8 rounded-full mr-2"
+                      src={post.featuredImage}
+                      alt={post.title}
+                      className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">{post.author}</p>
-                      <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                        <Calendar size={12} className="mr-1" />
-                        {new Date(post.publishDate).toLocaleDateString()}
-                      </div>
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white rounded-full text-sm font-medium shadow">
+                        {post.category}
+                      </span>
                     </div>
                   </div>
-
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    <Eye size={14} className="mr-1" />
-                    {post.views}
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-5 leading-relaxed line-clamp-3 flex-1">{post.excerpt}</p>
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center">
+                        <img src={post.authorImage} alt={post.author} className="w-8 h-8 rounded-full mr-2" />
+                        <span className="font-medium text-gray-700 dark:text-gray-300">{post.author}</span>
+                      </div>
+                      <span className="flex items-center">
+                        <Eye size={14} className="mr-1" />
+                        {post.views > 999 ? `${(post.views / 1000).toFixed(1)}k` : post.views}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {/* No Results */}
-        {filteredPosts.length === 0 && (
-          <div className="text-center py-16">
+                </article>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
             <div className="w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search size={32} className="text-gray-400" />
             </div>
             <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">No articles found</h3>
-            <p className="text-gray-600 dark:text-gray-300">Try adjusting your search criteria or browse all categories.</p>
+            <p className="text-gray-600 dark:text-gray-300">Try a different keyword or browse all topics.</p>
           </div>
         )}
 
-        {/* Newsletter Signup */}
-        <div className="mt-16 bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 md:p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
+        {/* Newsletter */}
+        <div className="mt-16 rounded-3xl bg-gradient-to-r from-primary-600 to-accent-600 p-8 md:p-12 text-white text-center shadow-xl">
+          <h3 className="text-3xl font-bold mb-4">Never miss a practical guide</h3>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Subscribe to our newsletter and get the latest tech insights delivered to your inbox.
+            Get our best breakdowns on web, mobile, AI, and security delivered straight to your inbox.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
             <input
               type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white/50"
+              placeholder="you@company.com"
+              className="flex-1 px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-inner"
             />
-            <button className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300">
+            <Link
+              to="/contact"
+              className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors duration-300"
+            >
               Subscribe
-            </button>
+            </Link>
           </div>
         </div>
       </div>

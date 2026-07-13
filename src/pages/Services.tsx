@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { Code, Smartphone, Cloud, Brain, Shield, Database, Globe, Zap, CheckCircle, ArrowRight, Play, GraduationCap, Palette } from 'lucide-react';
+import React from 'react';
+import { Code, Smartphone, Brain, Shield, Database, Globe, Zap, CheckCircle, ArrowRight, GraduationCap, Palette, Brush, Megaphone, Code2, Package, Bot, Wand2, Bug, Search, Store, PenLine, Newspaper, Target, Layout, Clapperboard, Feather, Mic, BookOpen, Image, Images, PenTool } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
 
 const Services: React.FC = () => {
-  const [activeService, setActiveService] = useState<number | null>(null);
-
   const services = [
     {
       id: 'web',
@@ -26,7 +24,7 @@ const Services: React.FC = () => {
       color: 'from-blue-500 to-blue-700',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20',
       textColor: 'text-blue-600 dark:text-blue-400',
-      image: 'https://github.com/BProvider/img/blob/main/Screenshot%202025-09-05%20172113.png?raw=true'
+      image: 'https://loremflickr.com/800/600/webdesign?lock=10'
     },
     {
       id: 'mobile',
@@ -47,7 +45,7 @@ const Services: React.FC = () => {
       color: 'from-purple-500 to-purple-700',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
       textColor: 'text-purple-600 dark:text-purple-400',
-      image: 'https://github.com/BProvider/img/blob/main/Screenshot%202025-09-05%20143430.png?raw=true'
+      image: 'https://loremflickr.com/800/600/smartphone?lock=11'
     },
     // {
     //   id: 'cloud',
@@ -89,7 +87,7 @@ const Services: React.FC = () => {
       color: 'from-orange-500 to-orange-700',
       bgColor: 'bg-orange-50 dark:bg-orange-900/20',
       textColor: 'text-orange-600 dark:text-orange-400',
-      image: 'https://github.com/BProvider/img/blob/main/ml-e1610553826718.jpg?raw=true'
+      image: 'https://loremflickr.com/800/600/artificialintelligence?lock=12'
     },
     {
       id: 'security',
@@ -110,7 +108,7 @@ const Services: React.FC = () => {
       color: 'from-red-500 to-red-700',
       bgColor: 'bg-red-50 dark:bg-red-900/20',
       textColor: 'text-red-600 dark:text-red-400',
-      image: 'https://github.com/BProvider/img/blob/main/R%20(2).jpg?raw=true'
+      image: 'https://loremflickr.com/800/600/cybersecurity?lock=13'
     },
     {
       id: 'database',
@@ -131,7 +129,7 @@ const Services: React.FC = () => {
       color: 'from-indigo-500 to-indigo-700',
       bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
       textColor: 'text-indigo-600 dark:text-indigo-400',
-      image: 'https://github.com/BProvider/img/blob/main/design-database-in-any-sql-db-technology-on-any-platform.jpg?raw=true'
+      image: 'https://loremflickr.com/800/600/database?lock=14'
     },
     {
       id: 'academic',
@@ -152,7 +150,7 @@ const Services: React.FC = () => {
       color: 'from-teal-500 to-teal-700',
       bgColor: 'bg-teal-50 dark:bg-teal-900/20',
       textColor: 'text-teal-600 dark:text-teal-400',
-      image: 'https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
+      image: 'https://loremflickr.com/800/600/graduation?lock=15'
     },
     {
       id: 'design',
@@ -173,17 +171,437 @@ const Services: React.FC = () => {
       color: 'from-pink-500 to-pink-700',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
       textColor: 'text-pink-600 dark:text-pink-400',
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1'
+      image: 'https://loremflickr.com/800/600/uxdesign?lock=16'
+    },
+    {
+      id: 'personal-branding',
+      icon: Brush,
+      title: 'Personal Branding & Portfolio Websites',
+      description: 'Stand out from the crowd with a stunning, conversion-focused personal brand and portfolio website — complete with a powerful admin dashboard so you can manage content, leads, and analytics without writing a single line of code.',
+      features: [
+        'Bespoke, Conversion-Focused Design',
+        'Secure Admin Dashboard (CMS)',
+        'Blog & Case-Study Management',
+        'Lead Capture & Contact Forms',
+        'SEO-Ready & Lightning Fast',
+        'Mobile-First & Accessible'
+      ],
+      technologies: ['React', 'Next.js', 'Tailwind CSS', 'Node.js', 'Sanity', 'Vercel'],
+      pricing: 'Starting from $400',
+      deliveryTime: '2-4 weeks',
+      color: 'from-rose-500 to-rose-700',
+      bgColor: 'bg-rose-50 dark:bg-rose-900/20',
+      textColor: 'text-rose-600 dark:text-rose-400',
+      image: 'https://loremflickr.com/800/600/personalbranding?lock=17'
+    },
+    {
+      id: 'digital-marketing',
+      icon: Megaphone,
+      title: 'Digital Marketing',
+      description: 'Grow your audience and revenue across every channel that matters — Facebook, Pinterest, Instagram, Telegram, and WhatsApp. We craft data-driven campaigns that turn scrolls into sales and followers into loyal customers.',
+      features: [
+        'Facebook & Instagram Ad Campaigns',
+        'Pinterest & Telegram Growth',
+        'WhatsApp Business Automation',
+        'Content Strategy & Calendar',
+        'Audience Targeting & Retargeting',
+        'Monthly Performance Reports'
+      ],
+      technologies: ['Meta Business Suite', 'Canva', 'Hootsuite', 'Mailchimp', 'Google Analytics'],
+      pricing: 'Starting from $250/mo',
+      deliveryTime: 'Ongoing',
+      color: 'from-fuchsia-500 to-fuchsia-700',
+      bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
+      textColor: 'text-fuchsia-600 dark:text-fuchsia-400',
+      image: 'https://loremflickr.com/800/600/digitalmarketing?lock=18'
+    },
+    {
+      id: 'programming',
+      icon: Code2,
+      title: 'Programming Solutions',
+      description: 'From quick scripts to full systems, our engineers solve your toughest coding challenges with clean, well-documented, and scalable code in the languages and stacks you already use.',
+      features: [
+        'Custom Script & Tool Development',
+        'Algorithm & Logic Optimization',
+        'Code Refactoring & Modernization',
+        'API Integration & Automation',
+        'Full-Stack Web Applications',
+        'Clear Docs & Handover'
+      ],
+      technologies: ['Python', 'JavaScript', 'TypeScript', 'Go', 'Rust', 'C++'],
+      pricing: 'Starting from $150',
+      deliveryTime: '1-3 weeks',
+      color: 'from-cyan-500 to-cyan-700',
+      bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
+      textColor: 'text-cyan-600 dark:text-cyan-400',
+      image: 'https://loremflickr.com/800/600/programming?lock=19'
+    },
+    {
+      id: 'custom-software',
+      icon: Package,
+      title: 'Custom Software Development',
+      description: 'Off-the-shelf tools slow you down. We build tailor-made software — desktop, web, or cloud — engineered around your exact workflows, so your business runs faster, smarter, and on your terms.',
+      features: [
+        'Bespoke Web & Desktop Apps',
+        'Workflow & Process Automation',
+        'Third-Party Integrations',
+        'Scalable Cloud Architecture',
+        'Role-Based Access Control',
+        'Dedicated Support & Maintenance'
+      ],
+      technologies: ['React', 'Node.js', 'Python', 'PostgreSQL', 'Docker', 'AWS'],
+      pricing: 'Starting from $800',
+      deliveryTime: '6-14 weeks',
+      color: 'from-violet-500 to-violet-700',
+      bgColor: 'bg-violet-50 dark:bg-violet-900/20',
+      textColor: 'text-violet-600 dark:text-violet-400',
+      image: 'https://loremflickr.com/800/600/softwaredevelopment?lock=20'
+    },
+    {
+      id: 'prompt-engineering',
+      icon: Bot,
+      title: 'Prompt Engineering',
+      description: 'Unlock the true power of AI. We design, test, and optimize prompts and AI workflows that deliver consistent, high-quality results for your support, content, and operations — every single time.',
+      features: [
+        'Custom Prompt Libraries',
+        'LLM Workflow Automation',
+        'RAG & Knowledge-Base Setup',
+        'AI Chatbot Personas',
+        'Quality & Guardrail Testing',
+        'Team AI Training'
+      ],
+      technologies: ['OpenAI', 'Claude', 'LangChain', 'Python', 'Vector DBs'],
+      pricing: 'Starting from $300',
+      deliveryTime: '1-2 weeks',
+      color: 'from-amber-500 to-amber-700',
+      bgColor: 'bg-amber-50 dark:bg-amber-900/20',
+      textColor: 'text-amber-600 dark:text-amber-400',
+      image: 'https://loremflickr.com/800/600/chatbot?lock=21'
+    },
+    {
+      id: 'vibe-coding',
+      icon: Wand2,
+      title: 'Vibe Coding & Product Engineering',
+      description: 'Got an idea but not the code? We turn your vision into a working, shippable product — fast. From MVP to launch-ready SaaS, we engineer with speed, quality, and momentum.',
+      features: [
+        'Rapid MVP & Prototype Builds',
+        'Full Product Lifecycle Engineering',
+        'AI-Assisted Development',
+        'UX-First Iteration',
+        'Launch & Go-To-Market Support',
+        'Scalable Architecture'
+      ],
+      technologies: ['React', 'Next.js', 'Supabase', 'Vercel', 'Framer', 'AI Tools'],
+      pricing: 'Starting from $600',
+      deliveryTime: '4-10 weeks',
+      color: 'from-emerald-500 to-emerald-700',
+      bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+      textColor: 'text-emerald-600 dark:text-emerald-400',
+      image: 'https://loremflickr.com/800/600/coding?lock=22'
+    },
+    {
+      id: 'bug-fixing',
+      icon: Bug,
+      title: 'Bug Fixing & Deployment Support',
+      description: 'Broken build? Stuck deploy? Our experts diagnose, fix, and ship your code with confidence — so you stop firefighting and get back to building what matters.',
+      features: [
+        'Rapid Bug Diagnosis & Fixes',
+        'CI/CD Pipeline Setup',
+        'Cloud & Server Deployment',
+        'Performance & Crash Fixes',
+        'Rollback & Monitoring',
+        'Handover & Best Practices'
+      ],
+      technologies: ['Git', 'Docker', 'GitHub Actions', 'Vercel', 'AWS', 'Linux'],
+      pricing: 'Starting from $100',
+      deliveryTime: '1-5 days',
+      color: 'from-red-500 to-red-700',
+      bgColor: 'bg-red-50 dark:bg-red-900/20',
+      textColor: 'text-red-600 dark:text-red-400',
+      image: 'https://loremflickr.com/800/600/debugging?lock=23'
+    },
+    {
+      id: 'seo-aeo-geo',
+      icon: Search,
+      title: 'SEO, AEO & GEO Services',
+      description: 'Be found everywhere — on Google, in AI answers, and through generative engines. We optimize your content for classic SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO).',
+      features: [
+        'Technical & On-Page SEO',
+        'Answer Engine Optimization (AEO)',
+        'Generative Engine Optimization (GEO)',
+        'Structured Data & Schema',
+        'Content & Entity Strategy',
+        'Rank & Visibility Tracking'
+      ],
+      technologies: ['Schema.org', 'Google Search Console', 'Ahrefs', 'Surfer SEO', 'GA4'],
+      pricing: 'Starting from $300/mo',
+      deliveryTime: 'Ongoing',
+      color: 'from-lime-500 to-lime-700',
+      bgColor: 'bg-lime-50 dark:bg-lime-900/20',
+      textColor: 'text-lime-600 dark:text-lime-400',
+      image: 'https://loremflickr.com/800/600/seo?lock=24'
+    },
+    {
+      id: 'google-meta-business',
+      icon: Store,
+      title: 'Google Business & Meta Business Services',
+      description: 'Own your local presence. We set up and optimize your Google Business Profile and Meta Business suite to win trust, reviews, and customers right where they search.',
+      features: [
+        'Google Business Profile Setup',
+        'Meta Business Suite Management',
+        'Review & Reputation Strategy',
+        'Local SEO & Listings',
+        'Posts, Offers & Updates',
+        'Insights & Reporting'
+      ],
+      technologies: ['Google Business Profile', 'Meta Business Suite', 'Canva', 'Google Maps'],
+      pricing: 'Starting from $200/mo',
+      deliveryTime: '1-2 weeks setup',
+      color: 'from-sky-500 to-sky-700',
+      bgColor: 'bg-sky-50 dark:bg-sky-900/20',
+      textColor: 'text-sky-600 dark:text-sky-400',
+      image: 'https://loremflickr.com/800/600/business?lock=25'
+    },
+    {
+      id: 'content-writing',
+      icon: PenLine,
+      title: 'Content Writing',
+      description: 'Words that sell. Our expert writers craft clear, compelling, and conversion-focused copy — from web pages to product descriptions — that speaks directly to your audience and turns readers into paying customers.',
+      features: [
+        'Conversion-Focused Copy',
+        'Brand Voice & Tone Matching',
+        'SEO-Friendly Writing',
+        'Product & Service Descriptions',
+        'Email & Newsletter Copy',
+        'Plan-Based Revisions'
+      ],
+      technologies: ['Grammarly', 'Surfer SEO', 'Notion', 'Google Docs', 'Copy.ai'],
+      pricing: 'Starting from $50',
+      deliveryTime: '2-5 days',
+      color: 'from-yellow-500 to-yellow-700',
+      bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
+      textColor: 'text-yellow-600 dark:text-yellow-400',
+      image: 'https://loremflickr.com/800/600/writing?lock=26'
+    },
+    {
+      id: 'articles-blog',
+      icon: Newspaper,
+      title: 'Articles & Blog Posts',
+      description: 'Own your niche and win organic traffic with well-researched, engaging articles and blog posts. We write content that ranks on Google and keeps readers coming back for more.',
+      features: [
+        'SEO-Optimized Long-Form Posts',
+        'In-Depth Research & Facts',
+        'Engaging Headlines & Hooks',
+        'Internal & External Linking',
+        'Consistent Publishing Calendar',
+        '100% Plagiarism-Free'
+      ],
+      technologies: ['Surfer SEO', 'Ahrefs', 'Grammarly', 'WordPress', 'NeuronWriter'],
+      pricing: 'Starting from $40/post',
+      deliveryTime: '3-7 days',
+      color: 'from-orange-500 to-orange-700',
+      bgColor: 'bg-orange-50 dark:bg-orange-900/20',
+      textColor: 'text-orange-600 dark:text-orange-400',
+      image: 'https://loremflickr.com/800/600/blog?lock=27'
+    },
+    {
+      id: 'content-strategy',
+      icon: Target,
+      title: 'Content Strategy',
+      description: 'Stop posting and start growing. We build data-backed content strategies — topics, calendars, and funnels — that put your brand in front of the right people at exactly the right time.',
+      features: [
+        'Audience & Competitor Research',
+        'Content Pillars & Calendar',
+        'SEO & Keyword Roadmap',
+        'Funnel & Distribution Plan',
+        'Performance KPIs & Reporting',
+        'Monthly Strategy Reviews'
+      ],
+      technologies: ['Google Analytics', 'Ahrefs', 'Notion', 'Trello', 'Semrush'],
+      pricing: 'Starting from $300/mo',
+      deliveryTime: 'Ongoing',
+      color: 'from-green-500 to-green-700',
+      bgColor: 'bg-green-50 dark:bg-green-900/20',
+      textColor: 'text-green-600 dark:text-green-400',
+      image: 'https://loremflickr.com/800/600/marketingstrategy?lock=28'
+    },
+    {
+      id: 'website-content',
+      icon: Layout,
+      title: 'Website Content',
+      description: 'First impressions close deals. We write sharp, persuasive website copy — home, about, services, and landing pages — engineered to build trust and drive visitors to take action.',
+      features: [
+        'Home & Landing Page Copy',
+        'About & Brand Story',
+        'Service & Product Pages',
+        'Clear Calls-to-Action',
+        'Tone & Messaging Guide',
+        'Conversion-Ready Structure'
+      ],
+      technologies: ['Figma', 'Webflow', 'WordPress', 'Grammarly', 'Hemingway'],
+      pricing: 'Starting from $150',
+      deliveryTime: '3-6 days',
+      color: 'from-teal-500 to-teal-700',
+      bgColor: 'bg-teal-50 dark:bg-teal-900/20',
+      textColor: 'text-teal-600 dark:text-teal-400',
+      image: 'https://loremflickr.com/800/600/website?lock=29'
+    },
+    {
+      id: 'scriptwriting',
+      icon: Clapperboard,
+      title: 'Scriptwriting',
+      description: 'From YouTube to corporate videos, we write tight, engaging scripts that hold attention and deliver your message — with hooks, pacing, and CTAs that convert viewers into customers.',
+      features: [
+        'YouTube & Reels Scripts',
+        'Video Sales Letters (VSL)',
+        'Explainer & Demo Scripts',
+        'Hook & Retention Techniques',
+        'On-Screen Caption Notes',
+        'Revision Rounds Included'
+      ],
+      technologies: ['Final Draft', 'Notion', 'Descript', 'Google Docs'],
+      pricing: 'Starting from $80/script',
+      deliveryTime: '2-4 days',
+      color: 'from-cyan-500 to-cyan-700',
+      bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
+      textColor: 'text-cyan-600 dark:text-cyan-400',
+      image: 'https://loremflickr.com/800/600/screenplay?lock=30'
+    },
+    {
+      id: 'creative-writing',
+      icon: Feather,
+      title: 'Creative Writing',
+      description: 'Stories that stick. Our creative writers craft brand narratives, short stories, and poetic copy that make your business memorable and emotionally connect with your audience.',
+      features: [
+        'Brand Story & Narrative',
+        'Short Stories & Fiction',
+        'Poetry & Taglines',
+        'Social Media Storytelling',
+        'Emotional Hook Writing',
+        'Custom Tone & Style'
+      ],
+      technologies: ['Notion', 'Scrivener', 'Google Docs', 'Grammarly'],
+      pricing: 'Starting from $60',
+      deliveryTime: '2-5 days',
+      color: 'from-sky-500 to-sky-700',
+      bgColor: 'bg-sky-50 dark:bg-sky-900/20',
+      textColor: 'text-sky-600 dark:text-sky-400',
+      image: 'https://loremflickr.com/800/600/typewriter?lock=31'
+    },
+    {
+      id: 'podcast-writing',
+      icon: Mic,
+      title: 'Podcast Writing',
+      description: 'Launch and grow a podcast people finish. We write episode outlines, intros, and talking points that keep listeners hooked and coming back every single week.',
+      features: [
+        'Episode Outlines & Scripts',
+        'Cold Open & Hooks',
+        'Interview Questions',
+        'Show Notes & Timestamps',
+        'Sponsor Ad Reads',
+        'Season Planning'
+      ],
+      technologies: ['Descript', 'Notion', 'Google Docs', 'Headliner'],
+      pricing: 'Starting from $70/episode',
+      deliveryTime: '2-4 days',
+      color: 'from-indigo-500 to-indigo-700',
+      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+      textColor: 'text-indigo-600 dark:text-indigo-400',
+      image: 'https://loremflickr.com/800/600/podcast?lock=32'
+    },
+    {
+      id: 'speechwriting',
+      icon: PenTool,
+      title: 'Speechwriting',
+      description: 'Command the room. We write powerful speeches for keynotes, weddings, and corporate events — structured to inspire, persuade, and leave a lasting impression.',
+      features: [
+        'Keynote & Conference Speeches',
+        'Wedding & Toast Speeches',
+        'Investor Pitch Scripts',
+        'Persuasive Story Arcs',
+        'Pauses & Emphasis Cues',
+        'Rehearsal Notes'
+      ],
+      technologies: ['Google Docs', 'Notion', 'Grammarly'],
+      pricing: 'Starting from $90/speech',
+      deliveryTime: '2-4 days',
+      color: 'from-violet-500 to-violet-700',
+      bgColor: 'bg-violet-50 dark:bg-violet-900/20',
+      textColor: 'text-violet-600 dark:text-violet-400',
+      image: 'https://loremflickr.com/800/600/microphone?lock=33'
+    },
+    {
+      id: 'research-summaries',
+      icon: BookOpen,
+      title: 'Research & Summaries',
+      description: 'Save hours of reading. We deliver clear, accurate research and executive summaries — academic, market, or technical — so you get the insights you need, fast.',
+      features: [
+        'Academic & Literature Reviews',
+        'Market & Industry Research',
+        'Executive Summaries',
+        'Data Synthesis & Insights',
+        'Citations & References',
+        'Clear, Structured Reports'
+      ],
+      technologies: ['Zotero', 'Mendeley', 'Python', 'Excel', 'LaTeX'],
+      pricing: 'Starting from $50',
+      deliveryTime: '2-5 days',
+      color: 'from-fuchsia-500 to-fuchsia-700',
+      bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
+      textColor: 'text-fuchsia-600 dark:text-fuchsia-400',
+      image: 'https://loremflickr.com/800/600/research?lock=34'
+    },
+    {
+      id: 'ai-image-making',
+      icon: Image,
+      title: 'AI Image Generation',
+      description: 'Stunning visuals on demand. We craft high-quality, on-brand AI images — logos, illustrations, product shots, and social graphics — without the cost or wait of a photo shoot.',
+      features: [
+        'Custom AI Illustrations',
+        'Product & Mockup Images',
+        'Social Media Graphics',
+        'Brand-Consistent Styles',
+        'High-Resolution Exports',
+        'Commercial Usage Rights'
+      ],
+      technologies: ['Midjourney', 'DALL·E', 'Stable Diffusion', 'Adobe Firefly', 'Canva'],
+      pricing: 'Starting from $30/image',
+      deliveryTime: '1-2 days',
+      color: 'from-pink-500 to-pink-700',
+      bgColor: 'bg-pink-50 dark:bg-pink-900/20',
+      textColor: 'text-pink-600 dark:text-pink-400',
+      image: 'https://loremflickr.com/800/600/aiart?lock=35'
+    },
+    {
+      id: 'ai-poster-book',
+      icon: Images,
+      title: 'AI Poster & Book Design',
+      description: 'From eye-catching posters to print-ready books, we design and lay out your visuals with AI — fast, affordable, and polished for both digital and print.',
+      features: [
+        'Event & Promo Posters',
+        'Book Layout & Formatting',
+        'Cover Design',
+        'Print-Ready PDFs',
+        'eBook & KDP Setup',
+        'Multiple Revision Rounds'
+      ],
+      technologies: ['Canva', 'Midjourney', 'Adobe InDesign', 'Blurb', 'Kindle Direct'],
+      pricing: 'Starting from $60/project',
+      deliveryTime: '3-6 days',
+      color: 'from-rose-500 to-rose-700',
+      bgColor: 'bg-rose-50 dark:bg-rose-900/20',
+      textColor: 'text-rose-600 dark:text-rose-400',
+      image: 'https://loremflickr.com/800/600/poster?lock=36'
     }
   ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
       <SEO
-        title="Our Services — Web, Mobile, AI/ML & Cybersecurity Solutions"
-        description="Explore AiTechWorlds' services: custom web development, mobile apps, AI & machine learning, cybersecurity, cloud, and academic project support — delivered remotely worldwide."
+        title="Our Services — Web, Mobile, AI, Content, Branding, Marketing & Custom Software"
+        description="Explore AiTechWorlds' services: content writing, blog posts, content strategy, website copy, scriptwriting, creative writing, podcast & speech writing, research, AI image & poster/book design, personal branding, digital marketing, programming, custom software, prompt engineering, vibe coding, bug fixing, SEO/AEO/GEO, and Google & Meta Business — delivered remotely worldwide."
         path="/services"
-        keywords={['software development services', 'web development company', 'mobile app development', 'AI development services', 'cybersecurity services']}
+        keywords={['content writing services', 'blog writing', 'AI image generation', 'scriptwriting', 'digital marketing', 'prompt engineering', 'custom software development', 'personal branding website', 'SEO AEO GEO services', 'bug fixing and deployment']}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

@@ -54,8 +54,9 @@ export async function verifySessionToken(token: string, secret: string): Promise
   }
 }
 
-export function sessionCookieHeader(token: string): string {
-  return `${SESSION_COOKIE}=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${SESSION_TTL_SECONDS}`;
+export function sessionCookieHeader(token: string, isSecure: boolean = true): string {
+  const secureFlag = isSecure ? 'Secure; ' : '';
+  return `${SESSION_COOKIE}=${token}; HttpOnly; ${secureFlag}SameSite=Lax; Path=/; Max-Age=${SESSION_TTL_SECONDS}`;
 }
 
 export function clearSessionCookieHeader(): string {
