@@ -25,7 +25,7 @@ export const onRequestPatch: PagesFunction<Env> = async ({ request, env, params 
 
   if (!updates.length) return badRequest('No fields to update');
 
-  const existing = await env.DB.prepare('SELECT id FROM tasks WHERE id = ?').bind(id).first();
+  const existing = await env.DB.prepare('SELECT id FROM tasks WHERE id = ? AND deleted_at IS NULL').bind(id).first();
   if (!existing) return notFound('Task not found');
 
   bindings.push(id);
@@ -41,6 +41,10 @@ export const onRequestDelete: PagesFunction<Env> = async ({ request, env, params
   if (gate instanceof Response) return gate;
 
   const id = params.id as string;
-  await env.DB.prepare('DELETE FROM tasks WHERE id = ?').bind(id).run();
+  const existing = await env.DB.prepare('SELECT title FROM tasks WHERE id = ? AND deleted_at IS NULL').bind(id).first<{ title: string }>();
+  if (!existing) return notFound('Task not found');
+
+  await env.DB.prepare(`UPDATE tasks SET deleted_at = datetime('now') WHERE id = ?`).bind(id).run();
+  await logActivity(env, gate.email, 'task', `Deleted task: ${existing.title}`);
   return json({ ok: true });
 };

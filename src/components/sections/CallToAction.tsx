@@ -7,10 +7,10 @@ import MagneticButton from '../ui/motion/MagneticButton';
 
 const CallToAction: React.FC = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 py-16 text-white dark:from-primary-800 dark:via-primary-900 dark:to-gray-900 sm:py-20">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 py-16 text-white dark:from-primary-800 dark:via-primary-900 dark:to-neutral-900 sm:py-20">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="aurora-blob absolute -left-24 top-0 h-96 w-96 rounded-full bg-accent-500/10 blur-3xl" />
+        <div className="aurora-blob absolute -left-24 top-0 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl" />
         <div className="aurora-blob absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-primary-400/10 blur-3xl" style={{ animationDirection: 'reverse' }} />
       </div>
 
@@ -24,27 +24,27 @@ const CallToAction: React.FC = () => {
             </div>
             <h2 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl">
               Transform Your Ideas into{' '}
-              <span className="bg-gradient-to-r from-accent-400 to-accent-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
                 Reality
               </span>
             </h2>
-            <p className="mb-6 text-lg leading-relaxed text-gray-200 sm:mb-8 sm:text-xl">
+            <p className="mb-6 text-lg leading-relaxed text-neutral-200 sm:mb-8 sm:text-xl">
               Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey. Let's build something amazing together.
             </p>
 
             {/* Contact Info */}
             <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex items-center justify-center lg:justify-start">
-                <Mail size={20} className="mr-3 text-accent-400" />
+                <Mail size={20} className="mr-3 text-primary-400" />
                 <div>
-                  <p className="text-sm text-gray-300">Email Us</p>
+                  <p className="text-sm text-neutral-300">Email Us</p>
                   <p className="font-semibold">{CONTACT_EMAIL}</p>
                 </div>
               </div>
               <div className="flex items-center justify-center lg:justify-start">
-                <MessageCircle size={20} className="mr-3 text-accent-400" />
+                <MessageCircle size={20} className="mr-3 text-primary-400" />
                 <div>
-                  <p className="text-sm text-gray-300">Chat With Us</p>
+                  <p className="text-sm text-neutral-300">Chat With Us</p>
                   <p className="font-semibold">WhatsApp / Telegram</p>
                 </div>
               </div>
@@ -55,7 +55,7 @@ const CallToAction: React.FC = () => {
               <MagneticButton strength={0.4} className="w-full sm:w-auto">
                 <Link
                   to="/order"
-                  className="flex items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-primary-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 sm:px-8 sm:py-4"
+                  className="flex items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-primary-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-neutral-100 sm:px-8 sm:py-4"
                 >
                   Start Your Project
                   <ArrowRight size={20} className="ml-2" />
@@ -84,12 +84,12 @@ const CallToAction: React.FC = () => {
             </div>
 
             {/* Floating Stats */}
-            <div className="absolute -bottom-4 -left-4 rounded-xl bg-white p-4 shadow-xl dark:bg-gray-800">
+            <div className="absolute -bottom-4 -left-4 rounded-xl bg-white p-4 shadow-xl dark:bg-neutral-800">
               <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">50+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Projects Done</div>
+              <div className="text-sm text-neutral-600 dark:text-neutral-300">Projects Done</div>
             </div>
 
-            <div className="absolute -right-4 -top-4 rounded-xl bg-accent-500 p-4 shadow-xl">
+            <div className="absolute -right-4 -top-4 rounded-xl bg-primary-500 p-4 shadow-xl">
               <div className="text-2xl font-bold text-white">99%</div>
               <div className="text-sm text-white/80">Satisfaction</div>
             </div>

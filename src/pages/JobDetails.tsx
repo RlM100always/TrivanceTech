@@ -63,7 +63,7 @@ const JobDetails: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <Link 
@@ -74,9 +74,9 @@ const JobDetails: React.FC = () => {
           Back to Careers
         </Link>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 text-white p-8">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-700 text-white p-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
               <div className="flex-1">
                 <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
@@ -111,7 +111,7 @@ const JobDetails: React.FC = () => {
                 </button>
                 <Link
                   to={`/careers/apply/${job.id}`}
-                  className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300 text-center shadow-lg"
+                  className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-neutral-100 transition-colors duration-300 text-center shadow-lg"
                 >
                   Apply Now
                 </Link>
@@ -122,42 +122,42 @@ const JobDetails: React.FC = () => {
           {/* Content */}
           <div className="p-8">
             {/* Job Info */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 p-6 bg-neutral-50 dark:bg-neutral-700 rounded-xl">
               <div className="text-center">
                 <Calendar className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm text-gray-600 dark:text-gray-300">Posted</div>
-                <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="text-sm text-neutral-600 dark:text-neutral-300">Posted</div>
+                <div className="font-semibold text-neutral-900 dark:text-white">
                   {new Date(job.postedDate).toLocaleDateString()}
                 </div>
               </div>
               <div className="text-center">
                 <Clock className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm text-gray-600 dark:text-gray-300">Application Deadline</div>
-                <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="text-sm text-neutral-600 dark:text-neutral-300">Application Deadline</div>
+                <div className="font-semibold text-neutral-900 dark:text-white">
                   {new Date(job.expiryDate).toLocaleDateString()}
                 </div>
               </div>
               <div className="text-center">
                 <Users className="w-8 h-8 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                <div className="text-sm text-gray-600 dark:text-gray-300">Hiring Manager</div>
-                <div className="font-semibold text-gray-900 dark:text-white">{job.hiringManager}</div>
+                <div className="text-sm text-neutral-600 dark:text-neutral-300">Hiring Manager</div>
+                <div className="font-semibold text-neutral-900 dark:text-white">{job.hiringManager}</div>
               </div>
             </div>
 
             {/* Job Description */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Job Description</h2>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{job.description}</p>
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Job Description</h2>
+              <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">{job.description}</p>
             </div>
 
             {/* Responsibilities */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Key Responsibilities</h2>
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Key Responsibilities</h2>
               <ul className="space-y-3">
                 {job.responsibilities.map((responsibility, index) => (
                   <li key={index} className="flex items-start">
                     <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-600 dark:text-gray-300">{responsibility}</span>
+                    <span className="text-neutral-600 dark:text-neutral-300">{responsibility}</span>
                   </li>
                 ))}
               </ul>
@@ -165,12 +165,12 @@ const JobDetails: React.FC = () => {
 
             {/* Qualifications */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Qualifications</h2>
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Qualifications</h2>
               <ul className="space-y-3">
                 {job.qualifications.map((qualification, index) => (
                   <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-accent-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-600 dark:text-gray-300">{qualification}</span>
+                    <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-neutral-600 dark:text-neutral-300">{qualification}</span>
                   </li>
                 ))}
               </ul>
@@ -178,21 +178,21 @@ const JobDetails: React.FC = () => {
 
             {/* Perks & Benefits */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Perks & Benefits</h2>
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Perks & Benefits</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {job.perks.map((perk, index) => (
                   <div key={index} className="flex items-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                    <span className="text-gray-700 dark:text-gray-300">{perk}</span>
+                    <span className="text-neutral-700 dark:text-neutral-300">{perk}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Apply Section */}
-            <div className="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-xl p-6 text-center">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Ready to Apply?</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-xl p-6 text-center">
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Ready to Apply?</h3>
+              <p className="text-neutral-600 dark:text-neutral-300 mb-4">
                 Join our team and help us build amazing products that impact millions of users worldwide.
               </p>
               <Link

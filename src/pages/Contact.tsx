@@ -4,6 +4,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../utils/socialLinks';
 import SEO from '../components/seo/SEO';
+import TurnstileWidget from '../components/ui/Turnstile';
+
+const TURNSTILE_ENABLED = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY);
 
 interface ContactFormInputs {
   name: string;
@@ -24,6 +27,7 @@ const Contact = () => {
 
   const [submitError, setSubmitError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
     setSubmitError('');
@@ -39,6 +43,7 @@ const Contact = () => {
           subject: data.subject,
           message: data.message,
           source: 'contact',
+          turnstileToken,
         }),
       });
       if (!res.ok) {
@@ -47,13 +52,14 @@ const Contact = () => {
       }
       setSubmitted(true);
       reset();
+      setTurnstileToken('');
     } catch (e) {
       setSubmitError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-16 sm:py-20">
       <SEO
         title="Contact Us — Get In Touch"
         description="Have a quick question? Reach AiTechWorlds via email, WhatsApp, Telegram, or LinkedIn — remote-first, replying to clients worldwide."
@@ -67,10 +73,10 @@ const Contact = () => {
             <Mail size={16} className="mr-2" />
             Quick Inquiry
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-            Have a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Question?</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-4 sm:mb-6">
+            Have a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">Question?</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
             Reach out for general questions, quick quotes, or anything else. Ready to kick off a full project?{' '}
             <Link to="/order" className="text-primary-600 dark:text-primary-400 font-semibold hover:underline">
               Submit a project order →
@@ -78,7 +84,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl overflow-hidden">
           <div className="md:flex">
             <div className="md:w-2/5 bg-gradient-to-br from-primary-700 to-primary-900 text-white p-8">
               <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
@@ -141,7 +147,7 @@ const Contact = () => {
             </div>
             
             <div className="md:w-3/5 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Us a Message</h2>
+              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Send Us a Message</h2>
 
               {submitted && (
                 <div className="mb-6 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-4 py-3 text-sm text-green-700 dark:text-green-300">
@@ -157,13 +163,13 @@ const Contact = () => {
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                       Full Name *
                     </label>
                     <input
                       id="name"
                       type="text"
-                      className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                      className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
                       placeholder="Your full name"
                       {...register('name', { required: 'Name is required' })}
                     />
@@ -173,13 +179,13 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                       Email Address *
                     </label>
                     <input
                       id="email"
                       type="email"
-                      className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                      className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
                       placeholder="your.email@example.com"
                       {...register('email', { 
                         required: 'Email is required',
@@ -197,26 +203,38 @@ const Contact = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Phone Number
+                    <label htmlFor="phone" className="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                      <MessageCircle size={14} className="text-green-500" />
+                      WhatsApp Number *
                     </label>
                     <input
                       id="phone"
                       type="tel"
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      placeholder="+1 555-000-0000"
-                      {...register('phone')}
+                      className={`w-full px-4 py-2 border ${errors.phone ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
+                      placeholder="+8801XXXXXXXXX (with country code)"
+                      {...register('phone', {
+                        required: 'WhatsApp number is required',
+                        pattern: {
+                          value: /^[+]?[\d\s-]{7,}$/,
+                          message: 'Enter a valid WhatsApp number with country code',
+                        },
+                      })}
                     />
+                    {errors.phone ? (
+                      <p className="mt-1 text-red-500 text-sm">{errors.phone.message}</p>
+                    ) : (
+                      <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">We reply fastest on WhatsApp — include your country code.</p>
+                    )}
                   </div>
 
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label htmlFor="company" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                       Company/Institution
                     </label>
                     <input
                       id="company"
                       type="text"
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white"
                       placeholder="Your company or institution"
                       {...register('company')}
                     />
@@ -224,13 +242,13 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                     Subject *
                   </label>
                   <input
                     id="subject"
                     type="text"
-                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
                     placeholder="What is your message about?"
                     {...register('subject', { required: 'Subject is required' })}
                   />
@@ -240,13 +258,13 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                     Message *
                   </label>
                   <textarea
                     id="message"
                     rows={6}
-                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
                     placeholder="What's your question? We'll get back to you shortly..."
                     {...register('message', { 
                       required: 'Message is required',
@@ -261,10 +279,12 @@ const Contact = () => {
                   )}
                 </div>
 
+                <TurnstileWidget onVerify={setTurnstileToken} className="mb-2" />
+
                 <div>
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || (TURNSTILE_ENABLED && !turnstileToken)}
                     className="w-full sm:w-auto px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center transform hover:scale-105 shadow-lg"
                   >
                     {isSubmitting ? 'Sending...' : (
@@ -280,7 +300,7 @@ const Contact = () => {
         </div>
 
         {/* Remote-first note */}
-        <div className="mt-16 rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-primary-600 to-accent-600 p-10 text-center text-white">
+        <div className="mt-16 rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-primary-500 to-primary-700 p-10 text-center text-white">
           <Globe size={40} className="mx-auto mb-4 opacity-90" />
           <h3 className="text-2xl font-bold mb-2">Remote-First, Worldwide</h3>
           <p className="text-primary-50 max-w-2xl mx-auto">

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS clients (
   status TEXT NOT NULL DEFAULT 'active', -- active | archived (account state)
   assigned_admin_email TEXT,
   notes TEXT,
+  deleted_at TEXT,                   -- soft-delete: NULL = active row
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   last_login_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -63,6 +64,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   priority TEXT NOT NULL DEFAULT 'medium', -- low | medium | high
   due_date TEXT,
   assigned_admin_email TEXT,
+  deleted_at TEXT,                   -- soft-delete: NULL = active row
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -75,6 +77,7 @@ CREATE TABLE IF NOT EXISTS orders (
   amount REAL NOT NULL DEFAULT 0,
   currency TEXT NOT NULL DEFAULT 'USD',
   due_amount REAL NOT NULL DEFAULT 0,
+  deleted_at TEXT,                   -- soft-delete: NULL = active row
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -126,6 +129,18 @@ CREATE TABLE IF NOT EXISTS leads (
   source TEXT NOT NULL DEFAULT 'contact',  -- contact | order
   status TEXT NOT NULL DEFAULT 'new',       -- new | contacted | converted | closed
   meta TEXT,                                 -- JSON blob for order extras (budget, deadline, projectType, fileUrl)
+  converted_client_id TEXT REFERENCES clients(id), -- set when a client signs in with this lead's email
+  deleted_at TEXT,                   -- soft-delete: NULL = active row
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Audit trail for every sign-in (admin and client) — who signed in, when, from where.
+CREATE TABLE IF NOT EXISTS login_events (
+  id TEXT PRIMARY KEY,
+  email TEXT NOT NULL,
+  role TEXT NOT NULL,                -- admin | client
+  ip TEXT,
+  user_agent TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
@@ -139,6 +154,8 @@ CREATE INDEX IF NOT EXISTS idx_tasks_client ON tasks(client_id);
 CREATE INDEX IF NOT EXISTS idx_orders_client ON orders(client_id);
 CREATE INDEX IF NOT EXISTS idx_activity_client ON activity_log(client_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_admin ON notifications(admin_email, read);
+CREATE INDEX IF NOT EXISTS idx_login_events_email ON login_events(email, created_at);
+CREATE INDEX IF NOT EXISTS idx_leads_converted_client ON leads(converted_client_id);
 
 -- Migration for an EXISTING database (run after the first apply):
 -- ALTER TABLE clients ADD COLUMN timezone TEXT;
@@ -149,3 +166,8 @@ CREATE INDEX IF NOT EXISTS idx_notifications_admin ON notifications(admin_email,
 -- ALTER TABLE messages ADD COLUMN read_at TEXT;
 -- ALTER TABLE messages ADD COLUMN drive_file_id TEXT;
 -- ALTER TABLE messages ADD COLUMN drive_file_name TEXT;
+-- ALTER TABLE clients ADD COLUMN deleted_at TEXT;
+-- ALTER TABLE tasks ADD COLUMN deleted_at TEXT;
+-- ALTER TABLE orders ADD COLUMN deleted_at TEXT;
+-- ALTER TABLE leads ADD COLUMN deleted_at TEXT;
+-- ALTER TABLE leads ADD COLUMN converted_client_id TEXT REFERENCES clients(id);

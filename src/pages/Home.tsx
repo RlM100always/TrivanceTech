@@ -1,8 +1,9 @@
-import PremiumHero from '../components/sections/PremiumHero';
-import PremiumAbout from '../components/sections/PremiumAbout';
+import ProductFactoryHero from '../components/sections/ProductFactoryHero';
+import TrustStrip from '../components/sections/TrustStrip';
+import HomeValue from '../components/sections/HomeValue';
 import PremiumServices from '../components/sections/PremiumServices';
 import FeaturedProjects from '../components/sections/FeaturedProjects';
-import WhyChooseUs from '../components/sections/WhyChooseUs';
+import ProcessSection from '../components/sections/ProcessSection';
 import Testimonials from '../components/sections/Testimonials';
 import CallToAction from '../components/sections/CallToAction';
 import SEO, { SITE_URL } from '../components/seo/SEO';
@@ -37,12 +38,16 @@ const Home = () => {
         keywords={['AiTechWorlds', 'web development company', 'AI solutions', 'mobile app development', 'remote software agency']}
         jsonLd={organizationJsonLd}
       />
-      <PremiumHero />
-      <PremiumAbout compact />
+      <ProductFactoryHero />
+      <TrustStrip />
+      <HomeValue />
       <PremiumServices limit={3} />
-      <FeaturedProjects />
-      <WhyChooseUs />
-      <Testimonials />
+      {/* Mid-page dark band for depth/contrast — forced dark regardless of theme */}
+      <div className="dark">
+        <FeaturedProjects />
+      </div>
+      <ProcessSection />
+      <Testimonials featured />
       <CallToAction />
     </div>
   );

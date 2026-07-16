@@ -91,7 +91,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       <SEO
         title="About AiTechWorlds — Remote-First AI & Tech Team"
         description="Meet the remote-first team behind AiTechWorlds — real engineers delivering web, mobile, and AI solutions to clients worldwide, no physical office required."
@@ -99,11 +99,11 @@ const About = () => {
         keywords={['about AiTechWorlds', 'remote tech team', 'software development company team']}
       />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 dark:from-gray-950 dark:via-primary-950 dark:to-primary-900 text-white py-16 sm:py-24 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-neutral-900 via-primary-900 to-primary-800 dark:from-neutral-950 dark:via-primary-950 dark:to-primary-900 text-white py-16 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -114,13 +114,13 @@ const About = () => {
                 Remote-First · Serving Clients Worldwide
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-600">AiTechWorlds</span>
+                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">AiTechWorlds</span>
               </h1>
-              <p className="text-lg sm:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl text-neutral-200 mb-6 sm:mb-8 leading-relaxed">
                 We are a remote-first AI & technology solutions company, dedicated to transforming businesses through innovative technology and exceptional service delivery.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <button className="group inline-flex items-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                <button className="group inline-flex items-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105">
                   <Play size={20} className="mr-2 group-hover:scale-110 transition-transform" />
                   Watch Our Story
                 </button>
@@ -152,7 +152,7 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
+      <section className="py-12 sm:py-16 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {stats.map((stat, index) => (
@@ -160,8 +160,8 @@ const About = () => {
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                   <stat.icon size={20} className="text-white sm:w-7 sm:h-7" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">{stat.number}</div>
-                <div className="text-gray-600 dark:text-gray-300 font-medium text-sm sm:text-base">{stat.label}</div>
+                <div className="text-2xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-2">{stat.number}</div>
+                <div className="text-neutral-600 dark:text-neutral-300 font-medium text-sm sm:text-base">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -169,11 +169,11 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Mission & Vision</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Mission & Vision</h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               Driving digital transformation for clients around the world
             </p>
           </div>
@@ -183,28 +183,28 @@ const About = () => {
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <Target size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Our Mission</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Mission</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
                 To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-accent-50 to-accent-100 dark:from-accent-900/20 dark:to-accent-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-500 to-accent-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <Eye size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Our Vision</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Vision</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
                 To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-secondary-50 to-secondary-100 dark:from-secondary-900/20 dark:to-secondary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-secondary-500 to-secondary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+            <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <Heart size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Our Values</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Values</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
                 Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.
               </p>
             </div>
@@ -213,23 +213,23 @@ const About = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-16 sm:py-20 bg-white dark:bg-gray-800">
+      <section className="py-16 sm:py-20 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Expertise</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Expertise</h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               Comprehensive IT solutions tailored to meet your business needs
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 rounded-xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700">
+              <div key={index} className="bg-white dark:bg-neutral-900 rounded-xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-neutral-100 dark:border-neutral-700">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                   <service.icon size={20} className="text-white sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">{service.description}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3">{service.title}</h3>
+                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">{service.description}</p>
               </div>
             ))}
           </div>
@@ -237,11 +237,11 @@ const About = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Meet Our Leadership Team</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Meet Our Leadership Team</h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               Experienced professionals driving digital transformation for clients worldwide
             </p>
           </div>
@@ -250,11 +250,11 @@ const About = () => {
             {team.map((member, index) => (
               <div
                 key={index}
-                className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-300 transform hover:-translate-y-2 text-center"
+                className="group relative bg-white dark:bg-neutral-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-neutral-100 dark:border-neutral-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-300 transform hover:-translate-y-2 text-center"
               >
                 <div className="relative mb-5 sm:mb-6">
-                  <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto rounded-full p-1 bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 shadow-lg group-hover:shadow-primary-500/30 transition-shadow duration-300">
-                    <div className="w-full h-full rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-800">
+                  <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto rounded-full p-1 bg-gradient-to-br from-primary-500 via-primary-500 to-primary-500 shadow-lg group-hover:shadow-primary-500/30 transition-shadow duration-300">
+                    <div className="w-full h-full rounded-full overflow-hidden ring-4 ring-white dark:ring-neutral-800">
                       <img
                         src={member.image}
                         alt={member.name}
@@ -263,16 +263,16 @@ const About = () => {
                       />
                     </div>
                   </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-md ring-4 ring-white dark:ring-gray-800">
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-md ring-4 ring-white dark:ring-neutral-800">
                     <member.icon size={16} className="text-white" />
                   </div>
                 </div>
                 <span className="inline-block px-3 py-1 mb-3 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
                   {member.badge}
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1.5">{member.name}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-1.5">{member.name}</h3>
                 <p className="text-primary-600 dark:text-primary-400 font-semibold text-sm mb-3">{member.position}</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{member.description}</p>
+                <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{member.description}</p>
               </div>
             ))}
           </div>
@@ -280,11 +280,11 @@ const About = () => {
       </section>
 
       {/* Company Timeline */}
-      <section className="py-16 sm:py-20 bg-white dark:bg-gray-800">
+      <section className="py-16 sm:py-20 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Journey</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Journey</h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               Key milestones in our path to becoming a trusted global technology partner
             </p>
           </div>
@@ -296,10 +296,10 @@ const About = () => {
               {milestones.map((milestone, index) => (
                 <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                   <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? 'pr-4 sm:pr-8 text-right' : 'pl-4 sm:pl-8 text-left'}`}>
-                    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
+                    <div className="bg-white dark:bg-neutral-900 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-neutral-700">
                       <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 mb-2">{milestone.year}</div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">{milestone.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">{milestone.description}</p>
+                      <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-2 sm:mb-3">{milestone.title}</h3>
+                      <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">{milestone.description}</p>
                     </div>
                   </div>
                   
@@ -318,11 +318,11 @@ const About = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose AiTechWorlds?</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Why Choose AiTechWorlds?</h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               We combine local expertise with global standards to deliver exceptional results
             </p>
           </div>
@@ -332,28 +332,28 @@ const About = () => {
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <Building size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Local Expertise</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Local Expertise</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
                 Hands-on experience across web, mobile, AI, and academic domains, honed on real client projects.
               </p>
             </div>
 
-            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-accent-50 to-accent-100 dark:from-accent-900/20 dark:to-accent-800/20 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-accent-500 to-accent-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 hover:shadow-lg transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <Globe size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Global Standards</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Global Standards</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
                 International best practices and cutting-edge technologies in every project.
               </p>
             </div>
 
-            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-secondary-50 to-secondary-100 dark:from-secondary-900/20 dark:to-secondary-800/20 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-secondary-500 to-secondary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 hover:shadow-lg transition-all duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <Award size={20} className="text-white sm:w-7 sm:h-7" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Proven Track Record</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Proven Track Record</h3>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
                 500+ successful projects and 99% client satisfaction rate speaks for our quality.
               </p>
             </div>
@@ -362,21 +362,21 @@ const About = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 dark:from-primary-800 dark:via-primary-900 dark:to-gray-900 text-white relative overflow-hidden">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 dark:from-primary-800 dark:via-primary-900 dark:to-neutral-900 text-white relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl"></div>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">Ready to Transform Your Business?</h2>
-          <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-gray-200 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-neutral-200 max-w-3xl mx-auto">
             Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               to="/contact" 
-              className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-900 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105"
             >
               Start Your Project <ArrowRight size={20} className="ml-2" />
             </Link>

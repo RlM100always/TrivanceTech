@@ -12,7 +12,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const search = url.searchParams.get('search');
 
   let query = 'SELECT * FROM clients';
-  const conditions: string[] = [];
+  const conditions: string[] = ['deleted_at IS NULL'];
   const bindings: string[] = [];
 
   if (status) {
@@ -24,7 +24,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const like = `%${search}%`;
     bindings.push(like, like, like);
   }
-  if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
+  query += ' WHERE ' + conditions.join(' AND ');
   query += ' ORDER BY last_login_at DESC';
 
   const { results } = await env.DB.prepare(query).bind(...bindings).all();

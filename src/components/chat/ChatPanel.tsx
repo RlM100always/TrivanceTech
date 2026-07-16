@@ -100,8 +100,8 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
         body: JSON.stringify({ driveFileId: uploaded.id, fileName: uploaded.name, mimeType: uploaded.mimeType }),
       });
       await sendMessage(`Shared a file: ${uploaded.name}`, uploaded.id, uploaded.name);
-    } catch {
-      // best-effort — surfaced via disabled state, no destructive error UI needed for MVP
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'File upload failed. Please try again.');
     } finally {
       setUploading(false);
     }

@@ -1,5 +1,6 @@
 import type { Env } from '../_lib/types';
 import { uuid } from '../_lib/http';
+import { verifyTurnstileToken } from '../_lib/turnstile';
 
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyOsTHVz9_mG0W9mPAKMjhjP92ypAtyQfj6qXmF_VKZRN5QSYvmo60LdYvmOh-lrNOotw/exec';
 
@@ -18,6 +19,7 @@ export const onRequestPost: PagesFunction<Env & { ORDER_FORM_SECRET?: string }> 
     description?: string;
     fileUrl?: string;
     budget?: string;
+    turnstileToken?: string;
   } | null;
 
   const name = body?.fullName?.trim();
@@ -28,6 +30,18 @@ export const onRequestPost: PagesFunction<Env & { ORDER_FORM_SECRET?: string }> 
     return new Response(
       JSON.stringify({ status: 'error', message: 'Full name, email and project description are required.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  const verified = await verifyTurnstileToken(
+    body?.turnstileToken,
+    env.TURNSTILE_SECRET_KEY,
+    request.headers.get('CF-Connecting-IP')
+  );
+  if (!verified) {
+    return new Response(
+      JSON.stringify({ status: 'error', message: 'Verification failed — please try again.' }),
+      { status: 401, headers: { 'Content-Type': 'application/json' } }
     );
   }
 

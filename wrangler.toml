@@ -8,6 +8,13 @@ database_name = "aitechworlds-db"
 database_id = "ab4139aa-ab4f-4e7f-b37a-f0138c298403"
 
 [vars]
-ADMIN_EMAILS = 'rakib100rlms@gmail.com'
+# GOOGLE_CLIENT_ID is not sensitive (it's shipped to the browser anyway) so it's fine
+# to keep as a plain var. ADMIN_EMAILS and SESSION_SECRET were previously committed
+# here in plaintext — that leaked the session-signing key, letting anyone with repo
+# access forge admin session cookies. They are now set as Cloudflare Pages secrets
+# instead (`wrangler pages secret put NAME`, or Cloudflare dashboard > Pages > your
+# project > Settings > Environment variables > "Secret" type). Never put them back here.
+# TURNSTILE_SECRET_KEY follows the same rule — set via `wrangler pages secret put
+# TURNSTILE_SECRET_KEY` with your real secret key from the Cloudflare Turnstile
+# dashboard before deploying; without it, spam-form verification is skipped entirely.
 GOOGLE_CLIENT_ID = '222990716349-q8pkufkl5lj6tqmu9e3fb40jg0fcsp49.apps.googleusercontent.com'
-SESSION_SECRET = '7Zfwc5CZ8TDzA5163Bq5aLqhrMj8FtoMQbZTsskqFg0='

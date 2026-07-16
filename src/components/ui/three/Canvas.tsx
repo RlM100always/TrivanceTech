@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useImperativeHandle, useMemo } from 'react';
 import * as THREE from 'three';
 import { useThree } from '../../hooks/useThree';
-import { Renderer, SceneManager } from '../../lib/three/core';
+import { Renderer, SceneManager, PostProcessingOptions } from '../../lib/three/core';
 
 export interface CanvasProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -9,6 +9,7 @@ export interface CanvasProps extends React.HTMLAttributes<HTMLDivElement> {
   scene?: THREE.Scene;
   rendererOptions?: ConstructorParameters<typeof Renderer>[0];
   sceneConfig?: ConstructorParameters<typeof SceneManager>[0]['config'];
+  postProcessing?: PostProcessingOptions;
   onInit?: (manager: SceneManager) => void;
   onRender?: (manager: SceneManager, delta: number, elapsed: number) => void;
   onResize?: (width: number, height: number) => void;
@@ -73,6 +74,7 @@ const {
       scene,
       rendererOptions,
       sceneConfig,
+      postProcessing,
       onInit,
       onRender,
       onResize,

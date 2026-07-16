@@ -32,7 +32,7 @@ const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({ onSignedIn }) =
     <div className="flex flex-col items-center gap-3">
       {!loaded && !error && (
         <div className="min-h-[44px] flex items-center justify-center">
-          <Loader2 className="animate-spin text-gray-400" size={20} />
+          <Loader2 className="animate-spin text-neutral-400" size={20} />
         </div>
       )}
       <div ref={containerRef} className={loaded ? '' : 'hidden'} />

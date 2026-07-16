@@ -22,8 +22,8 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
       style={{ opacity: intensity }}
     >
       <div className="aurora-blob aurora-blob--1 absolute -left-1/4 -top-1/4 h-[60vh] w-[60vh] rounded-full bg-primary-500/30 blur-3xl" />
-      <div className="aurora-blob aurora-blob--2 absolute -right-1/4 top-1/3 h-[55vh] w-[55vh] rounded-full bg-accent-500/25 blur-3xl" />
-      <div className="aurora-blob aurora-blob--3 absolute bottom-0 left-1/3 h-[50vh] w-[50vh] rounded-full bg-secondary-500/25 blur-3xl" />
+      <div className="aurora-blob aurora-blob--2 absolute -right-1/4 top-1/3 h-[55vh] w-[55vh] rounded-full bg-primary-500/25 blur-3xl" />
+      <div className="aurora-blob aurora-blob--3 absolute bottom-0 left-1/3 h-[50vh] w-[50vh] rounded-full bg-primary-500/25 blur-3xl" />
     </div>
   );
 };

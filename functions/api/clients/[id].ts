@@ -10,7 +10,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
 
   const clientId = params.id as string;
 
-  const client = await env.DB.prepare('SELECT * FROM clients WHERE id = ?').bind(clientId).first();
+  const client = await env.DB.prepare('SELECT * FROM clients WHERE id = ? AND deleted_at IS NULL').bind(clientId).first();
   if (!client) return notFound('Client not found');
 
   const { results: files } = await env.DB.prepare(
@@ -22,7 +22,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
   ).bind(clientId).all();
 
   const { results: orders } = await env.DB.prepare(
-    'SELECT * FROM orders WHERE client_id = ? ORDER BY created_at DESC'
+    'SELECT * FROM orders WHERE client_id = ? AND deleted_at IS NULL ORDER BY created_at DESC'
   ).bind(clientId).all();
 
   const { results: activity } = await env.DB.prepare(
@@ -39,7 +39,7 @@ export const onRequestPatch: PagesFunction<Env> = async ({ request, env, params 
   const clientId = params.id as string;
   const body = await request.json().catch(() => ({})) as { stage?: string; status?: string; notes?: string; company?: string; phone?: string };
 
-  const existing = await env.DB.prepare('SELECT stage FROM clients WHERE id = ?').bind(clientId).first<{ stage: string }>();
+  const existing = await env.DB.prepare('SELECT stage FROM clients WHERE id = ? AND deleted_at IS NULL').bind(clientId).first<{ stage: string }>();
   if (!existing) return notFound('Client not found');
 
   const updates: string[] = [];

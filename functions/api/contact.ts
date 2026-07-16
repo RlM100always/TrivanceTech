@@ -1,5 +1,6 @@
 import type { Env } from '../_lib/types';
-import { json, badRequest, uuid } from '../_lib/http';
+import { json, badRequest, unauthorized, uuid } from '../_lib/http';
+import { verifyTurnstileToken } from '../_lib/turnstile';
 
 // Public endpoint — the marketing Contact form POSTs here. No auth: anyone can
 // submit an inquiry. Stored as a `lead` so admins can triage/filter it.
@@ -13,11 +14,19 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     message?: string;
     source?: string;
     meta?: Record<string, unknown>;
+    turnstileToken?: string;
   } | null;
 
   if (!body?.name?.trim() || !body.email?.trim() || !body.message?.trim()) {
     return badRequest('name, email and message are required');
   }
+
+  const verified = await verifyTurnstileToken(
+    body.turnstileToken,
+    env.TURNSTILE_SECRET_KEY,
+    request.headers.get('CF-Connecting-IP')
+  );
+  if (!verified) return unauthorized('Verification failed — please try again.');
 
   const id = uuid();
   const source = body.source === 'order' ? 'order' : 'contact';

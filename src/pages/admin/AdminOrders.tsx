@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Search, Inbox, Mail, Phone, Building2, ExternalLink, Trash2 } from 'lucide-react';
+import { Search, Inbox, Mail, MessageCircle, Building2, ExternalLink, Trash2 } from 'lucide-react';
 import { api, Lead, Order } from '../../utils/adminApi';
 import { Card, PageHeader, Badge, Spinner, EmptyState, formatDate, money } from '../../components/admin/ui';
+import { whatsappLinkTo } from '../../utils/socialLinks';
 
 const LEAD_STATUSES = ['all', 'new', 'contacted', 'converted', 'closed'];
 const ORDER_STATUSES = ['all', 'draft', 'sent', 'paid', 'cancelled'];
@@ -113,9 +114,30 @@ const InquiriesTab: React.FC = () => {
 
                 <div className="mt-3 flex flex-col gap-1 text-xs text-gray-500 dark:text-gray-400">
                   <a href={`mailto:${l.email}`} className="flex items-center gap-1.5 hover:text-primary-600"><Mail size={13} />{l.email}</a>
-                  {l.phone && <span className="flex items-center gap-1.5"><Phone size={13} />{l.phone}</span>}
+                  {l.phone && (
+                    <a
+                      href={whatsappLinkTo(l.phone, `Hi ${l.name}, thanks for reaching out to AiTechWorlds! `)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-green-600 dark:text-green-400 hover:underline"
+                    >
+                      <MessageCircle size={13} />{l.phone}
+                    </a>
+                  )}
                   {l.company && <span className="flex items-center gap-1.5"><Building2 size={13} />{l.company}</span>}
                 </div>
+
+                {l.phone && (
+                  <a
+                    href={whatsappLinkTo(l.phone, `Hi ${l.name}, thanks for reaching out to AiTechWorlds! `)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center justify-center gap-2 w-full px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <MessageCircle size={15} />
+                    Message on WhatsApp
+                  </a>
+                )}
 
                 {meta && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
@@ -164,6 +186,12 @@ const OrdersTab: React.FC = () => {
     await api.patch(`/api/orders/${id}`, { status: newStatus }).catch(() => load());
   };
 
+  const remove = async (id: string) => {
+    if (!confirm('Delete this order?')) return;
+    setOrders((prev) => prev?.filter((o) => o.id !== id) ?? null);
+    await api.del(`/api/orders/${id}`).catch(() => load());
+  };
+
   return (
     <>
       <div className="flex gap-1 flex-wrap mb-4">
@@ -193,6 +221,7 @@ const OrdersTab: React.FC = () => {
                 <th className="px-4 py-3 font-medium">Amount</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 <th className="px-4 py-3 font-medium">Created</th>
+                <th className="px-4 py-3 font-medium"></th>
               </tr>
             </thead>
             <tbody>
@@ -211,6 +240,11 @@ const OrdersTab: React.FC = () => {
                     </select>
                   </td>
                   <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{formatDate(o.created_at)}</td>
+                  <td className="px-4 py-3">
+                    <button onClick={() => remove(o.id)} className="text-gray-300 hover:text-red-500 transition-colors" aria-label="Delete order">
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

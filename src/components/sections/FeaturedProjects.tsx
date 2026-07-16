@@ -12,8 +12,13 @@ const FeaturedProjects: React.FC = () => {
   const featuredProjects = projectsData.slice(0, 3);
 
   return (
-    <section className="bg-white py-16 dark:bg-gray-900 sm:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-neutral-950 py-20 sm:py-28">
+      {/* Depth for the mid-page dark band */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary-600/10 blur-3xl" />
+        <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Featured Work"
           eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
@@ -28,10 +33,10 @@ const FeaturedProjects: React.FC = () => {
             return (
               <StaggerItem key={project.id}>
                 <Tilt max={8} className="h-full">
-                  <SpotlightCard glowColor="rgba(37, 99, 235, 0.16)" className="h-full rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-gray-800">
-                    <div className="group overflow-hidden rounded-2xl border border-gray-100 transition-colors duration-300 hover:border-primary-300 dark:border-gray-700 dark:hover:border-primary-700">
+                  <SpotlightCard glowColor="rgba(37, 99, 235, 0.16)" className="h-full rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-neutral-800">
+                    <div className="group overflow-hidden rounded-2xl border border-neutral-100 transition-colors duration-300 hover:border-primary-300 dark:border-neutral-700 dark:hover:border-primary-700">
                       <Link to={`/projects/${project.id}`}>
-                        <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${isMobile ? 'flex h-48 items-center justify-center sm:h-56' : 'h-48 sm:h-56'}`}>
+                        <div className={`relative overflow-hidden bg-neutral-100 dark:bg-neutral-900 ${isMobile ? 'flex h-48 items-center justify-center sm:h-56' : 'h-48 sm:h-56'}`}>
                           <img
                             src={project.imageUrl}
                             alt={project.title}
@@ -57,12 +62,12 @@ const FeaturedProjects: React.FC = () => {
 
                       <div className="p-6">
                         <Link to={`/projects/${project.id}`}>
-                          <h3 className="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
+                          <h3 className="mb-3 line-clamp-2 text-xl font-bold text-neutral-900 transition-colors duration-300 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
                             {project.title}
                           </h3>
                         </Link>
 
-                        <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600 dark:text-gray-300">
+                        <p className="mb-4 line-clamp-3 leading-relaxed text-neutral-600 dark:text-neutral-300">
                           {project.description}
                         </p>
 
@@ -75,17 +80,17 @@ const FeaturedProjects: React.FC = () => {
                               <Star
                                 key={i}
                                 size={16}
-                                className={`${i < (project.rating || 0) ? 'fill-current text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                                className={`${i < (project.rating || 0) ? 'fill-current text-yellow-400' : 'text-neutral-300 dark:text-neutral-600'}`}
                               />
                             ))}
-                            <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span className="ml-2 text-sm text-neutral-500 dark:text-neutral-400">
                               ({project.rating || 0}/5)
                             </span>
                           </div>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                          <span className="text-sm text-neutral-500 dark:text-neutral-400">
                             {project.deliveryTime}
                           </span>
                           <Link

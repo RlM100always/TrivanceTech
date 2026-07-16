@@ -3,15 +3,16 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, Eye, Share2, Tag, HelpCircle, List, CheckCircle, ArrowRight } from 'lucide-react';
 import { blogPosts } from '../data/blogPosts';
 import SEO, { SITE_URL } from '../components/seo/SEO';
+import mermaid from 'mermaid';
 
 const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/<[^>]+>/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
+    text
+      .toLowerCase()
+      .replace(/<[^>]+>/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
 
-const extractHeadings = (html: string) => {
+  const extractHeadings = (html: string) => {
   const headings: { id: string; text: string }[] = [];
   const re = /<h2[^>]*>(.*?)<\/h2>/g;
   let m;
@@ -45,12 +46,26 @@ const BlogDetails: React.FC = () => {
   const headings = useMemo(() => (post ? extractHeadings(post.content) : []), [post]);
   const processedContent = useMemo(() => (post ? withHeadingIds(post.content) : ''), [post]);
 
+  useEffect(() => {
+    mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+
+    const pres = document.querySelectorAll('pre.mermaid');
+    pres.forEach((pre) => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = pre.textContent;
+      pre.replaceWith(div);
+    });
+
+    mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+  }, [processedContent]);
+
   if (!post) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Blog Post Not Found</h1>
+            <h1 className="text-3xl font-bold text-neutral-900 dark:text-white">Blog Post Not Found</h1>
             <Link
               to="/blog"
               className="mt-4 inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
@@ -113,10 +128,10 @@ const BlogDetails: React.FC = () => {
     .slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       {/* Reading progress */}
       <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-transparent">
-        <div className="h-full bg-gradient-to-r from-primary-600 to-accent-600 transition-all duration-150" style={{ width: `${progress}%` }} />
+        <div className="h-full bg-gradient-to-r from-primary-500 to-primary-700 transition-all duration-150" style={{ width: `${progress}%` }} />
       </div>
 
       <SEO
@@ -136,7 +151,7 @@ const BlogDetails: React.FC = () => {
       <header className="relative">
         <div className="absolute inset-0">
           <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-gray-900/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/70 to-neutral-900/30" />
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:pt-36 sm:pb-20">
           <Link
@@ -179,16 +194,16 @@ const BlogDetails: React.FC = () => {
           {/* Table of contents */}
           <aside className="hidden lg:block">
             <div className="sticky top-24">
-              <div className="flex items-center mb-4 text-gray-900 dark:text-white font-semibold">
+              <div className="flex items-center mb-4 text-neutral-900 dark:text-white font-semibold">
                 <List size={18} className="mr-2 text-primary-600 dark:text-primary-400" />
                 On this page
               </div>
-              <nav className="space-y-2 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+              <nav className="space-y-2 border-l-2 border-neutral-200 dark:border-neutral-700 pl-4">
                 {headings.map((h) => (
                   <a
                     key={h.id}
                     href={`#${h.id}`}
-                    className="block text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+                    className="block text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
                   >
                     {h.text}
                   </a>
@@ -196,7 +211,7 @@ const BlogDetails: React.FC = () => {
               </nav>
               <button
                 onClick={sharePost}
-                className="mt-8 flex items-center px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-lg shadow hover:shadow-md transition-all duration-200 text-sm font-medium"
+                className="mt-8 flex items-center px-4 py-2 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 rounded-lg shadow hover:shadow-md transition-all duration-200 text-sm font-medium"
               >
                 <Share2 size={16} className="mr-2" />
                 Share this article
@@ -212,7 +227,7 @@ const BlogDetails: React.FC = () => {
             />
 
             {/* Inline CTA */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-r from-primary-600 to-accent-600 p-8 text-white text-center shadow-xl">
+            <div className="mt-10 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-700 p-8 text-white text-center shadow-xl">
               <h3 className="text-2xl font-bold mb-3">Turn this insight into your next project</h3>
               <p className="text-white/90 mb-6 max-w-2xl mx-auto">
                 Whether you're starting from scratch or fixing what's already built, our remote-first team ships production-grade work — fast, transparent, and built around your goals.
@@ -220,7 +235,7 @@ const BlogDetails: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/contact"
-                  className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Talk to our team
                   <ArrowRight size={18} className="inline ml-2" />
@@ -237,8 +252,8 @@ const BlogDetails: React.FC = () => {
             {/* Tags */}
             <div className="mt-10">
               <div className="flex items-center mb-3">
-                <Tag size={20} className="text-gray-500 dark:text-gray-400 mr-2" />
-                <span className="text-gray-700 dark:text-gray-300 font-medium">Tagged with</span>
+                <Tag size={20} className="text-neutral-500 dark:text-neutral-400 mr-2" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-medium">Tagged with</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
@@ -254,19 +269,19 @@ const BlogDetails: React.FC = () => {
 
             {/* FAQ */}
             {post.faqs && post.faqs.length > 0 && (
-              <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+              <div className="mt-12 bg-white dark:bg-neutral-800 rounded-2xl shadow-lg p-8">
                 <div className="flex items-center mb-6">
                   <HelpCircle size={22} className="text-primary-600 dark:text-primary-400 mr-3" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+                  <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Frequently Asked Questions</h2>
                 </div>
                 <div className="space-y-4">
                   {post.faqs.map((faq, index) => (
-                    <div key={index} className="border border-gray-100 dark:border-gray-700 rounded-xl p-5">
-                      <p className="flex items-start font-semibold text-gray-900 dark:text-white mb-2">
+                    <div key={index} className="border border-neutral-100 dark:border-neutral-700 rounded-xl p-5">
+                      <p className="flex items-start font-semibold text-neutral-900 dark:text-white mb-2">
                         <CheckCircle size={18} className="text-primary-600 dark:text-primary-400 mr-2 mt-0.5 flex-shrink-0" />
                         {faq.question}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed pl-7">{faq.answer}</p>
+                      <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed pl-7">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -274,11 +289,11 @@ const BlogDetails: React.FC = () => {
             )}
 
             {/* Author bio */}
-            <div className="mt-10 flex items-center gap-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+            <div className="mt-10 flex items-center gap-4 bg-white dark:bg-neutral-800 rounded-2xl shadow-lg p-6">
               <img src={post.authorImage} alt={post.author} className="w-16 h-16 rounded-full flex-shrink-0" />
               <div>
-                <p className="font-semibold text-gray-900 dark:text-white">{post.author}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="font-semibold text-neutral-900 dark:text-white">{post.author}</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">
                   Engineer at AiTechWorlds — writing practical, no-hype guides drawn from real client work across web, mobile, AI, and security.
                 </p>
               </div>
@@ -288,11 +303,11 @@ const BlogDetails: React.FC = () => {
 
         {/* Related Posts */}
         <div className="mt-16">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Keep reading</h3>
+          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-8">Keep reading</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {relatedPosts.map((relatedPost) => (
               <Link key={relatedPost.id} to={`/blog/${relatedPost.id}`} className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
+                <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={relatedPost.featuredImage}
@@ -300,17 +315,17 @@ const BlogDetails: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-white/90 dark:bg-neutral-900/90 text-neutral-900 dark:text-white rounded-full text-sm font-medium">
                         {relatedPost.category}
                       </span>
                     </div>
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
-                    <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                    <h4 className="text-xl font-bold text-neutral-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                       {relatedPost.title}
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">{relatedPost.excerpt}</p>
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                    <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-4 line-clamp-3">{relatedPost.excerpt}</p>
+                    <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400 mt-auto">
                       <Calendar size={14} className="mr-1" />
                       {new Date(relatedPost.publishDate).toLocaleDateString()}
                       <Clock size={14} className="ml-3 mr-1" />
@@ -324,16 +339,16 @@ const BlogDetails: React.FC = () => {
         </div>
 
         {/* Newsletter */}
-        <div className="mt-16 rounded-2xl bg-white dark:bg-gray-800 shadow-xl p-8 md:p-12 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Get the next guide in your inbox</h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-xl mx-auto">
+        <div className="mt-16 rounded-2xl bg-white dark:bg-neutral-800 shadow-xl p-8 md:p-12 text-center">
+          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-3">Get the next guide in your inbox</h3>
+          <p className="text-neutral-600 dark:text-neutral-300 mb-6 max-w-xl mx-auto">
             Practical, no-fluff insights on web, mobile, AI, and security — the kind we wish more teams had before they started.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="you@company.com"
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="flex-1 px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
             <Link
               to="/contact"

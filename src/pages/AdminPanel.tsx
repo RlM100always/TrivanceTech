@@ -100,17 +100,17 @@ const AdminPanel = () => {
   const openCount = conversations.filter((c) => c.status === 'open').length;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       <SEO title="Admin — Client Management" description="AiTechWorlds admin panel for client management and support chat." path="/admin" />
 
       {/* Top bar */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 flex items-center justify-between">
-        <h1 className="font-bold text-gray-900 dark:text-white">Admin Panel</h1>
+      <div className="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 px-4 sm:px-6 py-3 flex items-center justify-between">
+        <h1 className="font-bold text-neutral-900 dark:text-white">Admin Panel</h1>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500 dark:text-gray-400 hidden sm:inline">{user?.email}</span>
+          <span className="text-sm text-neutral-500 dark:text-neutral-400 hidden sm:inline">{user?.email}</span>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
           >
             <LogOut size={14} />
             Sign Out
@@ -120,48 +120,48 @@ const AdminPanel = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 px-4 sm:px-6 py-4 max-w-7xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center gap-3 shadow-sm">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl p-4 flex items-center gap-3 shadow-sm">
           <Users className="text-primary-600 dark:text-primary-400" size={20} />
           <div>
-            <p className="text-xl font-bold text-gray-900 dark:text-white">{uniqueClientCount}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Clients</p>
+            <p className="text-xl font-bold text-neutral-900 dark:text-white">{uniqueClientCount}</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">Clients</p>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center gap-3 shadow-sm">
-          <MessageSquare className="text-accent-600 dark:text-accent-400" size={20} />
+        <div className="bg-white dark:bg-neutral-800 rounded-xl p-4 flex items-center gap-3 shadow-sm">
+          <MessageSquare className="text-primary-600 dark:text-primary-400" size={20} />
           <div>
-            <p className="text-xl font-bold text-gray-900 dark:text-white">{openCount}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Open Conversations</p>
+            <p className="text-xl font-bold text-neutral-900 dark:text-white">{openCount}</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">Open Conversations</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 grid grid-cols-1 lg:grid-cols-[300px_1fr_280px] gap-4">
         {/* Inbox list */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden flex flex-col max-h-[70vh]">
-          <div className="p-3 border-b border-gray-100 dark:border-gray-700">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm overflow-hidden flex flex-col max-h-[70vh]">
+          <div className="p-3 border-b border-neutral-100 dark:border-neutral-700">
             <div className="relative">
-              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search clients..."
-                className="w-full pl-8 pr-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-8 pr-3 py-2 text-sm rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">
             {loading ? (
-              <div className="flex justify-center py-8"><Loader2 className="animate-spin text-gray-400" size={20} /></div>
+              <div className="flex justify-center py-8"><Loader2 className="animate-spin text-neutral-400" size={20} /></div>
             ) : filtered.length === 0 ? (
-              <p className="text-center text-sm text-gray-400 py-8">No conversations yet</p>
+              <p className="text-center text-sm text-neutral-400 py-8">No conversations yet</p>
             ) : (
               filtered.map((conv) => (
                 <button
                   key={conv.id}
                   onClick={() => setSelected(conv)}
-                  className={`w-full text-left px-4 py-3 border-b border-gray-50 dark:border-gray-700/50 transition-colors ${
-                    selected?.id === conv.id ? 'bg-primary-50 dark:bg-primary-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/40'
+                  className={`w-full text-left px-4 py-3 border-b border-neutral-50 dark:border-neutral-700/50 transition-colors ${
+                    selected?.id === conv.id ? 'bg-primary-50 dark:bg-primary-900/20' : 'hover:bg-neutral-50 dark:hover:bg-neutral-700/40'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -173,8 +173,8 @@ const AdminPanel = () => {
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{conv.client_name}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{conv.subject}</p>
+                      <p className="text-sm font-semibold text-neutral-900 dark:text-white truncate">{conv.client_name}</p>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">{conv.subject}</p>
                     </div>
                   </div>
                 </button>
@@ -187,28 +187,28 @@ const AdminPanel = () => {
         {selected ? (
           <ChatPanel conversationId={selected.id} className="max-h-[70vh]" />
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm flex items-center justify-center max-h-[70vh] min-h-[300px]">
-            <p className="text-gray-400 text-sm">Select a conversation to view messages</p>
+          <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm flex items-center justify-center max-h-[70vh] min-h-[300px]">
+            <p className="text-neutral-400 text-sm">Select a conversation to view messages</p>
           </div>
         )}
 
         {/* Client detail sidebar */}
         {clientDetail && (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-4 space-y-4 max-h-[70vh] overflow-y-auto">
+          <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm p-4 space-y-4 max-h-[70vh] overflow-y-auto">
             <div className="text-center">
               {clientDetail.client.avatar_url && (
                 <img src={clientDetail.client.avatar_url} alt="" className="w-14 h-14 rounded-full mx-auto mb-2" />
               )}
-              <p className="font-semibold text-gray-900 dark:text-white">{clientDetail.client.name}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{clientDetail.client.email}</p>
+              <p className="font-semibold text-neutral-900 dark:text-white">{clientDetail.client.name}</p>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">{clientDetail.client.email}</p>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Status</label>
+              <label className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase">Status</label>
               <select
                 value={clientDetail.client.status}
                 onChange={(e) => updateClientStatus(e.target.value)}
-                className="w-full mt-1 px-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full mt-1 px-3 py-2 text-sm rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-900 dark:text-white"
               >
                 <option value="active">Active</option>
                 <option value="archived">Archived</option>
@@ -216,24 +216,24 @@ const AdminPanel = () => {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Internal Notes</label>
+              <label className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase">Internal Notes</label>
               <textarea
                 value={notesDraft}
                 onChange={(e) => setNotesDraft(e.target.value)}
                 onBlur={saveNotes}
                 rows={4}
                 placeholder="Private notes, not visible to client..."
-                className="w-full mt-1 px-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white resize-none"
+                className="w-full mt-1 px-3 py-2 text-sm rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-900 dark:text-white resize-none"
               />
-              {savingNotes && <p className="text-xs text-gray-400 mt-1">Saving…</p>}
+              {savingNotes && <p className="text-xs text-neutral-400 mt-1">Saving…</p>}
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase flex items-center gap-1">
+              <label className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase flex items-center gap-1">
                 <FileText size={12} /> Shared Files
               </label>
               {clientDetail.files.length === 0 ? (
-                <p className="text-xs text-gray-400 mt-1">No files shared yet</p>
+                <p className="text-xs text-neutral-400 mt-1">No files shared yet</p>
               ) : (
                 <ul className="mt-1 space-y-1">
                   {clientDetail.files.map((f) => (

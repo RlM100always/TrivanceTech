@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
+import ServiceDetails from './pages/ServiceDetails';
 import Products from './pages/Products';
 import Blog from './pages/Blog';
 import Projects from './pages/Projects';
@@ -36,7 +37,7 @@ function App() {
         <Route path="Business" element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="services" element={<Services />} />
-        <Route path="services/:category" element={<Services />} />
+        <Route path="services/:slug" element={<ServiceDetails />} />
         <Route path="products" element={<Products />} />
         <Route path="products/:category" element={<Products />} />
         <Route path="blog" element={<Blog />} />

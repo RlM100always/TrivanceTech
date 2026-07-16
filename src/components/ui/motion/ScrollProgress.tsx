@@ -15,7 +15,7 @@ const ScrollProgress: React.FC = () => {
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-gradient-to-r from-primary-500 via-accent-500 to-secondary-500"
+      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-gradient-to-r from-primary-500 via-primary-500 to-primary-500"
       aria-hidden
     />
   );

@@ -47,7 +47,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 sm:py-20">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-16 sm:py-20">
       <SEO
         title="Our Portfolio — Real Web, Mobile & AI Projects"
         description="Browse real client projects delivered by AiTechWorlds — web platforms, Android apps, and academic software, with live demos and Play Store links."
@@ -68,19 +68,19 @@ const Projects = () => {
           <div className="flex flex-col lg:flex-row gap-4 lg:items-center justify-between">
             <div className="relative max-w-md w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search size={20} className="text-gray-400" />
+                <Search size={20} className="text-neutral-400" />
               </div>
               <input
                 type="text"
                 placeholder="Search projects..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                className="w-full pl-10 pr-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             
             <div className="flex flex-wrap gap-2 lg:gap-4">
-              <div className="text-sm text-gray-600 dark:text-gray-300 flex items-center mr-2">
+              <div className="text-sm text-neutral-600 dark:text-neutral-300 flex items-center mr-2">
                 <Filter size={16} className="mr-1" />
                 <span>Filter by:</span>
               </div>
@@ -91,7 +91,7 @@ const Projects = () => {
                   className={`px-4 py-2 text-sm rounded-lg transition-colors duration-200 ${
                     activeCategory === category.id
                       ? 'bg-primary-600 text-white shadow-lg'
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                      : 'bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700'
                   }`}
                 >
                   {category.name}
@@ -110,11 +110,11 @@ const Projects = () => {
           </div>
         ) : (
           <div className="text-center py-16 sm:py-20">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search size={32} className="text-gray-400 sm:w-10 sm:h-10" />
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search size={32} className="text-neutral-400 sm:w-10 sm:h-10" />
             </div>
-            <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">Try adjusting your search criteria or browse all categories.</p>
+            <h3 className="text-xl sm:text-2xl font-medium text-neutral-900 dark:text-white mb-2">No projects found</h3>
+            <p className="text-neutral-600 dark:text-neutral-300 mb-6">Try adjusting your search criteria or browse all categories.</p>
             <button
               onClick={() => {
                 setActiveCategory('all');

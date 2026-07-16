@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { Renderer } from './Renderer';
+import { Renderer, createRenderer } from './Renderer';
+import { createEffectComposer, ComposerPasses, resizeComposer, PostProcessingOptions } from './PostProcessing';
 
 export interface SceneManagerOptions {
   renderer?: Renderer;
@@ -8,6 +9,7 @@ export interface SceneManagerOptions {
   onBeforeRender?: (renderer: Renderer, scene: THREE.Scene, camera: THREE.Camera, delta: number, elapsed: number) => void;
   onAfterRender?: (renderer: Renderer, scene: THREE.Scene, camera: THREE.Camera, delta: number, elapsed: number) => void;
   autoResize?: boolean;
+  postProcessing?: PostProcessingOptions;
 }
 
 export class SceneManager {
@@ -17,6 +19,8 @@ export class SceneManager {
   private onBeforeRender: SceneManagerOptions['onBeforeRender'];
   private onAfterRender: SceneManagerOptions['onAfterRender'];
   private autoResize: boolean;
+  private composer: ComposerPasses | null = null;
+  private postProcessingOptions: PostProcessingOptions | undefined;
   private resizeObserver: ResizeObserver | null = null;
   private container: HTMLElement | null = null;
   private animationId: number | null = null;
@@ -33,11 +37,19 @@ export class SceneManager {
     this.onBeforeRender = options.onBeforeRender;
     this.onAfterRender = options.onAfterRender;
     this.autoResize = options.autoResize ?? true;
+    this.postProcessingOptions = options.postProcessing;
   }
 
   public initialize(container: HTMLElement): void {
     this.container = container;
     container.appendChild(this.renderer.getCanvas());
+
+    if (this.postProcessingOptions && this.postProcessingOptions.enabled !== false) {
+      this.composer = createEffectComposer(this.renderer, this.postProcessingOptions);
+      // Replace the internal scene and camera with the manager's
+      this.composer.renderPass.scene = this.scene;
+      this.composer.renderPass.camera = this.camera;
+    }
 
     if (this.autoResize) {
       this.setupResizeObserver();
@@ -62,6 +74,10 @@ export class SceneManager {
     if (this.camera instanceof THREE.PerspectiveCamera) {
       this.camera.aspect = width / height;
       this.camera.updateProjectionMatrix();
+    }
+
+    if (this.composer) {
+      resizeComposer(this.composer, width, height);
     }
 
     this.resizeCallbacks.forEach((callback) => callback(width, height));
@@ -117,7 +133,11 @@ export class SceneManager {
       this.onBeforeRender(this.renderer, this.scene, this.camera, delta, elapsed);
     }
 
-    this.renderer.render(this.scene, this.camera);
+    if (this.composer) {
+      this.composer.render(delta);
+    } else {
+      this.renderer.render(this.scene, this.camera);
+    }
 
     if (this.onAfterRender) {
       this.onAfterRender(this.renderer, this.scene, this.camera, delta, elapsed);
@@ -146,6 +166,14 @@ export class SceneManager {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
+    }
+
+    if (this.composer) {
+      this.composer.passes.forEach(pass => {
+        if (pass.dispose) pass.dispose();
+      });
+      if (this.composer.renderTarget) this.composer.renderTarget.dispose();
+      this.composer = null;
     }
 
     this.resizeCallbacks = [];
@@ -208,6 +236,10 @@ export class SceneManager {
       this.scene.remove(child);
       this.disposeObject(child);
     }
+  }
+
+  public getComposer(): ComposerPasses | null {
+    return this.composer;
   }
 
   private disposeObject(object: THREE.Object3D): void {

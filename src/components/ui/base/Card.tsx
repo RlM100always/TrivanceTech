@@ -11,7 +11,7 @@ const cardVariants = cva(
         elevated: 'rounded-2xl shadow-lg hover:shadow-xl',
         outlined: 'rounded-2xl border-2 border-neutral-200 dark:border-neutral-700',
         glass: 'rounded-2xl bg-white/10 dark:bg-neutral-900/10 backdrop-blur-xl border-white/20 dark:border-neutral-800/20',
-        gradient: 'rounded-2xl bg-gradient-to-br from-primary-500/10 via-transparent to-secondary-500/10 border-primary-500/20 dark:from-primary-500/20 dark:to-secondary-500/20',
+        gradient: 'rounded-2xl bg-gradient-to-br from-primary-500/10 via-transparent to-primary-500/10 border-primary-500/20 dark:from-primary-500/20 dark:to-primary-500/20',
         interactive: 'rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 cursor-pointer',
         featured: 'rounded-2xl shadow-xl border-primary-500/30 bg-gradient-to-br from-primary-500/5 to-transparent',
       },

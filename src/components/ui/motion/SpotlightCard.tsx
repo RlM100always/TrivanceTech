@@ -34,7 +34,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
     <div
       ref={ref}
       onMouseMove={handleMove}
-      className={`group relative overflow-hidden rounded-2xl border border-gray-200/70 dark:border-white/10 transition-colors duration-300 ${className}`}
+      className={`group relative overflow-hidden rounded-2xl border border-neutral-200/70 dark:border-white/10 transition-colors duration-300 ${className}`}
       style={{ '--mx': '50%', '--my': '50%' } as React.CSSProperties}
     >
       <div

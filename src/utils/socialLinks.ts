@@ -10,11 +10,19 @@ export const SOCIAL_LINKS = {
   quora: 'https://www.quora.com/profile/AiTechWorlds',
 } as const;
 
-export const CONTACT_EMAIL = 'contact@aitechworlds.com';
+export const CONTACT_EMAIL = 'infoaitechworlds@gmail.com';
 
 export const WHATSAPP_NUMBER = '8801825008451';
 
 export const whatsappChatLink = (message?: string): string => {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+};
+
+// Build a wa.me link to any number (e.g. a client's WhatsApp captured on the
+// contact/order form) so an admin can click through to message them directly.
+export const whatsappLinkTo = (rawNumber: string, message?: string): string => {
+  const digits = rawNumber.replace(/[^\d]/g, '');
+  const base = `https://wa.me/${digits}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 };

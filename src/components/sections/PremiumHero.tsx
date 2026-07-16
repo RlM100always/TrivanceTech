@@ -59,11 +59,11 @@ const PremiumHero: React.FC = () => {
   ];
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 dark:from-gray-950 dark:via-primary-950 dark:to-primary-900">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-900 via-primary-900 to-primary-800 dark:from-neutral-950 dark:via-primary-950 dark:to-primary-900">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/90 to-gray-900/90 dark:from-primary-950/95 dark:to-gray-950/95" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/90 to-neutral-900/90 dark:from-primary-950/95 dark:to-neutral-950/95" />
 
         {/* Premium Three.js constellation layer — lazy-loaded, skipped for reduced-motion/no-WebGL */}
         <HeroScene className="absolute inset-0 opacity-70" />
@@ -71,7 +71,7 @@ const PremiumHero: React.FC = () => {
         {/* Drifting aurora */}
         <div className="absolute inset-0">
           <div className="aurora-blob absolute -left-1/4 top-0 h-[55vh] w-[55vh] rounded-full bg-primary-500/20 blur-3xl" />
-          <div className="aurora-blob absolute -right-1/4 bottom-0 h-[55vh] w-[55vh] rounded-full bg-accent-500/20 blur-3xl" style={{ animationDirection: 'reverse' }} />
+          <div className="aurora-blob absolute -right-1/4 bottom-0 h-[55vh] w-[55vh] rounded-full bg-primary-500/20 blur-3xl" style={{ animationDirection: 'reverse' }} />
         </div>
 
         {/* Deterministic floating particles */}
@@ -112,13 +112,13 @@ const PremiumHero: React.FC = () => {
             className="mb-4 px-2 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
           >
             Empowering the Future with
-            <span className="mt-2 block bg-gradient-to-r from-primary-400 via-accent-400 to-primary-300 bg-clip-text text-transparent animate-gradient-x">
+            <span className="mt-2 block bg-gradient-to-r from-primary-400 via-primary-400 to-primary-300 bg-clip-text text-transparent animate-gradient-x">
               Innovative Software Solutions
             </span>
           </motion.h1>
 
           {/* Dynamic Subheading */}
-          <motion.div variants={fadeUp} className="mb-2 h-8 px-4 text-lg text-gray-200 sm:mb-4 md:text-2xl">
+          <motion.div variants={fadeUp} className="mb-2 h-8 px-4 text-lg text-neutral-200 sm:mb-4 md:text-2xl">
             <span>Trusted by </span>
             <span className="relative inline-block">
               <AnimatePresence mode="wait">
@@ -138,7 +138,7 @@ const PremiumHero: React.FC = () => {
 
           <motion.p
             variants={fadeUp}
-            className="mb-8 max-w-3xl px-4 text-base leading-relaxed text-gray-300 sm:mb-12 md:text-xl"
+            className="mb-8 max-w-3xl px-4 text-base leading-relaxed text-neutral-300 sm:mb-12 md:text-xl"
           >
             Remote-first, we deliver cutting-edge web development, mobile applications,
             digital transformation services, university projects, thesis, assignments, and UI/UX design that drive success globally.
@@ -178,7 +178,7 @@ const PremiumHero: React.FC = () => {
                   <stat.icon className="h-6 w-6 text-primary-400 sm:h-8 sm:w-8" />
                 </div>
                 <div className="mb-1 text-2xl font-bold text-white sm:mb-2 sm:text-3xl">{stat.value}</div>
-                <div className="text-xs text-gray-300 sm:text-sm">{stat.label}</div>
+                <div className="text-xs text-neutral-300 sm:text-sm">{stat.label}</div>
               </div>
             ))}
           </motion.div>

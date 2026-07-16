@@ -18,10 +18,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <Reveal className="h-full">
       <Tilt max={8} className="h-full">
-        <SpotlightCard glowColor="rgba(37, 99, 235, 0.16)" className="h-full rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-gray-800">
-          <div className="group overflow-hidden rounded-2xl border border-gray-100 transition-colors duration-300 hover:border-primary-200 dark:border-gray-700 dark:hover:border-primary-700">
+        <SpotlightCard glowColor="rgba(37, 99, 235, 0.16)" className="h-full rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-neutral-800">
+          <div className="group overflow-hidden rounded-2xl border border-neutral-100 transition-colors duration-300 hover:border-primary-200 dark:border-neutral-700 dark:hover:border-primary-700">
             <Link to={`/projects/${project.id}`}>
-              <div className={`relative overflow-hidden bg-gray-100 dark:bg-gray-900 ${isMobileApp ? 'flex h-56 items-center justify-center sm:h-64' : 'h-48 sm:h-56'}`}>
+              <div className={`relative overflow-hidden bg-neutral-100 dark:bg-neutral-900 ${isMobileApp ? 'flex h-56 items-center justify-center sm:h-64' : 'h-48 sm:h-56'}`}>
                 <img
                   src={project.imageUrl}
                   alt={project.title}
@@ -47,23 +47,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             <div className="p-5 sm:p-6">
               <Link to={`/projects/${project.id}`}>
-                <h3 className="mb-3 line-clamp-2 text-lg font-semibold text-gray-900 transition-colors duration-200 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 sm:text-xl">
+                <h3 className="mb-3 line-clamp-2 text-lg font-semibold text-neutral-900 transition-colors duration-200 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 sm:text-xl">
                   {project.title}
                 </h3>
               </Link>
 
               <div className="mb-4 space-y-2">
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-300">
                   <Tag size={16} className="mr-2 flex-shrink-0 text-primary-500" />
                   <span className="truncate">{project.type}</span>
                 </div>
 
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-300">
                   <User size={16} className="mr-2 flex-shrink-0 text-primary-500" />
                   <span className="truncate">{project.clientName}</span>
                 </div>
 
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-300">
                   <Clock size={16} className="mr-2 flex-shrink-0 text-primary-500" />
                   <span>{project.deliveryTime}</span>
                 </div>
@@ -76,10 +76,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <Star
                       key={i}
                       size={16}
-                      className={`${i < (project.rating || 0) ? 'fill-current text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                      className={`${i < (project.rating || 0) ? 'fill-current text-yellow-400' : 'text-neutral-300 dark:text-neutral-600'}`}
                     />
                   ))}
-                  <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
+                  <span className="ml-2 text-sm text-neutral-600 dark:text-neutral-300">
                     ({project.rating || 0}/5)
                   </span>
                 </div>
@@ -92,7 +92,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               </div>
 
               {project.review && (
-                <div className="border-t border-gray-100 pt-4 dark:border-gray-700">
+                <div className="border-t border-neutral-100 pt-4 dark:border-neutral-700">
                   <button
                     onClick={() => setShowReview(!showReview)}
                     className="mb-2 text-sm font-medium text-primary-600 transition-colors hover:text-primary-700 focus:outline-none dark:text-primary-400 dark:hover:text-primary-300"
@@ -101,8 +101,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                   </button>
 
                   {showReview && (
-                    <div className="mt-3 rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
-                      <p className="text-sm italic leading-relaxed text-gray-600 dark:text-gray-300">
+                    <div className="mt-3 rounded-lg bg-neutral-50 p-3 dark:bg-neutral-700">
+                      <p className="text-sm italic leading-relaxed text-neutral-600 dark:text-neutral-300">
                         "{project.review}"
                       </p>
                     </div>

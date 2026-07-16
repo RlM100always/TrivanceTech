@@ -39,7 +39,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
     return (
       <>
         {parts[0]}
-        <span className="bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent dark:from-primary-400 dark:to-accent-400">
+        <span className="bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent dark:from-primary-300 dark:to-primary-500">
           {highlight}
         </span>
         {parts[1]}
@@ -55,12 +55,12 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
+      <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl md:text-5xl">
         {renderTitle()}
       </h2>
       {align === 'center' && (
         <motion.span
-          className="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-primary-500 to-accent-500"
+          className="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-primary-400 to-primary-600"
           initial={{ scaleX: 0, opacity: 0 }}
           whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.6 }}
@@ -69,7 +69,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
         />
       )}
       {description && (
-        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-gray-600 dark:text-gray-300 sm:text-xl">
+        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-xl">
           {description}
         </p>
       )}

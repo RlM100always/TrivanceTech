@@ -8,6 +8,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
 export interface PostProcessingOptions {
+  enabled?: boolean;
   enableBloom?: boolean;
   bloomStrength?: number;
   bloomRadius?: number;
@@ -25,14 +26,15 @@ export interface ComposerPasses {
   fxaaPass?: FXAAPass;
   smaaPass?: SMAAPass;
   outputPass?: OutputPass;
+  render: (delta?: number) => void;
 }
 
 export function createEffectComposer(
-  renderer: THREE.WebGLRenderer,
-  scene: THREE.Scene,
-  camera: THREE.Camera,
+  renderer: Renderer,
   options: PostProcessingOptions = {}
 ): ComposerPasses {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
   const {
     enableBloom = false,
     bloomStrength = 1.5,
@@ -96,7 +98,7 @@ export function createEffectComposer(
     composer.addPass(outputPass);
   }
 
-  return { composer, renderPass, bloomPass, fxaaPass, smaaPass, outputPass };
+  return { composer, renderPass, bloomPass, fxaaPass, smaaPass, outputPass, render: () => composer.render() };
 }
 
 export function resizeComposer(composer: EffectComposer, width: number, height: number): void {

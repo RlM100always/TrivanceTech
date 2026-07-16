@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
 import { Renderer } from '../lib/three/core/Renderer';
 import { SceneManager } from '../lib/three/core/SceneManager';
+import { PostProcessingOptions } from '../lib/three/core/PostProcessing';
 import { checkWebGLSupport, checkReducedMotion, getDevicePixelRatio } from '../lib/three/core/Renderer';
 
 export interface UseThreeOptions {
@@ -10,6 +11,7 @@ export interface UseThreeOptions {
   scene?: THREE.Scene;
   rendererOptions?: ConstructorParameters<typeof Renderer>[0];
   sceneConfig?: ConstructorParameters<typeof SceneManager>[0]['config'];
+  postProcessing?: PostProcessingOptions;
   onInit?: (manager: SceneManager) => void;
   onRender?: (manager: SceneManager, delta: number, elapsed: number) => void;
   onResize?: (width: number, height: number) => void;
@@ -44,6 +46,7 @@ export function useThree(options: UseThreeOptions = {}): UseThreeReturn {
     scene: customScene,
     rendererOptions,
     sceneConfig,
+    postProcessing,
     onInit,
     onRender,
     onResize,
@@ -84,6 +87,7 @@ export function useThree(options: UseThreeOptions = {}): UseThreeReturn {
     const managerInstance = new SceneManager({
       renderer,
       config: sceneConfig,
+      postProcessing,
       onBeforeRender: onRender
         ? () => onRender(managerInstance, managerInstance.getDelta(), managerInstance.getElapsedTime())
         : undefined,

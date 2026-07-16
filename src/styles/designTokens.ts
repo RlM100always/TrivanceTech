@@ -156,7 +156,7 @@ export const designTokens = {
     fontFamily: {
       sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
-      display: ['Cal Sans', 'Inter', 'system-ui', 'sans-serif'],
+      display: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1.5' }],

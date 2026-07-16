@@ -11,9 +11,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 
   let query =
     `SELECT orders.*, clients.name as client_name, clients.email as client_email
-     FROM orders JOIN clients ON clients.id = orders.client_id`;
+     FROM orders JOIN clients ON clients.id = orders.client_id
+     WHERE orders.deleted_at IS NULL`;
   const bindings: string[] = [];
-  if (status && status !== 'all') { query += ' WHERE orders.status = ?'; bindings.push(status); }
+  if (status && status !== 'all') { query += ' AND orders.status = ?'; bindings.push(status); }
   query += ' ORDER BY orders.created_at DESC';
 
   const { results } = await env.DB.prepare(query).bind(...bindings).all();

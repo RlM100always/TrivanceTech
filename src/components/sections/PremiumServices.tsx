@@ -14,76 +14,61 @@ interface PremiumServicesProps {
 const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
   const [expandedService, setExpandedService] = useState<number | null>(null);
 
+  // Mono system: every card shares the single brand hue. Icons stay distinct by
+  // shape, not colour — that's the premium (Linear/Vercel) register.
+  const ICON_GRADIENT = 'from-primary-500 to-primary-700';
+  const ICON_TEXT = 'text-primary-600 dark:text-primary-400';
+  const ICON_GLOW = 'rgba(99, 102, 241, 0.18)';
+
   const services = [
     {
       icon: Code,
       title: 'Web Development',
       description: 'Custom websites and web applications built with cutting-edge technologies',
       features: ['Responsive Design', 'Modern Frameworks', 'SEO Optimization', 'Performance Focused'],
-      color: 'from-blue-500 to-blue-700',
-      textColor: 'text-blue-600 dark:text-blue-400',
-      glow: 'rgba(59, 130, 246, 0.18)',
     },
     {
       icon: Smartphone,
       title: 'Mobile Development',
       description: 'Native and cross-platform mobile applications for iOS and Android',
       features: ['Native iOS & Android', 'Cross-platform Solutions', 'UI/UX Excellence', 'App Store Optimization'],
-      color: 'from-purple-500 to-purple-700',
-      textColor: 'text-purple-600 dark:text-purple-400',
-      glow: 'rgba(168, 85, 247, 0.18)',
     },
     {
       icon: Brain,
       title: 'AI & Machine Learning',
       description: 'Intelligent solutions powered by artificial intelligence',
       features: ['Custom AI Models', 'Data Analytics', 'Automation', 'Predictive Analysis'],
-      color: 'from-orange-500 to-orange-700',
-      textColor: 'text-orange-600 dark:text-orange-400',
-      glow: 'rgba(249, 115, 22, 0.18)',
     },
     {
       icon: Shield,
       title: 'Cybersecurity',
       description: 'Comprehensive security solutions and vulnerability assessments',
       features: ['Security Audits', 'Penetration Testing', 'Compliance', 'Risk Assessment'],
-      color: 'from-red-500 to-red-700',
-      textColor: 'text-red-600 dark:text-red-400',
-      glow: 'rgba(239, 68, 68, 0.18)',
     },
     {
       icon: Database,
       title: 'Database Solutions',
       description: 'Robust database design, optimization, and management',
       features: ['Database Design', 'Performance Tuning', 'Data Migration', 'Backup Solutions'],
-      color: 'from-indigo-500 to-indigo-700',
-      textColor: 'text-indigo-600 dark:text-indigo-400',
-      glow: 'rgba(99, 102, 241, 0.18)',
     },
     {
       icon: GraduationCap,
       title: 'Academic Projects & Thesis',
       description: 'Professional assistance for university students with projects, thesis, and assignments',
       features: ['Research Projects', 'Thesis Writing', 'Assignment Help', 'Academic Consultation'],
-      color: 'from-teal-500 to-teal-700',
-      textColor: 'text-teal-600 dark:text-teal-400',
-      glow: 'rgba(20, 184, 166, 0.18)',
     },
     {
       icon: Palette,
       title: 'UI & UX Design',
       description: 'Beautiful and intuitive user interfaces that deliver exceptional user experiences',
       features: ['User Research', 'Wireframing', 'Interactive Prototypes', 'Design Systems'],
-      color: 'from-pink-500 to-pink-700',
-      textColor: 'text-pink-600 dark:text-pink-400',
-      glow: 'rgba(236, 72, 153, 0.18)',
     },
-  ];
+  ].map((s) => ({ ...s, color: ICON_GRADIENT, textColor: ICON_TEXT, glow: ICON_GLOW }));
 
   const visibleServices = limit ? services.slice(0, limit) : services;
 
   return (
-    <section className="overflow-hidden bg-gray-50 py-16 dark:bg-gray-800 sm:py-20">
+    <section className="overflow-hidden bg-neutral-50 py-16 dark:bg-neutral-900 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Our Expertise"
@@ -107,8 +92,8 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
           {visibleServices.map((service, index) => (
             <StaggerItem key={index}>
               <Tilt max={8} className="h-full">
-                <SpotlightCard glowColor={service.glow} className="h-full bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-gray-900">
-                  <div className="group relative h-full overflow-hidden rounded-2xl border border-gray-100 transition-colors duration-300 hover:border-blue-400/60 dark:border-gray-700">
+                <SpotlightCard glowColor={service.glow} className="h-full bg-white shadow-lg transition-all duration-500 hover:shadow-2xl dark:bg-neutral-900">
+                  <div className="group relative h-full overflow-hidden rounded-2xl border border-neutral-200 transition-colors duration-300 hover:border-primary-400/60 dark:border-neutral-700">
                     {/* Gradient Background */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 transition-opacity duration-500 pointer-events-none group-hover:opacity-5`}
@@ -123,11 +108,11 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
                         <service.icon size={24} className="text-white sm:h-7 sm:w-7" />
                       </div>
 
-                      <h3 className="mb-3 text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400 sm:mb-4 sm:text-2xl">
+                      <h3 className="mb-3 text-lg font-bold text-neutral-900 transition-colors duration-300 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400 sm:mb-4 sm:text-2xl">
                         {service.title}
                       </h3>
 
-                      <p className="mb-4 leading-relaxed text-sm text-gray-600 dark:text-gray-300 sm:mb-6 sm:text-base">
+                      <p className="mb-4 leading-relaxed text-sm text-neutral-600 dark:text-neutral-300 sm:mb-6 sm:text-base">
                         {service.description}
                       </p>
 
@@ -145,7 +130,7 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
                               size={14}
                               className={`mr-2 flex-shrink-0 ${service.textColor}`}
                             />
-                            <span className="text-xs text-gray-600 dark:text-gray-300 sm:text-sm">
+                            <span className="text-xs text-neutral-600 dark:text-neutral-300 sm:text-sm">
                               {feature}
                             </span>
                           </div>
@@ -165,7 +150,7 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
 
                         <Link
                           to="/order"
-                          className="w-full rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white transition-all duration-300 hover:bg-blue-700 hover:shadow-md sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
+                          className="w-full rounded-lg bg-primary-600 px-3 py-2 text-xs font-medium text-white transition-all duration-300 hover:bg-primary-700 hover:shadow-md sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
                         >
                           Get Started
                         </Link>
@@ -181,7 +166,7 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
         {/* CTA Section — Home already has its own CallToAction section, so skip this banner when limited */}
         {!limit && (
           <Reveal className="mt-16 sm:mt-20">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary-600 to-accent-600 p-6 text-white md:p-12 sm:p-8">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white md:p-12 sm:p-8">
               <div className="absolute inset-0 bg-black/10" />
               <div className="relative z-10 text-center">
                 <h3 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready to Transform Your Business?</h3>
@@ -191,7 +176,7 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
                 <div className="flex flex-col justify-center gap-4 px-4 sm:flex-row">
                   <Link
                     to="/order"
-                    className="rounded-xl bg-white px-6 py-3 font-semibold text-primary-600 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 sm:px-8 sm:py-4"
+                    className="rounded-xl bg-white px-6 py-3 font-semibold text-primary-600 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-neutral-100 sm:px-8 sm:py-4"
                   >
                     Start Your Project
                   </Link>

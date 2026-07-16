@@ -20,16 +20,36 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         .bind(identity.sub)
         .first<{ id: string }>();
 
+      let clientId: string;
       if (existing) {
+        clientId = existing.id;
         await env.DB.prepare(
           'UPDATE clients SET name = ?, avatar_url = ?, email = ?, last_login_at = datetime(\'now\') WHERE id = ?'
         ).bind(identity.name, identity.picture ?? null, identity.email, existing.id).run();
       } else {
+        clientId = uuid();
         await env.DB.prepare(
           'INSERT INTO clients (id, google_sub, email, name, avatar_url) VALUES (?, ?, ?, ?, ?)'
-        ).bind(uuid(), identity.sub, identity.email, identity.name, identity.picture ?? null).run();
+        ).bind(clientId, identity.sub, identity.email, identity.name, identity.picture ?? null).run();
       }
+
+      // Link any lead(s) with a matching email that haven't been linked yet — makes
+      // "converted" status traceable to the client record it actually produced.
+      await env.DB.prepare(
+        `UPDATE leads SET converted_client_id = ?, status = 'converted'
+         WHERE email = ? AND converted_client_id IS NULL AND deleted_at IS NULL`
+      ).bind(clientId, identity.email).run();
     }
+
+    await env.DB.prepare(
+      'INSERT INTO login_events (id, email, role, ip, user_agent) VALUES (?, ?, ?, ?, ?)'
+    ).bind(
+      uuid(),
+      identity.email,
+      role,
+      request.headers.get('CF-Connecting-IP') ?? null,
+      request.headers.get('User-Agent') ?? null
+    ).run();
 
     const token = await createSessionToken(
       { sub: identity.sub, email: identity.email, name: identity.name, picture: identity.picture, role },

@@ -72,7 +72,7 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
   };
 
   return (
-    <section ref={sectionRef} className="overflow-hidden bg-white py-16 dark:bg-gray-900 sm:py-20">
+    <section ref={sectionRef} className="overflow-hidden bg-white py-16 dark:bg-neutral-900 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Remote-First · Worldwide"
@@ -111,7 +111,7 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
                       />
                     </div>
                   </Tilt>
-                  <div className="absolute -bottom-4 -right-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-accent-500 shadow-xl sm:-bottom-6 sm:-right-6 sm:h-24 sm:w-24">
+                  <div className="absolute -bottom-4 -right-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary-500 shadow-xl sm:-bottom-6 sm:-right-6 sm:h-24 sm:w-24">
                     <Award size={24} className="text-white sm:h-8 sm:w-8" />
                   </div>
                 </div>
@@ -122,32 +122,32 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
                       <Target size={20} className="text-white sm:h-6 sm:w-6" />
                     </div>
                     <div>
-                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Mission</h3>
-                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                      <h3 className="mb-3 text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">Our Mission</h3>
+                      <p className="leading-relaxed text-neutral-600 dark:text-neutral-300">
                         To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-700 shadow-lg sm:h-12 sm:w-12">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg sm:h-12 sm:w-12">
                       <Eye size={20} className="text-white sm:h-6 sm:w-6" />
                     </div>
                     <div>
-                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Vision</h3>
-                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                      <h3 className="mb-3 text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">Our Vision</h3>
+                      <p className="leading-relaxed text-neutral-600 dark:text-neutral-300">
                         To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-700 shadow-lg sm:h-12 sm:w-12">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg sm:h-12 sm:w-12">
                       <Heart size={20} className="text-white sm:h-6 sm:w-6" />
                     </div>
                     <div>
-                      <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">Our Values</h3>
-                      <p className="leading-relaxed text-gray-600 dark:text-gray-300">
+                      <h3 className="mb-3 text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">Our Values</h3>
+                      <p className="leading-relaxed text-neutral-600 dark:text-neutral-300">
                         Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.
                       </p>
                     </div>
@@ -165,11 +165,11 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
                       <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg transition-transform duration-300 group-hover:scale-110 sm:mb-6 sm:h-20 sm:w-20">
                         <stat.icon size={24} className="text-white sm:h-8 sm:w-8" />
                       </div>
-                      <div className="mb-2 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                      <div className="mb-2 text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
                         {index === 0 ? counters.projects : index === 1 ? counters.clients : index === 2 ? counters.experts : counters.satisfaction}
                         {stat.suffix}
                       </div>
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-300 sm:text-base">{stat.label}</div>
+                      <div className="text-sm font-medium text-neutral-600 dark:text-neutral-300 sm:text-base">{stat.label}</div>
                     </div>
                   </Tilt>
                 </StaggerItem>
@@ -179,8 +179,8 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
             {/* Timeline */}
             <Reveal>
               <div className="mb-12 text-center sm:mb-16">
-                <h3 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">Our Journey</h3>
-                <p className="mx-auto max-w-2xl px-4 text-base text-gray-600 dark:text-gray-300 sm:text-lg">
+                <h3 className="mb-4 text-2xl font-bold text-neutral-900 dark:text-white sm:text-3xl">Our Journey</h3>
+                <p className="mx-auto max-w-2xl px-4 text-base text-neutral-600 dark:text-neutral-300 sm:text-lg">
                   Key milestones in our path to becoming a trusted global technology partner
                 </p>
               </div>
@@ -193,10 +193,10 @@ const PremiumAbout: React.FC<PremiumAboutProps> = ({ compact = false }) => {
                     <StaggerItem key={index}>
                       <div className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                         <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? 'pr-4 text-right sm:pr-8' : 'pl-4 text-left sm:pl-8'}`}>
-                          <div className="group rounded-xl border border-gray-100 bg-white p-4 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                          <div className="group rounded-xl border border-neutral-100 bg-white p-4 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800 sm:p-6">
                             <div className="mb-2 text-xl font-bold text-primary-600 dark:text-primary-400 sm:text-2xl">{milestone.year}</div>
-                            <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-white sm:mb-3 sm:text-xl">{milestone.title}</h4>
-                            <p className="leading-relaxed text-gray-600 dark:text-gray-300 text-sm sm:text-base">{milestone.description}</p>
+                            <h4 className="mb-2 text-lg font-bold text-neutral-900 dark:text-white sm:mb-3 sm:text-xl">{milestone.title}</h4>
+                            <p className="leading-relaxed text-neutral-600 dark:text-neutral-300 text-sm sm:text-base">{milestone.description}</p>
                           </div>
                         </div>
 

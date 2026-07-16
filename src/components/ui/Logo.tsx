@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ variant = 'light', size = 'md', className =
     lg: 'h-12'
   };
 
-  const textColor = variant === 'light' ? 'text-white' : 'text-gray-900 dark:text-white';
+  const textColor = variant === 'light' ? 'text-white' : 'text-neutral-900 dark:text-white';
   const accentColor = variant === 'light' ? '#60A5FA' : '#2563EB';
 
   return (

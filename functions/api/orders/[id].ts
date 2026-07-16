@@ -25,7 +25,7 @@ export const onRequestPatch: PagesFunction<Env> = async ({ request, env, params 
 
   if (!updates.length) return badRequest('No fields to update');
 
-  const existing = await env.DB.prepare('SELECT id FROM orders WHERE id = ?').bind(id).first();
+  const existing = await env.DB.prepare('SELECT id FROM orders WHERE id = ? AND deleted_at IS NULL').bind(id).first();
   if (!existing) return notFound('Order not found');
 
   bindings.push(id);
@@ -34,4 +34,17 @@ export const onRequestPatch: PagesFunction<Env> = async ({ request, env, params 
 
   const order = await env.DB.prepare('SELECT * FROM orders WHERE id = ?').bind(id).first();
   return json({ order });
+};
+
+export const onRequestDelete: PagesFunction<Env> = async ({ request, env, params }) => {
+  const gate = await requireAdmin(request, env);
+  if (gate instanceof Response) return gate;
+
+  const id = params.id as string;
+  const existing = await env.DB.prepare('SELECT subject FROM orders WHERE id = ? AND deleted_at IS NULL').bind(id).first<{ subject: string }>();
+  if (!existing) return notFound('Order not found');
+
+  await env.DB.prepare(`UPDATE orders SET deleted_at = datetime('now') WHERE id = ?`).bind(id).run();
+  await logActivity(env, gate.email, 'order', `Deleted order: ${existing.subject}`);
+  return json({ ok: true });
 };

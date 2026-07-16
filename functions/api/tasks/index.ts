@@ -13,11 +13,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   let query =
     `SELECT tasks.*, clients.name as client_name
      FROM tasks LEFT JOIN clients ON clients.id = tasks.client_id`;
-  const conditions: string[] = [];
+  const conditions: string[] = ['tasks.deleted_at IS NULL'];
   const bindings: string[] = [];
   if (status && status !== 'all') { conditions.push('tasks.status = ?'); bindings.push(status); }
   if (clientId) { conditions.push('tasks.client_id = ?'); bindings.push(clientId); }
-  if (conditions.length) query += ' WHERE ' + conditions.join(' AND ');
+  query += ' WHERE ' + conditions.join(' AND ');
   query += ` ORDER BY CASE tasks.priority WHEN 'high' THEN 0 WHEN 'medium' THEN 1 ELSE 2 END, tasks.created_at DESC`;
 
   const { results } = await env.DB.prepare(query).bind(...bindings).all();

@@ -27,9 +27,10 @@ There is no test suite in this repo.
 ## Real brand data (don't re-derive, don't invent placeholders)
 - Name: **AiTechWorlds** (logo renders "AiTech" + "Worlds" as two colored spans — keep that split if editing `Logo.tsx`)
 - Real logo image: drop the user's logo file at **`public/logo.png`** (Vite serves `public/` from the site root, so it's reachable at `/logo.png` with no import). `Logo.tsx` already points `<img src="/logo.png">` there with an inline-SVG fallback shown only if that file 404s. `index.html`'s favicon (`<link rel="icon">`) also points at `/logo.png`. If the user provides a different extension (`.svg`/`.webp`), update `LOGO_SRC` in `Logo.tsx` and the favicon `href` to match.
-- Single source of truth for all social/contact links: **`src/utils/socialLinks.ts`** (`SOCIAL_LINKS`, `CONTACT_EMAIL`, `WHATSAPP_NUMBER`, `whatsappChatLink()`) — import from there, never hardcode a link inline. Values were scraped directly from the live `aitechworlds.com/about` page (2026-07), not guessed:
-  - Email: `contact@aitechworlds.com`
-  - WhatsApp direct chat number: `8801825008451` (real, gave by the user — used via `whatsappChatLink()` for `wa.me` links with a prefilled message)
+- Single source of truth for all social/contact links: **`src/utils/socialLinks.ts`** (`SOCIAL_LINKS`, `CONTACT_EMAIL`, `WHATSAPP_NUMBER`, `whatsappChatLink()`, `whatsappLinkTo()`) — import from there, never hardcode a link inline. Values were scraped directly from the live `aitechworlds.com/about` page (2026-07), not guessed:
+  - Email: `infoaitechworlds@gmail.com` (set by the user 2026-07 — this is the canonical contact email; do not revert to the old `contact@aitechworlds.com`)
+  - WhatsApp direct chat number: `8801825008451` (real, gave by the user — used via `whatsappChatLink()` for the company `wa.me` link; `whatsappLinkTo(number, msg)` builds a click-to-chat link to any other number, e.g. a client's WhatsApp captured on the contact/order form so admins can message them from the panel)
+  - Contact & Order forms capture the client's **WhatsApp number** (the phone field is required and labelled as WhatsApp) so the admin panel can click-to-chat the client directly (`AdminOrders` lead cards + `AdminClients` drawer).
   - LinkedIn: `linkedin.com/company/aitechworlds`
   - Facebook: `web.facebook.com/aitechworldsfacebook/`
   - X/Twitter: `x.com/AiTechWorlds`

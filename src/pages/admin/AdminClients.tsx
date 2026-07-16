@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Search, Users, X, Mail, Phone, Building2, Plus, Clock, CheckCircle2 } from 'lucide-react';
+import { Search, Users, X, Mail, MessageCircle, Building2, Plus, Clock, CheckCircle2, Download } from 'lucide-react';
 import { api, Client, Order, Activity } from '../../utils/adminApi';
 import { Card, PageHeader, Badge, STATUS_TONE, Spinner, EmptyState, formatDate, money } from '../../components/admin/ui';
+import { whatsappLinkTo } from '../../utils/socialLinks';
 
 const STAGES = ['new', 'contacted', 'proposal', 'active', 'completed', 'archived'];
 
@@ -23,6 +24,27 @@ const AdminClients: React.FC = () => {
     const t = setTimeout(load, search ? 300 : 0);
     return () => clearTimeout(t);
   }, [load, search]);
+
+  const exportCsv = () => {
+    if (!clients || clients.length === 0) return;
+
+    const headers = ['Name', 'Email', 'Avatar URL', 'Company', 'Phone', 'Stage', 'Status', 'Joined', 'Last active'];
+    const escape = (value: unknown) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+    const rows = clients.map((c) => [
+      c.name, c.email, c.avatar_url ?? '', c.company ?? '', c.phone ?? '', c.stage, c.status, c.created_at, c.last_login_at,
+    ].map(escape).join(','));
+    const csv = [headers.map(escape).join(','), ...rows].join('\r\n');
+
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    const suffix = status !== 'all' ? `-${status}` : '';
+    link.href = url;
+    link.download = `aitechworlds-clients${suffix}-${stamp}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="p-4 sm:p-6">
@@ -51,6 +73,13 @@ const AdminClients: React.FC = () => {
             </button>
           ))}
         </div>
+        <button
+          onClick={exportCsv}
+          disabled={!clients || clients.length === 0}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          <Download size={14} /> Export CSV
+        </button>
       </div>
 
       {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
@@ -173,10 +202,31 @@ const ClientDrawer: React.FC<{ client: Client; onClose: () => void; onSaved: (c:
 
           <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
             <p className="flex items-center gap-2"><Mail size={14} />{client.email}</p>
-            {client.phone && <p className="flex items-center gap-2"><Phone size={14} />{client.phone}</p>}
+            {client.phone && (
+              <a
+                href={whatsappLinkTo(client.phone, `Hi ${client.name}, this is AiTechWorlds. `)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-green-600 dark:text-green-400 hover:underline"
+              >
+                <MessageCircle size={14} />{client.phone}
+              </a>
+            )}
             {client.company && <p className="flex items-center gap-2"><Building2 size={14} />{client.company}</p>}
             <p className="text-xs text-gray-400">Joined {formatDate(client.created_at)}</p>
           </div>
+
+          {client.phone && (
+            <a
+              href={whatsappLinkTo(client.phone, `Hi ${client.name}, this is AiTechWorlds. `)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 w-full px-3 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <MessageCircle size={15} />
+              Message on WhatsApp
+            </a>
+          )}
 
           {/* Lifecycle stage pipeline — one tap advances the client */}
           <div>

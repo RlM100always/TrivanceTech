@@ -59,8 +59,9 @@ export function sessionCookieHeader(token: string, isSecure: boolean = true): st
   return `${SESSION_COOKIE}=${token}; HttpOnly; ${secureFlag}SameSite=Lax; Path=/; Max-Age=${SESSION_TTL_SECONDS}`;
 }
 
-export function clearSessionCookieHeader(): string {
-  return `${SESSION_COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`;
+export function clearSessionCookieHeader(isSecure: boolean = true): string {
+  const secureFlag = isSecure ? 'Secure; ' : '';
+  return `${SESSION_COOKIE}=; HttpOnly; ${secureFlag}SameSite=Lax; Path=/; Max-Age=0`;
 }
 
 export function getSessionTokenFromRequest(request: Request): string | null {

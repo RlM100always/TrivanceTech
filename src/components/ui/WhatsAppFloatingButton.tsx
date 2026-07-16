@@ -33,17 +33,17 @@ const WhatsAppFloatingButton: React.FC = () => {
   return (
     <div className="fixed z-40 bottom-24 right-5 lg:bottom-8 lg:right-8 flex flex-col items-end gap-3">
       {bubbleVisible && (
-        <div className="relative max-w-[240px] sm:max-w-xs bg-white dark:bg-gray-800 rounded-2xl rounded-br-sm shadow-2xl border border-gray-100 dark:border-gray-700 p-4 animate-[fadeIn_0.3s_ease-out]">
+        <div className="relative max-w-[240px] sm:max-w-xs bg-white dark:bg-neutral-800 rounded-2xl rounded-br-sm shadow-2xl border border-neutral-100 dark:border-neutral-700 p-4 animate-[fadeIn_0.3s_ease-out]">
           <button
             type="button"
             onClick={() => setDismissed(true)}
             aria-label="Dismiss"
-            className="absolute -top-2 -right-2 w-6 h-6 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 transition-colors"
+            className="absolute -top-2 -right-2 w-6 h-6 bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 rounded-full flex items-center justify-center text-neutral-600 dark:text-neutral-300 transition-colors"
           >
             <X size={13} />
           </button>
-          <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">👋 Need help choosing a service?</p>
-          <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+          <p className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">👋 Need help choosing a service?</p>
+          <p className="text-xs text-neutral-600 dark:text-neutral-300 mb-3 leading-relaxed">
             Chat with our team on WhatsApp — usually replies within minutes.
           </p>
           <a

@@ -47,20 +47,20 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 sm:py-12">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-8 sm:py-12">
       <SEO title="Client Dashboard" description="Your AiTechWorlds client dashboard — chat with our team and share project files." path="/dashboard" />
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             {user?.picture && <img src={user.picture} alt={user.name} className="w-10 h-10 rounded-full" />}
             <div>
-              <h1 className="text-lg font-bold text-gray-900 dark:text-white">Welcome, {user?.name?.split(' ')[0]}</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
+              <h1 className="text-lg font-bold text-neutral-900 dark:text-white">Welcome, {user?.name?.split(' ')[0]}</h1>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">{user?.email}</p>
             </div>
           </div>
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
           >
             <LogOut size={15} />
             Sign Out
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
         <div className="flex items-center gap-2 mb-4">
           <MessageCircle size={18} className="text-primary-600 dark:text-primary-400" />
-          <h2 className="font-semibold text-gray-900 dark:text-white">Chat with our team</h2>
+          <h2 className="font-semibold text-neutral-900 dark:text-white">Chat with our team</h2>
         </div>
 
         {loading || !conversation ? (

@@ -170,7 +170,7 @@ const Products: React.FC = () => {
     : products.filter(product => product.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -178,10 +178,10 @@ const Products: React.FC = () => {
             <Building size={16} className="mr-2" />
             Our Products
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Ready-to-Deploy <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600">Software Solutions</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-6">
+            Ready-to-Deploy <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">Software Solutions</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
             Accelerate your business growth with our proven software products, trusted by hundreds of companies across Bangladesh and internationally.
           </p>
         </div>
@@ -195,7 +195,7 @@ const Products: React.FC = () => {
               className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
                 selectedCategory === category
                   ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+                  : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-900/20'
               }`}
             >
               {category}
@@ -218,22 +218,22 @@ const Products: React.FC = () => {
                   </span>
                 </div>
 
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
                   {product.title}
                 </h2>
 
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">
                   {product.description}
                 </p>
 
                 {/* Key Features */}
                 <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Key Features:</h3>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Key Features:</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {product.features.slice(0, 6).map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-center">
                         <CheckCircle size={16} className="text-primary-600 dark:text-primary-400 mr-2 flex-shrink-0" />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
+                        <span className="text-sm text-neutral-700 dark:text-neutral-300">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -241,37 +241,37 @@ const Products: React.FC = () => {
 
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-4 mb-8">
-                  <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+                  <div className="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg">
                     <Users className="w-6 h-6 text-primary-600 dark:text-primary-400 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{product.clients}+</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Active Clients</div>
+                    <div className="text-2xl font-bold text-neutral-900 dark:text-white">{product.clients}+</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-300">Active Clients</div>
                   </div>
-                  <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+                  <div className="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg">
                     <Star className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">4.8</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Rating</div>
+                    <div className="text-2xl font-bold text-neutral-900 dark:text-white">4.8</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-300">Rating</div>
                   </div>
-                  <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+                  <div className="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg">
                     <Globe className="w-6 h-6 text-green-500 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">99.9%</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">Uptime</div>
+                    <div className="text-2xl font-bold text-neutral-900 dark:text-white">99.9%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-300">Uptime</div>
                   </div>
                 </div>
 
                 {/* Pricing */}
                 <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pricing Plans:</h3>
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Pricing Plans:</h3>
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="text-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Starter</div>
+                    <div className="text-center p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                      <div className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Starter</div>
                       <div className="text-lg font-bold text-primary-600 dark:text-primary-400">{product.pricing.starter}</div>
                     </div>
                     <div className="text-center p-3 bg-primary-100 dark:bg-primary-900/30 rounded-lg border-2 border-primary-200 dark:border-primary-700">
                       <div className="text-sm font-medium text-primary-600 dark:text-primary-400">Professional</div>
                       <div className="text-lg font-bold text-primary-600 dark:text-primary-400">{product.pricing.professional}</div>
                     </div>
-                    <div className="text-center p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Enterprise</div>
+                    <div className="text-center p-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                      <div className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Enterprise</div>
                       <div className="text-lg font-bold text-primary-600 dark:text-primary-400">{product.pricing.enterprise}</div>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ const Products: React.FC = () => {
                   </Link>
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-semibold rounded-lg hover:shadow-md transition-all duration-300 border border-neutral-200 dark:border-neutral-700"
                   >
                     <Play size={20} className="mr-2" />
                     Watch Demo
@@ -323,18 +323,18 @@ const Products: React.FC = () => {
 
                 {/* Testimonial */}
                 {product.testimonials[0] && (
-                  <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+                  <div className="mt-6 bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg">
                     <div className="flex mb-3">
                       {[...Array(product.testimonials[0].rating)].map((_, i) => (
                         <Star key={i} size={16} className="text-yellow-400 fill-current" />
                       ))}
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300 italic mb-4">
+                    <p className="text-neutral-600 dark:text-neutral-300 italic mb-4">
                       "{product.testimonials[0].comment}"
                     </p>
                     <div>
-                      <div className="font-semibold text-gray-900 dark:text-white">{product.testimonials[0].name}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{product.testimonials[0].company}</div>
+                      <div className="font-semibold text-neutral-900 dark:text-white">{product.testimonials[0].name}</div>
+                      <div className="text-sm text-neutral-500 dark:text-neutral-400">{product.testimonials[0].company}</div>
                     </div>
                   </div>
                 )}
@@ -344,7 +344,7 @@ const Products: React.FC = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 md:p-12 text-white text-center">
+        <div className="mt-20 bg-gradient-to-r from-primary-500 to-primary-700 rounded-2xl p-8 md:p-12 text-white text-center">
           <Shield size={48} className="mx-auto mb-6 opacity-80" />
           <h3 className="text-3xl font-bold mb-4">Ready to Scale Your Business?</h3>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
@@ -353,7 +353,7 @@ const Products: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/contact"
-              className="px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Schedule Consultation
             </Link>

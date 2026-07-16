@@ -21,11 +21,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
-.env.local
+.env.*
+!.env.example
+.dev.vars
 *.local
+
+# Wrangler local state (local D1 data, cache — can be large)
+.wrangler/
 
 # Bolt scaffold metadata — not project source
 .bolt/
+
+# Kilo editor/agent metadata — not project source
+.kilo/
 
 # Binary / media assets — Claude can't usefully read these as text
 *.png
@@ -41,8 +49,10 @@ yarn-error.log*
 *.mp4
 *.pdf
 
-# Generated type declarations
+# Generated type declarations / source maps
 *.d.ts.map
+*.js.map
+*.css.map
 
 # Coverage / cache
 coverage/

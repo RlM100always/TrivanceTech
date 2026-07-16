@@ -35,11 +35,11 @@ export const Badge: React.FC<{ tone?: keyof typeof TONES; children: React.ReactN
 
 // Map a status string to a badge tone, used across leads/orders/tasks.
 export const STATUS_TONE: Record<string, keyof typeof TONES> = {
-  new: 'blue', contacted: 'amber', converted: 'green', closed: 'gray',
+  new: 'blue', contacted: 'amber', proposal: 'purple', converted: 'green', closed: 'gray',
   draft: 'gray', sent: 'amber', paid: 'green', cancelled: 'red',
   todo: 'gray', doing: 'blue', done: 'green',
   low: 'gray', medium: 'amber', high: 'red',
-  active: 'green', archived: 'gray',
+  active: 'green', completed: 'green', archived: 'gray',
 };
 
 export const EmptyState: React.FC<{ icon?: React.ReactNode; title: string; hint?: string }> = ({ icon, title, hint }) => (
