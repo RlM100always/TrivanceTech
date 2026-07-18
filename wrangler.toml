@@ -18,3 +18,8 @@ database_id = "ab4139aa-ab4f-4e7f-b37a-f0138c298403"
 # TURNSTILE_SECRET_KEY` with your real secret key from the Cloudflare Turnstile
 # dashboard before deploying; without it, spam-form verification is skipped entirely.
 GOOGLE_CLIENT_ID = '222990716349-q8pkufkl5lj6tqmu9e3fb40jg0fcsp49.apps.googleusercontent.com'
+# Same value as GOOGLE_CLIENT_ID above — Vite needs the VITE_ prefix to bake this into
+# the frontend bundle at build time. This project's env vars are managed via this file
+# (Cloudflare dashboard shows Plaintext vars as locked to wrangler.toml for this Pages
+# project), so it must live here, not as a dashboard "Environment Variable".
+VITE_GOOGLE_CLIENT_ID = '222990716349-q8pkufkl5lj6tqmu9e3fb40jg0fcsp49.apps.googleusercontent.com'
