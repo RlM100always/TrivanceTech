@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Calendar, ArrowRight, Clock, Eye, TrendingUp } from 'lucide-react';
+import { Search, Calendar, ArrowRight, Clock, Eye, TrendingUp, Loader2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { blogPosts, blogCategories } from '../data/blogPosts';
 import SEO from '../components/seo/SEO';
@@ -7,6 +7,25 @@ import SEO from '../components/seo/SEO';
 const Blog: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  const subscribe = async () => {
+    if (!newsletterEmail.trim() || subscribeStatus === 'loading') return;
+    setSubscribeStatus('loading');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail.trim() }),
+      });
+      if (!res.ok) throw new Error('failed');
+      setSubscribeStatus('done');
+      setNewsletterEmail('');
+    } catch {
+      setSubscribeStatus('error');
+    }
+  };
 
   const filteredPosts = blogPosts.filter((post) => {
     const term = searchTerm.toLowerCase();
@@ -200,19 +219,43 @@ const Blog: React.FC = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Get our best breakdowns on web, mobile, AI, and security delivered straight to your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <form
+            className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto"
+            onSubmit={(e) => {
+              e.preventDefault();
+              subscribe();
+            }}
+          >
             <input
               type="email"
+              required
               placeholder="you@company.com"
+              value={newsletterEmail}
+              onChange={(e) => {
+                setNewsletterEmail(e.target.value);
+                if (subscribeStatus !== 'idle') setSubscribeStatus('idle');
+              }}
               className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-inner"
             />
-            <Link
-              to="/contact"
-              className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-neutral-100 transition-colors duration-300"
+            <button
+              type="submit"
+              disabled={subscribeStatus === 'loading'}
+              className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-neutral-100 disabled:opacity-70 transition-colors duration-300 flex items-center justify-center gap-2"
             >
-              Subscribe
-            </Link>
-          </div>
+              {subscribeStatus === 'loading' ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : subscribeStatus === 'done' ? (
+                <>
+                  Subscribed <Check size={18} />
+                </>
+              ) : (
+                'Subscribe'
+              )}
+            </button>
+          </form>
+          {subscribeStatus === 'error' && (
+            <p className="mt-3 text-sm text-white/80">Something went wrong — please try again.</p>
+          )}
         </div>
       </div>
     </div>

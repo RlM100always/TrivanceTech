@@ -8,9 +8,9 @@ const Order = () => {
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Ready to Start? Submit a Project Order</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Let's Put a Number on Your Idea</h1>
           <p className="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-            Give us the full details — project type, budget, and deadline — and we'll review your requirements and get back to you within 24 hours with a quote. Just have a quick question first?{' '}
+            Tell us the project type, budget and deadline — we'll come back within 24 hours with a real quote and a realistic timeline, no back-and-forth required. Just have a quick question first?{' '}
             <Link to="/contact" className="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Contact us instead →</Link>
           </p>
         </div>
@@ -117,7 +117,7 @@ const Order = () => {
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/40 rounded-full flex items-center justify-center mx-auto mb-2">
                     <DollarSign size={24} className="text-primary-600 dark:text-primary-400" />
                   </div>
-                  <h3 className="font-medium text-neutral-900 dark:text-white">Affordable Rates</h3>
+                  <h3 className="font-medium text-neutral-900 dark:text-white">Fair, Transparent Pricing</h3>
                 </div>
               </div>
               

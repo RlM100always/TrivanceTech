@@ -71,18 +71,18 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
     <section className="overflow-hidden bg-neutral-50 py-16 dark:bg-neutral-900 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Our Expertise"
+          eyebrow="What We Build"
           eyebrowIcon={<Zap size={16} className="mr-1" />}
-          title="Comprehensive IT Solutions"
-          highlight="IT Solutions"
-          description="From web development to AI solutions, we deliver cutting-edge technology services that drive business growth and innovation."
+          title="One team. Every skill your product needs."
+          highlight="Every skill"
+          description="No hand-offs between agencies, no gaps between web, mobile and AI. Just one senior team that ships all of it — and ships it well."
         >
           {limit && (
             <Link
               to="/services"
               className="mt-4 inline-flex items-center font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
-              View all services <ChevronRight size={18} className="ml-1" />
+              See everything we do <ChevronRight size={18} className="ml-1" />
             </Link>
           )}
         </SectionHeading>
@@ -145,14 +145,14 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
                           }
                           className="text-xs font-medium text-primary-600 transition-colors hover:underline dark:text-primary-400 sm:text-sm"
                         >
-                          {expandedService === index ? 'Show Less' : 'Learn More'}
+                          {expandedService === index ? 'Show Less' : "What's Included"}
                         </button>
 
                         <Link
                           to="/order"
                           className="w-full rounded-lg bg-primary-600 px-3 py-2 text-xs font-medium text-white transition-all duration-300 hover:bg-primary-700 hover:shadow-md sm:w-auto sm:px-4 sm:py-2 sm:text-sm"
                         >
-                          Get Started
+                          Get a Quote
                         </Link>
                       </div>
                     </div>
@@ -169,9 +169,9 @@ const PremiumServices: React.FC<PremiumServicesProps> = ({ limit }) => {
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white md:p-12 sm:p-8">
               <div className="absolute inset-0 bg-black/10" />
               <div className="relative z-10 text-center">
-                <h3 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready to Transform Your Business?</h3>
+                <h3 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Not sure which service you need?</h3>
                 <p className="mb-6 max-w-2xl px-4 text-lg opacity-90 sm:mb-8 sm:text-xl">
-                  Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
+                  Tell us what you're trying to build — we'll scope it, quote it, and tell you honestly if it's a fit. No pressure, no obligation.
                 </p>
                 <div className="flex flex-col justify-center gap-4 px-4 sm:flex-row">
                   <Link

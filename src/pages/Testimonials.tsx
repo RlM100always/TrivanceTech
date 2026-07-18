@@ -79,9 +79,9 @@ const Testimonials = () => {
           <div className="inline-block p-3 bg-primary-100 dark:bg-primary-900/40 rounded-lg mb-4">
             <MessageSquare size={30} className="text-primary-600 dark:text-primary-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">What Our Clients Say</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Don't Take Our Word For It</h1>
           <p className="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied clients have to say about our services.
+            These are the people who paid us, worked with us, and shipped with us — read what they actually said, not what we'd like you to hear.
           </p>
         </div>
 

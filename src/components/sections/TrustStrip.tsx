@@ -35,7 +35,7 @@ const TrustStrip: React.FC = () => {
     <section className="border-y border-neutral-200 bg-white py-10 dark:border-neutral-800 dark:bg-neutral-950 sm:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-          Trusted by teams worldwide · Built with a modern, battle-tested stack
+          50+ products shipped · The stack we build with, every day
         </p>
 
         {/* Edge-faded marquee */}

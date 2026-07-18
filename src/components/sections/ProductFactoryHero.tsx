@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Play } from 'lucide-react';
 import ProductFactoryScene from '../three/ProductFactoryScene';
 import MagneticButton from '../ui/motion/MagneticButton';
+import { staggerContainer, reveal } from '../../lib/motion';
 
 /**
  * ProductFactoryHero — a calm, premium hero.
@@ -22,14 +23,10 @@ const supportsWebGL = () => {
   }
 };
 
-const stagger: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
-};
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-};
+// Shared stagger/reveal tokens from lib/motion.ts so the hero's entrance feels
+// like one system with the rest of the page's scroll reveals, not a bespoke variant.
+const stagger = staggerContainer(0.12, 0.15);
+const fadeUp = reveal({ direction: 'up', distance: 24, duration: 0.6 });
 
 const stats = [
   { value: '50+', label: 'Projects Delivered' },
@@ -133,7 +130,9 @@ const ProductFactoryHero: React.FC = () => {
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 shadow-lg shadow-primary-500/10 backdrop-blur-md"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-75" />
+              {!reduceMotion && (
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-75" />
+              )}
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-400" />
             </span>
             Digital Product Studio
@@ -177,23 +176,27 @@ const ProductFactoryHero: React.FC = () => {
             className="mb-14 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
           >
             <MagneticButton strength={0.4} className="w-full sm:w-auto">
-              <Link
-                to="/order"
-                className="group flex items-center justify-center rounded-xl bg-primary-600 px-8 py-4 font-semibold text-white shadow-2xl transition-all duration-300 hover:bg-primary-700 hover:shadow-primary-500/30"
-              >
-                Start Your Project
-                <ArrowRight size={20} className="ml-2 transition-transform group-hover:translate-x-1" />
-              </Link>
+              <motion.div whileTap={{ scale: 0.96 }} transition={{ duration: 0.15 }}>
+                <Link
+                  to="/order"
+                  className="group flex items-center justify-center rounded-xl bg-primary-600 px-8 py-4 font-semibold text-white shadow-2xl transition-all duration-300 hover:bg-primary-700 hover:shadow-primary-500/30"
+                >
+                  Start Your Project
+                  <ArrowRight size={20} className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
             </MagneticButton>
 
             <MagneticButton strength={0.4} className="w-full sm:w-auto">
-              <Link
-                to="/contact"
-                className="group flex w-full items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/20"
-              >
-                <Play size={18} className="mr-2 transition-transform group-hover:scale-110" />
-                Get In Touch
-              </Link>
+              <motion.div whileTap={{ scale: 0.96 }} transition={{ duration: 0.15 }}>
+                <Link
+                  to="/contact"
+                  className="group flex w-full items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/20"
+                >
+                  <Play size={18} className="mr-2 transition-transform group-hover:scale-110" />
+                  Get In Touch
+                </Link>
+              </motion.div>
             </MagneticButton>
           </motion.div>
 
@@ -228,8 +231,8 @@ const ProductFactoryHero: React.FC = () => {
         <div className="flex h-10 w-6 justify-center rounded-full border-2 border-white/30">
           <motion.div
             className="mt-2 h-3 w-1 rounded-full bg-white/50"
-            animate={{ y: [0, 10, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            animate={reduceMotion ? { opacity: 0.7 } : { y: [0, 10, 0], opacity: [1, 0.3, 1] }}
+            transition={reduceMotion ? { duration: 0.3 } : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>
       </motion.div>

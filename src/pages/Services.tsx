@@ -27,10 +27,10 @@ const Services: React.FC = () => {
             Our Services
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-4 sm:mb-6">
-            Comprehensive <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">IT Solutions</span>
+            Whatever You're Building, <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">We Can Ship It</span>
           </h1>
           <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
-            From web development to AI solutions, we deliver cutting-edge technology services that drive business growth and innovation for clients worldwide.
+            Seven disciplines, one accountable team — so you're never stuck explaining your product to a new vendor halfway through.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ const Services: React.FC = () => {
                     to="/order"
                     className="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-semibold rounded-lg hover:shadow-md transition-all duration-300 border border-neutral-200 dark:border-neutral-700"
                   >
-                    Get Started
+                    Get a Free Quote
                   </Link>
                 </div>
               </div>
@@ -145,9 +145,9 @@ const Services: React.FC = () => {
         {/* CTA Section */}
         <div className="mt-16 sm:mt-20 bg-gradient-to-r from-primary-500 to-primary-700 rounded-2xl p-6 sm:p-8 md:p-12 text-white text-center">
           <Globe size={32} className="mx-auto mb-4 sm:mb-6 opacity-80 sm:w-12 sm:h-12" />
-          <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Ready to Transform Your Business?</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Still Comparing Options?</h3>
           <p className="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-            Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
+            Send us your requirements and we'll send back a real quote, not a sales call — usually within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

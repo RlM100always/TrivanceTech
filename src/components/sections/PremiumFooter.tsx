@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Instagram, Linkedin, Facebook, Youtube, Send, ArrowRight, MessageCircle, X as XIcon } from 'lucide-react';
+import { Mail, Instagram, Linkedin, Facebook, Youtube, Send, ArrowRight, MessageCircle, X as XIcon, Loader2, Check } from 'lucide-react';
 import Logo from '../ui/Logo';
 import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../../utils/socialLinks';
 
 const PremiumFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  const subscribe = async () => {
+    if (!email.trim() || status === 'loading') return;
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      if (!res.ok) throw new Error('failed');
+      setStatus('done');
+      setEmail('');
+    } catch {
+      setStatus('error');
+    }
+  };
 
   return (
     <footer className="bg-neutral-900 dark:bg-neutral-950 text-white relative overflow-hidden">
@@ -26,16 +45,46 @@ const PremiumFooter: React.FC = () => {
                   Get the latest AI &amp; tech news, project offers, and job opportunities delivered to your inbox.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-neutral-800 dark:bg-neutral-900 border border-neutral-700 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-white placeholder-neutral-400"
-                />
-                <button className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center">
-                  Subscribe
-                  <Send size={18} className="ml-2" />
-                </button>
+              <div>
+                <form
+                  className="flex flex-col sm:flex-row gap-4"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    subscribe();
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (status !== 'idle') setStatus('idle');
+                    }}
+                    className="flex-1 px-4 py-3 bg-neutral-800 dark:bg-neutral-900 border border-neutral-700 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-white placeholder-neutral-400"
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:opacity-70 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
+                  >
+                    {status === 'loading' ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : status === 'done' ? (
+                      <>
+                        Subscribed <Check size={18} className="ml-2" />
+                      </>
+                    ) : (
+                      <>
+                        Subscribe <Send size={18} className="ml-2" />
+                      </>
+                    )}
+                  </button>
+                </form>
+                {status === 'error' && (
+                  <p className="mt-2 text-sm text-red-400">Something went wrong — please try again.</p>
+                )}
               </div>
             </div>
           </div>

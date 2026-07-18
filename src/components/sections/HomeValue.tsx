@@ -43,7 +43,7 @@ const HomeValue: React.FC = () => {
           {/* Editorial statement */}
           <Reveal direction="up" className="lg:col-span-5">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 text-sm font-medium text-primary-700 dark:border-primary-900/50 dark:bg-primary-900/20 dark:text-primary-300">
-              Why AiTechWorlds
+              The Difference
             </span>
             <h2 className="mt-6 font-display text-4xl font-bold leading-[1.1] tracking-tight text-neutral-900 dark:text-white sm:text-5xl">
               We don't just write code.{' '}
@@ -59,7 +59,7 @@ const HomeValue: React.FC = () => {
               to="/about"
               className="group mt-8 inline-flex items-center text-base font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
             >
-              Learn more about us
+              Meet the team behind the work
               <ArrowRight size={18} className="ml-1.5 transition-transform group-hover:translate-x-1" />
             </Link>
           </Reveal>

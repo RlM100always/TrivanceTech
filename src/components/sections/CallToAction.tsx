@@ -20,16 +20,16 @@ const CallToAction: React.FC = () => {
           <Reveal direction="left" className="text-center lg:text-left">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium backdrop-blur-sm sm:mb-6">
               <MessageSquare size={16} className="mr-1" />
-              Ready to Get Started?
+              No Obligation, Just Answers
             </div>
             <h2 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl">
-              Transform Your Ideas into{' '}
+              Your idea deserves a{' '}
               <span className="bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-                Reality
+                real team
               </span>
             </h2>
             <p className="mb-6 text-lg leading-relaxed text-neutral-200 sm:mb-8 sm:text-xl">
-              Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey. Let's build something amazing together.
+              Tell us what you want to build. You'll get a straight answer on scope, timeline and cost — from the engineers who'd actually build it, not a sales rep.
             </p>
 
             {/* Contact Info */}

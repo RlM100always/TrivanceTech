@@ -114,10 +114,10 @@ const About = () => {
                 Remote-First · Serving Clients Worldwide
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">AiTechWorlds</span>
+                The Team Behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">Your Next Product</span>
               </h1>
               <p className="text-lg sm:text-xl text-neutral-200 mb-6 sm:mb-8 leading-relaxed">
-                We are a remote-first AI & technology solutions company, dedicated to transforming businesses through innovative technology and exceptional service delivery.
+                No account managers, no outsourced juniors — you work directly with the senior engineers and designers who build your product, wherever you are in the world.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <button className="group inline-flex items-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105">
@@ -369,13 +369,13 @@ const About = () => {
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">Ready to Transform Your Business?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">Like What You See? Let's Build Yours.</h2>
           <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-neutral-200 max-w-3xl mx-auto">
-            Join hundreds of satisfied clients who have chosen AiTechWorlds for their digital transformation journey.
+            The same team, process and standards you just read about — applied to your project. Get a quote in 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/contact" 
+            <Link
+              to="/order"
               className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105"
             >
               Start Your Project <ArrowRight size={20} className="ml-2" />

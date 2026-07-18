@@ -20,11 +20,11 @@ const FeaturedProjects: React.FC = () => {
       </div>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Featured Work"
+          eyebrow="Proof, Not Promises"
           eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
-          title="Our Latest"
-          highlight="Projects"
-          description="Take a look at some of our recent successful projects that showcase our expertise and quality of work."
+          title="Real Products We've Shipped"
+          highlight="Shipped"
+          description="Every project here is live, in production, in front of real users — see the quality you'd be buying before you spend a dollar."
         />
 
         <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2 lg:grid-cols-3" stagger={0.1}>

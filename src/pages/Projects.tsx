@@ -56,11 +56,11 @@ const Projects = () => {
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Our Portfolio"
+          eyebrow="The Work Speaks First"
           eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
-          title="Our"
-          highlight="Projects"
-          description="Browse through our portfolio of successfully delivered projects across various domains."
+          title="Every Project, Delivered and Live"
+          highlight="Delivered and Live"
+          description="No mockups, no concept art — every project below shipped to real users. Filter by category to see work closest to what you're planning."
         />
 
         {/* Search and Filter */}

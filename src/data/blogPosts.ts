@@ -371,7 +371,7 @@ graph TD
     category: 'AI & ML',
     tags: ['Artificial Intelligence', 'Students', 'Career'],
     keywords: ['AI for students', 'machine learning thesis project', 'university capstone AI', 'AI career skills'],
-    featuredImage: 'https://images.unsplash.com/photo-1620712943543-bcc4610101b6?w=1200&q=80',
+    featuredImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80',
     content: `
       <p>2025. Dhaka. A final-year CS student submits a thesis that uses a pre-trained transformer to detect crop disease from satellite imagery. The panel asks: "Why this architecture? What's your F1 on the minority class? What happens when the model sees a crop it never trained on?" The student freezes. They used an API, got 94% accuracy on the test set, and called it done.</p>
       
@@ -1109,7 +1109,7 @@ graph LR
     category: 'AI & ML',
     tags: ['Academic Projects', 'Thesis', 'Students'],
     keywords: ['university thesis project help', 'capstone project development', 'academic software project', 'CS thesis architecture'],
-    featuredImage: 'https://images.unsplash.com/photo-1524995997946-a8e29a235dfd?w=1200&q=80',
+    featuredImage: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=1200&q=80',
     content: `
       <p>2025. A final-year CS student defends a thesis that implements a real-time fraud detection pipeline for mobile money transactions. The panel asks: "Why this architecture? What's your P99 latency? How do you handle model drift?" The student answers with specific numbers, a Grafana dashboard screenshot, and a rollback plan. The panel nods. The student gets the highest distinction.</p>
       
