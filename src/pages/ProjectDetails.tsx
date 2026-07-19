@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { projectsData } from '../data/projects';
-import { ArrowLeft, Globe, Star, User, Clock, Award, CheckCircle, Code, Smartphone, AlertCircle, X, ChevronLeft, ChevronRight, ZoomIn, ImageOff, Loader2, Sparkles, Download } from 'lucide-react';
+import { ArrowLeft, Globe, Star, User, Clock, Award, CheckCircle, Code, Smartphone, AlertCircle, X, ChevronLeft, ChevronRight, ZoomIn, ImageOff, Loader2, Sparkles, Download, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/seo/SEO';
 
@@ -57,6 +57,7 @@ const ProjectDetails = () => {
   const isMobileApp = project?.category === 'Mobile';
   const hasLiveDemo = Boolean(project?.links?.demo);
   const hasPlayStore = Boolean(project?.links?.playStore);
+  const hasVideo = Boolean(project?.links?.video);
 
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const showPrev = useCallback(() => {
@@ -167,7 +168,7 @@ const ProjectDetails = () => {
               </div>
             </div>
 
-            {(hasLiveDemo || hasPlayStore) && (
+            {(hasLiveDemo || hasPlayStore || hasVideo) && (
               <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex flex-col gap-1.5 pointer-events-auto">
                 {hasLiveDemo && (
                   <a
@@ -189,6 +190,17 @@ const ProjectDetails = () => {
                   >
                     <Download size={13} />
                     <span className="hidden sm:inline">Play Store</span>
+                  </a>
+                )}
+                {hasVideo && (
+                  <a
+                    href={project.links!.video}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-red-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg hover:bg-red-700 hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  >
+                    <Play size={13} />
+                    <span className="hidden sm:inline">Watch Demo</span>
                   </a>
                 )}
               </div>

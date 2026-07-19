@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, ExternalLink, FolderOpen } from 'lucide-react';
+import { ArrowRight, Star, ExternalLink } from 'lucide-react';
 import { projectsData } from '../../data/projects';
 import { getCategoryColor } from '../../utils/categoryColor';
-import SectionHeading from '../ui/motion/SectionHeading';
 import Reveal, { StaggerContainer, StaggerItem } from '../ui/motion/Reveal';
 import Tilt from '../ui/motion/Tilt';
 import SpotlightCard from '../ui/motion/SpotlightCard';
@@ -12,22 +11,35 @@ const FeaturedProjects: React.FC = () => {
   const featuredProjects = projectsData.slice(0, 3);
 
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-20 sm:py-28">
-      {/* Depth for the mid-page dark band */}
+    <section className="relative overflow-hidden bg-neutral-50/80 py-20 backdrop-blur-xl dark:bg-neutral-950/50 sm:py-28">
+      {/* Depth */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary-600/10 blur-3xl" />
-        <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl" />
+        <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary-600/5 blur-3xl dark:bg-primary-600/10" />
+        <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-primary-500/5 blur-3xl dark:bg-primary-500/10" />
       </div>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Proof, Not Promises"
-          eyebrowIcon={<FolderOpen size={16} className="mr-1" />}
-          title="Real Products We've Shipped"
-          highlight="Shipped"
-          description="Every project here is live, in production, in front of real users — see the quality you'd be buying before you spend a dollar."
-        />
+        <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">
+              Featured Work
+            </span>
+            <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl md:text-[2.75rem]">
+              Real products.{' '}
+              <span className="bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent dark:from-primary-300 dark:to-primary-500">
+                Real impact.
+              </span>
+            </h2>
+          </div>
+          <Link
+            to="/projects"
+            className="group inline-flex items-center font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+          >
+            View all projects
+            <ArrowRight size={18} className="ml-1.5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Reveal>
 
-        <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 sm:mt-16 sm:gap-8 md:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 sm:mt-14 sm:gap-8 md:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
           {featuredProjects.map((project) => {
             const isMobile = project.category === 'Mobile';
             return (
@@ -109,16 +121,6 @@ const FeaturedProjects: React.FC = () => {
             );
           })}
         </StaggerContainer>
-
-        <Reveal className="mt-12 text-center">
-          <Link
-            to="/projects"
-            className="inline-flex items-center rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary-700 hover:shadow-xl sm:px-8 sm:py-4"
-          >
-            View All Projects
-            <ArrowRight size={20} className="ml-2" />
-          </Link>
-        </Reveal>
       </div>
     </section>
   );

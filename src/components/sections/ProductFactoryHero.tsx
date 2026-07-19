@@ -1,77 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Play } from 'lucide-react';
-import ProductFactoryScene from '../three/ProductFactoryScene';
+import { ArrowRight, Users, Building2, Globe2, ShieldCheck } from 'lucide-react';
 import MagneticButton from '../ui/motion/MagneticButton';
+import CodeShowcase from './CodeShowcase';
 import { staggerContainer, reveal } from '../../lib/motion';
 
 /**
- * ProductFactoryHero — a calm, premium hero.
- *
- * A single full-height section: refined Three.js backdrop behind a centered
- * headline, subheading and CTAs. Falls back to the same layout without the 3D
- * canvas when WebGL is unavailable or the user prefers reduced motion.
+ * ProductFactoryHero — the home hero copy: plain uppercase eyebrow, a large
+ * headline that types in with a gradient accent phrase, two CTAs and an icon
+ * stat row. The visual is the page-wide HomeAtmosphere flowing behind it (this
+ * section is transparent), so there is no boxed canvas here.
  */
 
-const supportsWebGL = () => {
-  try {
-    const c = document.createElement('canvas');
-    return !!(c.getContext('webgl2') || c.getContext('webgl'));
-  } catch {
-    return false;
-  }
-};
-
-// Shared stagger/reveal tokens from lib/motion.ts so the hero's entrance feels
-// like one system with the rest of the page's scroll reveals, not a bespoke variant.
-const stagger = staggerContainer(0.12, 0.15);
-const fadeUp = reveal({ direction: 'up', distance: 24, duration: 0.6 });
+const stagger = staggerContainer(0.1, 0.1);
+const fadeUp = reveal({ direction: 'up', distance: 20, duration: 0.55 });
 
 const stats = [
-  { value: '50+', label: 'Projects Delivered' },
-  { value: '15+', label: 'Happy Clients' },
-  { value: '5+', label: 'Countries Served' },
-  { value: '99%', label: 'Client Satisfaction' },
+  { value: '50+', label: 'Projects delivered', icon: Building2 },
+  { value: '15+', label: 'Industries served', icon: Users },
+  { value: '5+', label: 'Countries reached', icon: Globe2 },
+  { value: '99%', label: 'Client satisfaction', icon: ShieldCheck },
 ];
 
-// Rotating headlines — brand voice: problem-solving, product-building.
+// Rotating headlines — the first matches the reference exactly.
 const TAGLINES = [
-  { lead: 'We Solve Real Problems,', accent: 'Not Just Code.' },
-  { lead: 'We Turn Bold Ideas', accent: 'Into Real Products.' },
-  { lead: 'We Ship Software', accent: 'That Actually Scales.' },
-  { lead: 'We Engineer Growth,', accent: 'Not Just Features.' },
-  { lead: 'From Idea to Launch,', accent: 'We Build It All.' },
+  { lead: 'We turn ambitious ideas into ', accent: 'intelligent products.' },
+  { lead: 'We solve real problems, ', accent: 'not just write code.' },
+  { lead: 'We ship software ', accent: 'that actually scales.' },
+  { lead: 'From idea to launch, ', accent: 'we build it all.' },
 ];
 
 // Typewriter timing (ms).
-const TYPE_SPEED = 55; // per character while typing
-const DELETE_SPEED = 28; // per character while erasing
-const HOLD_FULL = 1700; // pause once a tagline is fully typed
-const HOLD_EMPTY = 400; // pause before the next tagline starts
+const TYPE_SPEED = 48;
+const DELETE_SPEED = 24;
+const HOLD_FULL = 2000;
+const HOLD_EMPTY = 400;
 
-/** Blinking typewriter caret. Uses a background bar (not text color) so it
- *  stays visible even inside the gradient `text-transparent` accent line. */
-const Caret: React.FC<{ color?: string }> = ({ color = 'bg-white' }) => (
+/** Blinking typewriter caret — a background bar so it stays visible even inside
+ *  the gradient `text-transparent` accent line. */
+const Caret: React.FC<{ color?: string }> = ({ color = 'bg-neutral-900 dark:bg-white' }) => (
   <motion.span
     aria-hidden
-    className={`ml-1 inline-block h-[0.82em] w-[0.06em] translate-y-[0.06em] rounded-sm align-middle ${color}`}
+    className={`ml-1 inline-block h-[0.8em] w-[0.055em] translate-y-[0.05em] rounded-sm align-middle ${color}`}
     animate={{ opacity: [1, 1, 0, 0] }}
     transition={{ duration: 1, repeat: Infinity, ease: 'linear', times: [0, 0.5, 0.5, 1] }}
   />
 );
 
 const ProductFactoryHero: React.FC = () => {
-  const [use3D, setUse3D] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [taglineIndex, setTaglineIndex] = useState(0);
   const [count, setCount] = useState(0); // characters currently revealed
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setReduceMotion(reduce);
-    if (!reduce && supportsWebGL()) setUse3D(true);
+    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }, []);
 
   const active = TAGLINES[taglineIndex];
@@ -98,7 +82,6 @@ const ProductFactoryHero: React.FC = () => {
     return () => clearTimeout(t);
   }, [count, deleting, total, reduceMotion]);
 
-  // Split the revealed characters across the two lines.
   const shown = reduceMotion ? total : count;
   const leadShown = active.lead.slice(0, Math.min(shown, active.lead.length));
   const accentRevealed = Math.max(0, shown - active.lead.length);
@@ -106,83 +89,54 @@ const ProductFactoryHero: React.FC = () => {
   const cursorOnAccent = accentRevealed > 0;
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-neutral-950 via-primary-950 to-neutral-950">
-      {/* 3D backdrop */}
-      {use3D && <ProductFactoryScene className="absolute inset-0 opacity-60" />}
-
-      {/* Soft aurora + vignette + central scrim so text stays legible */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-1/4 top-1/4 h-[45vh] w-[45vh] rounded-full bg-primary-500/15 blur-3xl" />
-        <div className="absolute -right-1/4 bottom-1/4 h-[45vh] w-[45vh] rounded-full bg-primary-500/15 blur-3xl" />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-transparent to-neutral-950/85" />
-        {/* Radial darkening centered behind the copy for contrast */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'radial-gradient(60% 55% at 50% 45%, rgba(2,6,23,0.72) 0%, rgba(2,6,23,0.35) 45%, transparent 75%)' }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6">
-        <motion.div variants={stagger} initial="hidden" animate="visible">
+    <section className="relative overflow-hidden bg-transparent pb-16 pt-32 sm:pb-24 sm:pt-40">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-6 lg:px-8">
+        {/* Copy */}
+        <motion.div variants={stagger} initial="hidden" animate="visible" className="text-center lg:text-left">
           <motion.span
             variants={fadeUp}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/90 shadow-lg shadow-primary-500/10 backdrop-blur-md"
+            className="mb-5 block text-xs font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400"
           >
-            <span className="relative flex h-2 w-2">
-              {!reduceMotion && (
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-75" />
-              )}
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-400" />
-            </span>
-            Digital Product Studio
-            <Sparkles size={14} className="text-primary-400" />
+            AI &amp; Digital Product Studio
           </motion.span>
 
-          {/* Typewriter headline — characters type in / erase, with a blinking
-              caret. Fixed min-height so the lines below never shift. */}
-          <motion.div
+          {/* Typewriter headline — types in / erases with a blinking caret.
+              Fixed min-height so the CTAs below never shift. */}
+          <motion.h1
             variants={fadeUp}
-            className="mb-8 flex min-h-[8.5rem] items-center justify-center sm:min-h-[12rem] lg:min-h-[15rem]"
+            className="min-h-[10rem] text-4xl font-bold leading-[1.05] tracking-tight text-neutral-900 dark:text-white sm:min-h-[13rem] sm:text-5xl lg:min-h-[15.5rem] lg:text-6xl xl:text-[4.25rem]"
+            aria-label={`${active.lead}${active.accent}`}
             aria-live="polite"
           >
-            <h1
-              className="text-5xl font-bold leading-[1.02] tracking-tighter text-white sm:text-7xl lg:text-8xl"
-              style={{ textShadow: '0 2px 30px rgba(2,6,23,0.9)' }}
-              aria-label={`${active.lead} ${active.accent}`}
-            >
-              <span>
-                {leadShown}
-                {!cursorOnAccent && <Caret />}
-              </span>
-              <span className="mt-2 block min-h-[1.1em] bg-gradient-to-r from-primary-300 via-primary-400 to-primary-500 bg-clip-text text-transparent">
-                {accentShown}
-                {cursorOnAccent && <Caret color="bg-primary-400" />}
-              </span>
-            </h1>
-          </motion.div>
+            <span>
+              {leadShown}
+              {!cursorOnAccent && <Caret />}
+            </span>
+            <span className="bg-gradient-to-r from-primary-600 via-secondary-500 to-primary-500 bg-clip-text text-transparent dark:from-primary-400 dark:via-secondary-400 dark:to-primary-300">
+              {accentShown}
+              {cursorOnAccent && <Caret color="bg-secondary-500 dark:bg-secondary-400" />}
+            </span>
+          </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-200/90 sm:text-xl"
-            style={{ textShadow: '0 1px 20px rgba(2,6,23,0.8)' }}
+            className="mx-auto mt-2 max-w-xl text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg lg:mx-0"
           >
-            From a single idea to a launched, cloud-native platform — we design, engineer and ship
-            SaaS, AI and software products that move your business forward.
+            Strategy, design, engineering and AI — united in one senior team.
           </motion.p>
 
           <motion.div
             variants={fadeUp}
-            className="mb-14 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
+            className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
           >
             <MagneticButton strength={0.4} className="w-full sm:w-auto">
               <motion.div whileTap={{ scale: 0.96 }} transition={{ duration: 0.15 }}>
                 <Link
                   to="/order"
-                  className="group flex items-center justify-center rounded-xl bg-primary-600 px-8 py-4 font-semibold text-white shadow-2xl transition-all duration-300 hover:bg-primary-700 hover:shadow-primary-500/30"
+                  className="group flex items-center justify-center gap-2 rounded-full bg-primary-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-primary-600/25 transition-all duration-300 hover:bg-primary-700 hover:shadow-xl"
                 >
-                  Start Your Project
-                  <ArrowRight size={20} className="ml-2 transition-transform group-hover:translate-x-1" />
+                  Start a project
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </Link>
               </motion.div>
             </MagneticButton>
@@ -190,52 +144,38 @@ const ProductFactoryHero: React.FC = () => {
             <MagneticButton strength={0.4} className="w-full sm:w-auto">
               <motion.div whileTap={{ scale: 0.96 }} transition={{ duration: 0.15 }}>
                 <Link
-                  to="/contact"
-                  className="group flex w-full items-center justify-center rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/20"
+                  to="/projects"
+                  className="group flex w-full items-center justify-center gap-2 rounded-full border border-neutral-300 px-6 py-3.5 font-semibold text-neutral-800 transition-all duration-300 hover:border-neutral-400 hover:bg-neutral-50 dark:border-white/15 dark:text-white dark:hover:border-white/30 dark:hover:bg-white/5"
                 >
-                  <Play size={18} className="mr-2 transition-transform group-hover:scale-110" />
-                  Get In Touch
+                  View our work
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </Link>
               </motion.div>
             </MagneticButton>
           </motion.div>
 
+          {/* Stat row */}
           <motion.div
             variants={fadeUp}
-            className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-y-6 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 backdrop-blur-md sm:gap-y-0"
+            className="mx-auto mt-14 grid max-w-lg grid-cols-2 gap-y-6 sm:grid-cols-4 sm:gap-x-4 lg:mx-0 lg:max-w-none"
           >
-            {stats.map((s, i) => (
-              <div
-                key={s.label}
-                className={`flex w-1/2 flex-col items-center px-4 sm:w-auto sm:flex-1 ${
-                  i > 0 ? 'sm:border-l sm:border-white/10' : ''
-                }`}
-              >
-                <div className="bg-gradient-to-b from-white to-neutral-300 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl">
-                  {s.value}
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col items-center gap-1.5 lg:items-start">
+                <div className="flex items-center gap-2 text-neutral-900 dark:text-white">
+                  <s.icon size={16} strokeWidth={2.2} className="text-primary-600 dark:text-primary-400" />
+                  <span className="text-2xl font-bold">{s.value}</span>
                 </div>
-                <div className="mt-1 text-xs text-neutral-400 sm:text-sm">{s.label}</div>
+                <span className="text-xs text-neutral-500 dark:text-neutral-400">{s.label}</span>
               </div>
             ))}
           </motion.div>
         </motion.div>
-      </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-      >
-        <div className="flex h-10 w-6 justify-center rounded-full border-2 border-white/30">
-          <motion.div
-            className="mt-2 h-3 w-1 rounded-full bg-white/50"
-            animate={reduceMotion ? { opacity: 0.7 } : { y: [0, 10, 0], opacity: [1, 0.3, 1] }}
-            transition={reduceMotion ? { duration: 0.3 } : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          />
+        {/* Animated coding window */}
+        <div className="mt-6 lg:mt-0">
+          <CodeShowcase />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

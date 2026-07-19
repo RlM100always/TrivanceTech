@@ -91,29 +91,26 @@ const Testimonials: React.FC<TestimonialsProps> = ({ featured = false }) => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-white dark:bg-neutral-900">
+    <section className="py-16 sm:py-20 bg-white/80 dark:bg-neutral-900/40 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <Reveal className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <MessageSquare size={16} className="mr-2" />
-            Straight From Our Clients
+          <div className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">
+            <MessageSquare size={14} />
+            Client Stories
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-4 sm:mb-6">
-            We'd Rather They <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">Sell It Than Us</span>
+          <h2 className="text-3xl sm:text-4xl md:text-[2.75rem] font-bold text-neutral-900 dark:text-white">
+            We'd rather they <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700 dark:from-primary-300 dark:to-primary-500">sell it than us.</span>
           </h2>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
-            Anyone can write a good pitch. Here's what happened after the contract was signed and the work actually shipped.
-          </p>
         </Reveal>
 
         {/* Testimonials Slider */}
         <Reveal delay={0.1} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)} className="relative">
           {featured ? (
-            /* Home: one bold, large featured quote */
-            <div className="mx-auto mb-10 max-w-4xl">
-              <div className="relative overflow-hidden rounded-3xl border border-neutral-100 bg-white p-8 shadow-2xl dark:border-neutral-700 dark:bg-neutral-800 sm:p-12">
-                <Quote size={56} className="absolute -top-5 left-8 text-primary-500/30" />
+            /* Home: one bold, horizontal featured quote (copy left, person right) */
+            <div className="mx-auto mb-10 max-w-5xl">
+              <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-50 p-8 shadow-xl dark:border-white/10 dark:bg-neutral-800/60 sm:p-12">
+                <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary-500/10 blur-3xl" />
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentSlide}
@@ -121,25 +118,33 @@ const Testimonials: React.FC<TestimonialsProps> = ({ featured = false }) => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.5, ease: EASE_OUT }}
+                    className="relative grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.6fr_1fr]"
                   >
-                    <div className="mb-5 flex justify-center">
-                      {[...Array(testimonials[currentSlide].rating)].map((_, i) => (
-                        <Star key={i} size={22} className="text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-center text-xl font-medium leading-relaxed text-neutral-800 dark:text-neutral-100 sm:text-2xl">
-                      "{testimonials[currentSlide].text}"
-                    </p>
-                    <div className="mt-8 flex items-center justify-center">
-                      <div
-                        aria-hidden
-                        className="mr-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 text-base font-semibold text-white shadow-md shadow-primary-500/20"
-                      >
-                        {testimonials[currentSlide].name.split(' ').map((n) => n[0]).slice(0, 2).join('')}
+                    {/* Quote */}
+                    <div>
+                      <Quote size={44} className="mb-5 fill-current text-primary-500/40" />
+                      <p className="text-xl font-semibold leading-relaxed text-neutral-800 dark:text-neutral-100 sm:text-2xl">
+                        {testimonials[currentSlide].text}
+                      </p>
+                      <div className="mt-6 flex">
+                        {[...Array(testimonials[currentSlide].rating)].map((_, i) => (
+                          <Star key={i} size={18} className="text-yellow-400 fill-current" />
+                        ))}
                       </div>
-                      <div className="text-left">
-                        <h4 className="font-semibold text-neutral-900 dark:text-white">{testimonials[currentSlide].name}</h4>
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{testimonials[currentSlide].position}</p>
+                    </div>
+
+                    {/* Person */}
+                    <div className="flex items-center gap-4 border-t border-neutral-200 pt-6 dark:border-white/10 lg:flex-col lg:items-start lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+                      <img
+                        src={testimonials[currentSlide].image}
+                        alt={testimonials[currentSlide].name}
+                        loading="lazy"
+                        className="h-16 w-16 flex-shrink-0 rounded-full object-cover shadow-md lg:h-20 lg:w-20"
+                      />
+                      <div>
+                        <h4 className="text-lg font-bold text-neutral-900 dark:text-white">{testimonials[currentSlide].name}</h4>
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400">{testimonials[currentSlide].position.split(',')[0]}</p>
+                        <p className="mt-1 text-sm font-semibold text-primary-600 dark:text-primary-400">{testimonials[currentSlide].company}</p>
                       </div>
                     </div>
                   </motion.div>

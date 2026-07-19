@@ -24,6 +24,29 @@ export interface ProjectDetails {
   };
 }
 
+/**
+ * Screenshot helpers for the Current BD University app — the raw-content URLs
+ * are long and near-identical, so the folder prefix is factored out here.
+ * (GitHub `/blob/` links render an HTML page, not the image; `?raw=true` is
+ * what actually serves the file.)
+ */
+const BDU_REPO = 'https://github.com/RlM100always/Hisab/blob/main/BdUniversity';
+const bduUser = (file: string) => `${BDU_REPO}/UserApp/${file}?raw=true`;
+const bduAdmin = (file: string) => `${BDU_REPO}/Admin/${file}?raw=true`;
+
+const BDU_USER_SHOTS = [
+  '11-30-04-42', '11-30-12-77', '11-30-18-52', '11-30-23-48', '11-30-28-61',
+  '11-30-40-57', '11-31-13-92', '11-31-41-95', '11-32-09-90', '11-32-16-63',
+  '11-32-51-24', '11-32-55-43', '11-33-06-93', '11-33-15-82', '11-33-30-29',
+  '11-33-57-00', '11-34-12-25', '11-34-21-83', '11-34-30-49', '11-34-50-63',
+  '11-35-04-57',
+].map((stamp) => bduUser(`Screenshot_2025-01-26-${stamp}_76e36a28fff5818cca09041cbcb93bf7.jpg`));
+
+const BDU_ADMIN_SHOTS = [
+  '11-56-23-06', '11-56-25-83', '11-56-34-81', '11-57-13-36',
+  '11-57-26-50', '11-57-37-44', '11-57-47-77',
+].map((stamp) => bduAdmin(`Screenshot_2025-01-26-${stamp}_514f2e62da74fb0b2ecc2eda7a4722ba.jpg`));
+
 export const projectsData: ProjectDetails[] = [
   {
     id: '1',
@@ -334,29 +357,45 @@ export const projectsData: ProjectDetails[] = [
   },
   {
     id: '7',
-    title: 'Current University BD — University Info Portal',
-    type: 'Academic Project',
-    category: 'Academic',
-    imageUrl: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    title: 'Current BD University — University Info & Student Network App',
+    type: 'Android Application',
+    category: 'Mobile',
+    imageUrl: BDU_USER_SHOTS[0],
     clientName: 'Bangladeshi Student Community',
     deliveryTime: '4 weeks',
-    review: 'Finally, an up-to-date, organized source for university admission info in one place.',
+    review: 'Finally, an up-to-date, organized source for university information — plus a real community around it.',
     rating: 5,
-    description: 'An information portal covering current admission circulars, deadlines, and details for universities in Bangladesh.',
-    challenge: 'Students needed a reliable, up-to-date source for admission news and deadlines instead of scattered, outdated information.',
-    solution: 'We built an organized portal presenting university admission updates and details in a clean, searchable format.',
+    description:
+      'Current BD University is a comprehensive Android platform bringing together everything a Bangladeshi student needs in one app: information on every university in the country including faculties, courses and teacher directories, alongside a genuine student network. Beyond reference data, it adds the utilities students actually reach for day to day — a CGPA calculator, a community blood donation board, business and startup profiles, and expertise sharing — backed by a full admin app for content management.',
+    challenge:
+      'University information in Bangladesh is scattered across dozens of outdated sites, PDFs and Facebook groups, and none of it connects students to each other. Students had no single place to look up a faculty or teacher, calculate their CGPA, find a blood donor on campus, or reach peers with the skills they needed — so each of those tasks meant a different tool, or no tool at all.',
+    solution:
+      'We built a native Java/XML Android app on Firebase with SQLite for offline-capable local data, pairing a structured university/faculty/teacher directory with social features — student networking, expertise posts, business profiles and a blood donation board. A companion admin application lets the team manage universities, galleries and user content directly, and full post management (edit/delete) keeps the community self-moderating.',
+    highlights: [
+      'Every university in Bangladesh in one directory — faculties, courses and teachers',
+      'Built-in CGPA calculator replaces the spreadsheets students juggle each semester',
+      'Community blood donation board connects donors and requests on campus',
+      'Companion admin app for managing universities, galleries and user content',
+    ],
     features: [
-      'University admission updates',
-      'Organized, searchable listings',
-      'Clean, student-friendly UI',
-      'Mobile-responsive design'
+      'University information — faculties, courses and departments',
+      'Teacher directory with contact details and expertise',
+      'University gallery of campus and event photos',
+      'Student networking and professional connections',
+      'Blood donation — donate and request within the student community',
+      'Business and startup profile creation',
+      'Search across universities, students and topics',
+      'Expertise sharing posts',
+      'In-app CGPA calculator',
+      'Post management — update and delete your own posts',
     ],
-    technologies: ['React', 'JavaScript', 'CSS'],
-    images: [
-      'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ],
+    technologies: ['Java', 'XML', 'Android SDK', 'Firebase', 'SQLite'],
+    images: [...BDU_USER_SHOTS, ...BDU_ADMIN_SHOTS],
     links: {
-      github: 'https://github.com/RlM100always/Current-UniversityBD'
-    }
-  }
+      github: 'https://github.com/RlM100always/Current-UniversityBD',
+      // Demo walkthrough — deliberately not `demo`, which the detail page
+      // renders as a green "Live Site" badge (this is an Android app, not a site).
+      video: 'https://youtu.be/zgWeWTUwv4U',
+    },
+  },
 ];

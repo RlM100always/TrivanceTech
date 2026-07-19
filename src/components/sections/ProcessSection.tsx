@@ -1,75 +1,67 @@
 import React from 'react';
-import { Compass, PenTool, Code2, Rocket } from 'lucide-react';
+import { Search, FileText, Code2, Rocket, ArrowRight } from 'lucide-react';
 import SectionHeading from '../ui/motion/SectionHeading';
 import { StaggerContainer, StaggerItem } from '../ui/motion/Reveal';
 
 /**
  * ProcessSection — "How we work".
  *
- * Four large numbered steps with generous whitespace, giant index numerals and a
- * connective line on desktop. Part of the hero-forward Home arc: fewer, bigger,
- * more editorial blocks rather than another dense card grid.
+ * Four steps, each a numbered circle + icon, connected by arrows on desktop —
+ * mirroring the studio-site reference's compact "01 → 02 → 03 → 04" layout.
  */
 
 const STEPS = [
   {
-    icon: Compass,
+    icon: Search,
     title: 'Discover',
-    description: 'We dig into your goals, users and constraints — then map the fastest path from idea to impact.',
+    description: 'We dive deep into your users, market and goals to uncover real opportunities.',
   },
   {
-    icon: PenTool,
+    icon: FileText,
     title: 'Design',
-    description: 'Wireframes, prototypes and a premium UI system, validated with you before a line of code ships.',
+    description: 'We define the right solution with a clear scope, roadmap and success metrics.',
   },
   {
     icon: Code2,
     title: 'Build',
-    description: 'Senior engineers build in tested, reviewable increments — you see real progress every week.',
+    description: 'We design and engineer in agile sprints with transparency at every step.',
   },
   {
     icon: Rocket,
     title: 'Launch',
-    description: 'We deploy to cloud-native infrastructure, hand over cleanly and stay on for support and growth.',
+    description: 'We launch with confidence and support growth with continuous improvement.',
   },
 ];
 
 const ProcessSection: React.FC = () => {
   return (
-    <section className="overflow-hidden bg-white py-20 dark:bg-neutral-900 sm:py-28">
+    <section className="overflow-hidden bg-white/80 py-20 backdrop-blur-xl dark:bg-neutral-900/40 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="How We Work"
-          title="From idea to launch, in four steps"
-          highlight="four steps"
+          eyebrow="Our Process"
+          title="From idea to launch, without the chaos."
+          highlight="without the chaos"
           description="A calm, transparent process that keeps you in the loop and gets your product live without surprises."
         />
 
         <StaggerContainer
-          className="relative mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-16 grid grid-cols-1 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-4"
           stagger={0.12}
         >
-          {/* Connective line (desktop) */}
-          <div
-            aria-hidden
-            className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-neutral-200 to-transparent dark:via-neutral-700 lg:block"
-          />
-
           {STEPS.map((step, i) => (
             <StaggerItem key={step.title}>
-              <div className="relative flex flex-col">
-                <div className="flex items-center gap-4">
-                  <div className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/25">
-                    <step.icon size={26} className="text-white" />
-                  </div>
-                  <span className="font-display text-6xl font-bold leading-none text-neutral-100 dark:text-neutral-800">
+              <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-primary-200 bg-primary-50 text-sm font-bold text-primary-600 dark:border-primary-500/30 dark:bg-primary-500/10 dark:text-primary-400">
                     {String(i + 1).padStart(2, '0')}
                   </span>
+                  <step.icon size={20} className="text-neutral-400 dark:text-neutral-500" />
+                  {i < STEPS.length - 1 && (
+                    <ArrowRight size={16} className="hidden text-neutral-300 dark:text-neutral-700 lg:block" />
+                  )}
                 </div>
-                <h3 className="mt-6 text-2xl font-bold text-neutral-900 dark:text-white">
-                  {step.title}
-                </h3>
-                <p className="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-300">
+                <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{step.title}</h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
                   {step.description}
                 </p>
               </div>

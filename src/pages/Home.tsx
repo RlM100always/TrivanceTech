@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import HomeAtmosphere from '../components/three/HomeAtmosphere';
 import ProductFactoryHero from '../components/sections/ProductFactoryHero';
 import TrustStrip from '../components/sections/TrustStrip';
 import HomeValue from '../components/sections/HomeValue';
@@ -28,9 +30,31 @@ const organizationJsonLd = {
   ],
 };
 
+const supportsWebGL = () => {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch {
+    return false;
+  }
+};
+
 const Home = () => {
+  const [showAtmosphere, setShowAtmosphere] = useState(false);
+
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && supportsWebGL()) setShowAtmosphere(true);
+  }, []);
+
   return (
-    <div>
+    <div className="relative">
+      {/* Full-page ambient background flowing behind every section */}
+      {showAtmosphere && (
+        <HomeAtmosphere className="pointer-events-none fixed inset-0 z-0 opacity-70 dark:opacity-100" />
+      )}
+
+      <div className="relative z-10">
       <SEO
         title="AiTechWorlds — AI, Web, Mobile & Software Solutions Worldwide"
         description="Remote-first AI & technology company delivering web development, mobile apps, AI/ML solutions, cybersecurity, and academic project support to clients worldwide."
@@ -41,14 +65,12 @@ const Home = () => {
       <ProductFactoryHero />
       <TrustStrip />
       <HomeValue />
-      <PremiumServices limit={3} />
-      {/* Mid-page dark band for depth/contrast — forced dark regardless of theme */}
-      <div className="dark">
-        <FeaturedProjects />
-      </div>
+      <PremiumServices limit={6} />
+      <FeaturedProjects />
       <ProcessSection />
       <Testimonials featured />
       <CallToAction />
+      </div>
     </div>
   );
 };

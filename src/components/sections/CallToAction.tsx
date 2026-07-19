@@ -1,100 +1,91 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Mail, MessageCircle, MessageSquare } from 'lucide-react';
-import { CONTACT_EMAIL } from '../../utils/socialLinks';
+import { Rocket, Mail, Clock, Globe2, MessageCircle } from 'lucide-react';
+import { CONTACT_EMAIL, whatsappChatLink } from '../../utils/socialLinks';
 import Reveal from '../ui/motion/Reveal';
 import MagneticButton from '../ui/motion/MagneticButton';
 
+const contactRows = [
+  { icon: Mail, label: 'Email us', value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+  { icon: MessageCircle, label: 'Chat with us', value: 'WhatsApp / Telegram', href: whatsappChatLink("Hi AiTechWorlds! I'd like to start a project.") },
+  { icon: Clock, label: 'Response time', value: 'Usually within a few hours' },
+  { icon: Globe2, label: 'Where we work', value: 'Remote-first, worldwide' },
+];
+
 const CallToAction: React.FC = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 py-16 text-white dark:from-primary-800 dark:via-primary-900 dark:to-neutral-900 sm:py-20">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="aurora-blob absolute -left-24 top-0 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl" />
-        <div className="aurora-blob absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-primary-400/10 blur-3xl" style={{ animationDirection: 'reverse' }} />
-      </div>
+    <section className="bg-neutral-50/70 py-16 backdrop-blur-xl dark:bg-neutral-950/40 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-700 via-primary-800 to-neutral-900 p-8 text-white sm:p-12">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-primary-500/20 blur-3xl" />
+            <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-primary-400/10 blur-3xl" />
+          </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2">
-          {/* Content */}
-          <Reveal direction="left" className="text-center lg:text-left">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium backdrop-blur-sm sm:mb-6">
-              <MessageSquare size={16} className="mr-1" />
-              No Obligation, Just Answers
-            </div>
-            <h2 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl">
-              Your idea deserves a{' '}
-              <span className="bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-                real team
-              </span>
-            </h2>
-            <p className="mb-6 text-lg leading-relaxed text-neutral-200 sm:mb-8 sm:text-xl">
-              Tell us what you want to build. You'll get a straight answer on scope, timeline and cost — from the engineers who'd actually build it, not a sales rep.
-            </p>
-
-            {/* Contact Info */}
-            <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="flex items-center justify-center lg:justify-start">
-                <Mail size={20} className="mr-3 text-primary-400" />
-                <div>
-                  <p className="text-sm text-neutral-300">Email Us</p>
-                  <p className="font-semibold">{CONTACT_EMAIL}</p>
-                </div>
+          <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
+            {/* Content */}
+            <div className="text-center lg:text-left">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm lg:mx-0">
+                <Rocket size={26} />
               </div>
-              <div className="flex items-center justify-center lg:justify-start">
-                <MessageCircle size={20} className="mr-3 text-primary-400" />
-                <div>
-                  <p className="text-sm text-neutral-300">Chat With Us</p>
-                  <p className="font-semibold">WhatsApp / Telegram</p>
-                </div>
+              <h2 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl">
+                Your idea deserves a senior team.
+              </h2>
+              <p className="mb-8 max-w-xl text-base leading-relaxed text-neutral-300 sm:text-lg">
+                Let's build something remarkable — together. Tell us what you want to build and
+                you'll get a straight answer on scope, timeline and cost.
+              </p>
+              <div className="flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+                <MagneticButton strength={0.4} className="w-full sm:w-auto">
+                  <Link
+                    to="/order"
+                    className="flex items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-primary-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-neutral-100 sm:px-8 sm:py-4"
+                  >
+                    Start your project
+                  </Link>
+                </MagneticButton>
+                <MagneticButton strength={0.4} className="w-full sm:w-auto">
+                  <Link
+                    to="/contact"
+                    className="flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 sm:px-8 sm:py-4"
+                  >
+                    Book a consultation
+                  </Link>
+                </MagneticButton>
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
-              <MagneticButton strength={0.4} className="w-full sm:w-auto">
-                <Link
-                  to="/order"
-                  className="flex items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-primary-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-neutral-100 sm:px-8 sm:py-4"
-                >
-                  Start Your Project
-                  <ArrowRight size={20} className="ml-2" />
-                </Link>
-              </MagneticButton>
-              <MagneticButton strength={0.4} className="w-full sm:w-auto">
-                <Link
-                  to="/contact"
-                  className="flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 sm:px-8 sm:py-4"
-                >
-                  Get Free Consultation
-                </Link>
-              </MagneticButton>
+            {/* Contact info */}
+            <div className="grid grid-cols-1 gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+              {contactRows.map((row) => {
+                const content = (
+                  <>
+                    <row.icon size={18} className="mt-0.5 flex-shrink-0 text-primary-300" />
+                    <div>
+                      <p className="text-xs text-neutral-400">{row.label}</p>
+                      <p className="text-sm font-semibold">{row.value}</p>
+                    </div>
+                  </>
+                );
+                return row.href ? (
+                  <a
+                    key={row.label}
+                    href={row.href}
+                    target={row.href.startsWith('http') ? '_blank' : undefined}
+                    rel={row.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="flex items-start gap-3 transition-opacity hover:opacity-80"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div key={row.label} className="flex items-start gap-3">
+                    {content}
+                  </div>
+                );
+              })}
             </div>
-          </Reveal>
-
-          {/* Image/Visual */}
-          <Reveal direction="right" className="relative">
-            <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 shadow-2xl">
-              <img
-                src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1"
-                alt="Team collaboration"
-                className="h-full w-full object-cover opacity-80"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-900/50 to-transparent" />
-            </div>
-
-            {/* Floating Stats */}
-            <div className="absolute -bottom-4 -left-4 rounded-xl bg-white p-4 shadow-xl dark:bg-neutral-800">
-              <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">50+</div>
-              <div className="text-sm text-neutral-600 dark:text-neutral-300">Projects Done</div>
-            </div>
-
-            <div className="absolute -right-4 -top-4 rounded-xl bg-primary-500 p-4 shadow-xl">
-              <div className="text-2xl font-bold text-white">99%</div>
-              <div className="text-sm text-white/80">Satisfaction</div>
-            </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

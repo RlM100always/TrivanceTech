@@ -1,7 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Reveal from './Reveal';
-import { EASE_OUT } from '../../../lib/motion';
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -50,26 +48,16 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
   return (
     <Reveal className={`flex flex-col ${alignment} ${className}`}>
       {eyebrow && (
-        <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary-100 px-3 py-1.5 text-sm font-medium text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
+        <span className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">
           {eyebrowIcon}
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl md:text-5xl">
+      <h2 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl md:text-[2.75rem]">
         {renderTitle()}
       </h2>
-      {align === 'center' && (
-        <motion.span
-          className="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-primary-400 to-primary-600"
-          initial={{ scaleX: 0, opacity: 0 }}
-          whileInView={{ scaleX: 1, opacity: 1 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.15 }}
-          style={{ originX: 0.5 }}
-        />
-      )}
       {description && (
-        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-xl">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
           {description}
         </p>
       )}

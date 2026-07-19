@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Instagram, Linkedin, Facebook, Youtube, Send, ArrowRight, MessageCircle, X as XIcon, Loader2, Check } from 'lucide-react';
+import { Mail, Instagram, Linkedin, Facebook, Youtube, Send, ArrowRight, MessageCircle, X as XIcon, Loader2, Check, Sparkles } from 'lucide-react';
 import Logo from '../ui/Logo';
 import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../../utils/socialLinks';
 
@@ -92,9 +92,9 @@ const PremiumFooter: React.FC = () => {
 
         {/* Main Footer Content */}
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Company Info */}
-            <div className="lg:col-span-1">
+            <div className="md:col-span-2 lg:col-span-1">
               <Logo variant="light" size="md" className="mb-6" />
               <p className="text-neutral-400 mb-6 leading-relaxed">
                 AI, tech &amp; software solutions for the world — web, mobile, AI/ML, and academic project support, delivered remotely to clients everywhere.
@@ -217,6 +217,43 @@ const PremiumFooter: React.FC = () => {
                   Academic Projects &amp; Thesis
                 </Link>
               </nav>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <h3 className="text-lg font-semibold mb-6">Resources</h3>
+              <nav className="flex flex-col space-y-3">
+                <Link to="/blog" className="text-neutral-400 hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Insights
+                </Link>
+                <Link to="/projects" className="text-neutral-400 hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Case Studies
+                </Link>
+                <Link to="/testimonials" className="text-neutral-400 hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Client Stories
+                </Link>
+                <Link to="/careers" className="text-neutral-400 hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight size={14} className="mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Careers
+                </Link>
+              </nav>
+
+              <div className="mt-8 rounded-xl border border-white/10 bg-white/5 p-4">
+                <div className="mb-2 flex items-center gap-2 text-xs font-medium text-primary-400">
+                  <Sparkles size={14} />
+                  We're available
+                </div>
+                <p className="mb-3 text-sm text-neutral-300">Open to new projects.</p>
+                <Link
+                  to="/order"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 transition-colors duration-300"
+                >
+                  Start a project
+                </Link>
+              </div>
             </div>
 
             {/* Contact Info */}
