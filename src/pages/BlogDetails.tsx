@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, Eye, Share2, Tag, HelpCircle, List, CheckCircle, ArrowRight } from 'lucide-react';
 import { blogPosts } from '../data/blogPosts';
@@ -26,11 +26,40 @@ const slugify = (text: string) =>
 const withHeadingIds = (html: string) =>
   html.replace(/<h2>(.*?)<\/h2>/g, (_match, text: string) => `<h2 id="${slugify(text)}">${text}</h2>`);
 
+/**
+ * Removes the common leading indentation from a block of text. Diagram sources
+ * live inside indented HTML template literals, but mermaid's parser treats that
+ * leading whitespace as significant and fails on it.
+ */
+const dedent = (text: string) => {
+  const lines = text.replace(/^\n+/, '').replace(/\s+$/, '').split('\n');
+  const indents = lines
+    .filter((l) => l.trim().length > 0)
+    .map((l) => l.match(/^[ \t]*/)?.[0].length ?? 0);
+  const common = indents.length ? Math.min(...indents) : 0;
+  return lines.map((l) => l.slice(common)).join('\n');
+};
+
 const BlogDetails: React.FC = () => {
   const { id } = useParams();
   const post = blogPosts.find((p) => p.id === id);
 
   const [progress, setProgress] = useState(0);
+  const articleRef = useRef<HTMLDivElement>(null);
+
+  // Mermaid bakes theme colours into the rendered SVG, so diagrams have to be
+  // re-rendered when the user toggles dark mode rather than restyled by CSS.
+  const [isDark, setIsDark] = useState(
+    () => typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() =>
+      setIsDark(document.documentElement.classList.contains('dark'))
+    );
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -46,19 +75,60 @@ const BlogDetails: React.FC = () => {
   const headings = useMemo(() => (post ? extractHeadings(post.content) : []), [post]);
   const processedContent = useMemo(() => (post ? withHeadingIds(post.content) : ''), [post]);
 
+  // Wide comparison tables would otherwise stretch the page on phones; give each
+  // its own scroll container instead.
   useEffect(() => {
-    mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    const root = articleRef.current;
+    if (!root) return;
+    root.querySelectorAll('table').forEach((table) => {
+      if (table.parentElement?.classList.contains('table-scroll')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'table-scroll';
+      table.replaceWith(wrapper);
+      wrapper.appendChild(table);
+    });
+  }, [processedContent]);
 
-    const pres = document.querySelectorAll('pre.mermaid');
-    pres.forEach((pre) => {
+  useEffect(() => {
+    let cancelled = false;
+    const root = articleRef.current;
+    if (!root) return;
+
+    // startOnLoad would race with the explicit run() below, processing nodes
+    // twice; drive rendering manually instead.
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'loose',
+      theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+    });
+
+    // Scope every query to this article. The previous version queried the whole
+    // document, so it also picked up nodes belonging to other mounted content.
+    root.querySelectorAll('pre.mermaid').forEach((pre) => {
       const div = document.createElement('div');
       div.className = 'mermaid';
-      div.textContent = pre.textContent;
+      // Diagram source is indentation-sensitive; the HTML literal indents the
+      // <pre> body, which mermaid rejects. Strip the common leading indent.
+      div.textContent = dedent(pre.textContent ?? '');
       pre.replaceWith(div);
     });
 
-    mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
-  }, [processedContent]);
+    const nodes = Array.from(root.querySelectorAll<HTMLElement>('.mermaid'));
+    if (nodes.length === 0) return;
+
+    // run() is async and rejects on a malformed diagram. Unhandled, that left
+    // every diagram on the page blank with nothing in the console.
+    mermaid
+      .run({ nodes, suppressErrors: false })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error('[BlogDetails] mermaid render failed:', err);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [processedContent, isDark]);
 
   if (!post) {
     return (
@@ -153,7 +223,7 @@ const BlogDetails: React.FC = () => {
           <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/70 to-neutral-900/30" />
         </div>
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 sm:pt-36 sm:pb-20">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 sm:pt-16 sm:pb-20">
           <Link
             to="/blog"
             className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors duration-200"
@@ -222,7 +292,8 @@ const BlogDetails: React.FC = () => {
           {/* Article */}
           <article className="min-w-0">
             <div
-              className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
+              ref={articleRef}
+              className="blog-content prose prose-base sm:prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
 

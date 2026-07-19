@@ -166,14 +166,14 @@ const Contact = () => {
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-semibold text-neutral-900 dark:text-white">LinkedIn</h3>
-                  <p className="mt-0.5 break-words">
+                  <p className="mt-0.5">
                     <a
                       href={SOCIAL_LINKS.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={LINK_CLASS}
                     >
-                      linkedin.com/company/aitechworlds
+                      Connect on LinkedIn
                     </a>
                   </p>
                 </div>

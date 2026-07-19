@@ -31,7 +31,12 @@ const WhatsAppFloatingButton: React.FC = () => {
   const bubbleVisible = showBubble && !dismissed;
 
   return (
-    <div className="fixed z-40 bottom-24 right-5 lg:bottom-8 lg:right-8 flex flex-col items-end gap-3">
+    // Sits above the mobile BottomNav (and its safe-area inset); at lg the tab
+    // bar is gone, so it drops back to a plain corner offset.
+    <div
+      className="fixed z-40 right-4 sm:right-5 lg:right-8 lg:!bottom-8 flex flex-col items-end gap-3"
+      style={{ bottom: 'calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 1rem)' }}
+    >
       {bubbleVisible && (
         <div className="relative max-w-[240px] sm:max-w-xs bg-white dark:bg-neutral-800 rounded-2xl rounded-br-sm shadow-2xl border border-neutral-100 dark:border-neutral-700 p-4 animate-[fadeIn_0.3s_ease-out]">
           <button

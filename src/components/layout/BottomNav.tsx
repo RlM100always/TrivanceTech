@@ -19,17 +19,18 @@ const BottomNav: React.FC = () => {
       className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-lg border-t border-neutral-200 dark:border-neutral-800 shadow-[0_-2px_16px_rgba(0,0,0,0.08)]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4" style={{ height: 'var(--bottom-nav-h)' }}>
         {navItems.map((item) => {
           const active = isActive(item.path);
           return (
             <Link
               key={item.name}
               to={item.path}
-              className="relative flex flex-col items-center justify-center py-2.5 gap-0.5 group"
+              aria-current={active ? 'page' : undefined}
+              className="relative flex flex-col items-center justify-center gap-0.5 group select-none"
             >
               <span
-                className={`flex items-center justify-center h-8 w-14 rounded-full transition-all duration-300 ${
+                className={`flex items-center justify-center h-7 w-14 rounded-full transition-all duration-300 ${
                   active
                     ? 'bg-primary-100 dark:bg-primary-900/40'
                     : 'bg-transparent group-active:bg-neutral-100 dark:group-active:bg-neutral-800'

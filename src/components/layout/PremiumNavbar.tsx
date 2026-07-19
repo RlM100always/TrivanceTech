@@ -57,18 +57,21 @@ const PremiumNavbar: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <nav
-        className={`mx-auto transition-all duration-500 ease-out ${
-          isScrolled ? 'mt-3 max-w-6xl px-2 sm:px-0' : 'mt-0 max-w-none'
+        // Below lg the bar stays edge-to-edge and full-bleed (Android app bar
+        // convention). The floating detached pill on scroll is a desktop-only
+        // treatment — on a phone it just made the bar jump and lose width.
+        className={`mx-auto transition-all duration-500 ease-out max-w-none ${
+          isScrolled ? 'lg:mt-3 lg:max-w-6xl' : 'mt-0'
         }`}
       >
         <div
           className={`transition-all duration-500 ease-out backdrop-blur-xl ${
             isScrolled
-              ? 'rounded-2xl bg-white/75 dark:bg-neutral-900/75 border border-neutral-200/70 dark:border-white/10 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_40px_-12px_rgba(0,0,0,0.15)]'
+              ? 'bg-white/85 dark:bg-neutral-900/85 border-b border-neutral-200/70 dark:border-white/10 shadow-sm lg:rounded-2xl lg:border lg:shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_40px_-12px_rgba(0,0,0,0.15)]'
               : 'rounded-none bg-white/70 dark:bg-neutral-950/60 border-b border-neutral-200/60 dark:border-white/5'
           }`}
         >
-          <div className={`flex items-center justify-between transition-all duration-500 ${isScrolled ? 'h-14 px-4 sm:px-5' : 'h-16 sm:h-[72px] px-4 sm:px-6 lg:px-10'}`}>
+          <div className={`flex items-center justify-between px-4 transition-all duration-500 ${isScrolled ? 'h-14 sm:px-5' : 'h-16 sm:h-[72px] sm:px-6 lg:px-10'}`}>
             {/* Logo */}
             <Link to="/" className="flex-shrink-0" aria-label="AiTechWorlds home">
               <Logo variant="dark" size={isScrolled ? 'sm' : 'md'} className="transition-all duration-500" />
@@ -205,7 +208,10 @@ const PremiumNavbar: React.FC = () => {
               </nav>
 
               {/* Footer actions */}
-              <div className="px-4 py-5 border-t border-neutral-100 dark:border-neutral-800 space-y-3">
+              <div
+                className="px-4 pt-5 border-t border-neutral-100 dark:border-neutral-800 space-y-3"
+                style={{ paddingBottom: 'calc(1.25rem + env(safe-area-inset-bottom))' }}
+              >
                 <Link
                   to={user ? portalPath : '/login'}
                   onClick={() => setIsMobileMenuOpen(false)}

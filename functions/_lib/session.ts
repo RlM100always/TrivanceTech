@@ -17,7 +17,26 @@ function fromBase64Url(str: string): Uint8Array {
   return bytes;
 }
 
-async function hmacKey(secret: string): Promise<CryptoKey> {
+/**
+ * A missing SESSION_SECRET reaches WebCrypto as a zero-length key and surfaces as
+ * "Imported HMAC key length (0) must be a non-zero value..." — which reads like a
+ * crypto bug rather than a missing binding, and cost several misdirected fixes.
+ * Fail loudly at the boundary instead.
+ */
+function assertSecret(secret: string | undefined): string {
+  if (!secret) {
+    throw new Error(
+      'SESSION_SECRET is not set. Sessions cannot be signed. ' +
+        'Set it on Cloudflare (`wrangler pages secret put SESSION_SECRET`, or Pages > ' +
+        'Settings > Environment variables as type "Secret"), then redeploy. ' +
+        'Locally it comes from .dev.vars.'
+    );
+  }
+  return secret;
+}
+
+async function hmacKey(rawSecret: string): Promise<CryptoKey> {
+  const secret = assertSecret(rawSecret);
   return crypto.subtle.importKey(
     'raw',
     new TextEncoder().encode(secret),

@@ -117,7 +117,7 @@ const ProjectDetails = () => {
           keywords: project.technologies.join(', '),
         }}
       />
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/projects" className="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-6 sm:mb-8 transition-colors duration-200 text-sm font-medium">
           <ArrowLeft className="mr-1.5" size={18} />
           Back to Projects
@@ -207,9 +207,12 @@ const ProjectDetails = () => {
             )}
           </div>
 
-          <div className="p-3 sm:p-5 lg:p-7 -mt-12 relative z-10">
-            {/* Project Overview Cards */}
-            <div className="grid grid-cols-2 gap-2.5 sm:gap-4 -mt-10 mb-8 sm:mb-12 relative z-10">
+          <div className="p-4 sm:p-6 lg:p-8 relative z-10">
+            {/* Project Overview Cards — deliberately overlap the hero by a
+                single small offset (previously -mt-12 and -mt-10 stacked to
+                -88px, which buried the hero title on mobile). The short mobile
+                hero has no spare room, so the overlap starts at sm. */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-0 sm:-mt-12 mb-8 sm:mb-12 relative z-10">
               <div className="bg-white dark:bg-neutral-800 rounded-lg p-3 sm:p-4 shadow text-center">
                 <User className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400 mx-auto mb-1.5" />
                 <h3 className="font-medium text-neutral-900 dark:text-white text-xs sm:text-sm mb-0.5">Client</h3>

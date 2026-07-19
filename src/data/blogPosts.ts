@@ -63,7 +63,7 @@ export const blogPosts: BlogPost[] = [
       
       <p>In our own pipeline, AI-assisted scaffolding typically cuts the time from kickoff to first usable demo by 30–40%. That's not a productivity stat for a slide — it's weeks of earlier feedback, earlier revenue, and earlier course-correction.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     A[Kickoff] --> B[AI Scaffolding]
@@ -89,7 +89,7 @@ graph TD
       
       <p>Core Web Vitals are now a ranking and conversion factor, not a developer vanity metric. A 100ms improvement in load time is frequently the difference between a bounce and a checkout.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph LR
     subgraph "Traditional Origin"
@@ -139,11 +139,11 @@ graph LR
         <li><strong>Days 76–90: Measure & Iterate</strong> Compare conversion rates, search visibility, and developer velocity against baseline. Double down on what moved the needle.</li>
       </ol>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Want a site that loads fast and sells harder?</h3>
         <p>We audit, rebuild, and ship production-grade web apps with edge performance and answer-engine-ready structure built in from day one.</p>
-        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>Common Mistakes Teams Make in 2026</h2>
@@ -201,7 +201,7 @@ graph LR
       <h2>The Three Pillars of International Scalability</h2>
       <p>Three things separate apps that scale globally from apps that don't: infrastructure that serves users with low latency regardless of location, a codebase that separates content from logic so localization doesn't require re-engineering, and performance that holds up on low-end devices and unreliable networks — not just flagship phones on fiber.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Pillar 1: Infrastructure"
@@ -233,7 +233,7 @@ graph TD
       
       <p>We deploy with a "home region + 3 edge regions" minimum: home region for writes, edge regions for reads and static assets. For a recent fintech client serving Bangladesh, India, and Nigeria, this dropped p95 API latency from 840ms to 180ms in Lagos.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph LR
     subgraph "Write Path"
@@ -280,7 +280,7 @@ graph LR
       <h2>Payment and Compliance Realities</h2>
       <p>Payment preferences vary sharply by region — mobile wallets dominate in parts of Asia and Africa, cards dominate in North America. Meanwhile, data privacy regulations (GDPR, CCPA, NDPR, PDPA, and regional equivalents) shape where and how user data can be stored. Both should be scoped before development starts, not discovered at launch when a store rejection or a fine lands on your lap.</p>
       
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Payment Methods by Region"
@@ -314,11 +314,11 @@ graph TD
         <li><strong>Store rules:</strong> Google Play and App Store policies differ by region; verify before promising a date</li>
       </ul>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Launching in more than one country?</h3>
         <p>We build cross-platform mobile apps engineered for global scale — i18n, offline-first, multi-region, and regional payments handled properly from the first sprint.</p>
-        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>Native vs. Cross-Platform for a Global Launch</h2>
@@ -382,7 +382,7 @@ graph TD
       <h2>What Makes an AI/ML Student Project Stand Out?</h2>
       <p>Depth over novelty. A well-executed project that solves a real, specific problem — with a documented dataset, a clear evaluation metric, and an honest discussion of limitations — impresses reviewers and employers far more than a flashy demo built entirely on a pre-trained model with no original engineering.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     A[Problem Definition] --> B[Dataset Selection]
@@ -441,7 +441,7 @@ graph TD
       
       <blockquote>The model is a tool. Your judgment around the model is the project.</blockquote>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 flowchart LR
     subgraph "What Reviewers See"
@@ -477,7 +477,7 @@ flowchart LR
       <h2>What AI/ML Skills Matter Most for a Career, Not Just a Grade?</h2>
       <p>Data preprocessing and evaluation rigor matter more day-to-day than exotic model architectures. Most real AI work is data engineering, prompt/fine-tune iteration, and integration — not training novel models from scratch. Learn to wrangle messy data and to measure honestly, and you'll be employable long before you've published a paper.</p>
       
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 pie title "Where Real AI Engineering Time Goes"
     "Data Cleaning & EDA" : 35
@@ -496,11 +496,11 @@ pie title "Where Real AI Engineering Time Goes"
         <li><strong>Communication</strong> — explaining results to non-technical stakeholders. The best model that nobody understands ships nowhere.</li>
       </ul>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Stuck on your AI thesis or capstone?</h3>
         <p>Our engineers mentor students through architecture, datasets, evaluation, and a defensible write-up — the kind of guidance that turns a passing project into a standout one.</p>
-        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>Frequently Asked Questions</h2>
@@ -547,7 +547,7 @@ pie title "Where Real AI Engineering Time Goes"
       <h2>The Highest-Impact Security Controls (Ranked by ROI)</h2>
       <p>In order of impact-to-cost ratio: enforce multi-factor authentication everywhere, keep software and dependencies patched, encrypt data in transit and at rest, and train staff to recognize phishing — which remains the most common entry point for breaches by a wide margin.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Breach Entry Points (Verizon DBIR 2025)"
@@ -616,11 +616,11 @@ graph TD
       <h3>Application-Layer Security</h3>
       <p>For any business with a customer-facing web app, this means CSRF protection, input validation and sanitization to prevent SQL injection and XSS, and secure session handling — the fundamentals we build into every application we ship, by default rather than as a paid add-on.</p>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Not sure your business is actually protected?</h3>
         <p>We run pragmatic security reviews and harden the apps we build — MFA, patching policy, least-privilege, and secure coding baked in from the start.</p>
-        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>How Much Should a Small Business Budget for Security?</h2>
@@ -629,7 +629,7 @@ graph TD
       <h3>Build an Incident Response Plan</h3>
       <p>You don't need a security operations center. You need a one-page plan: who gets called, how you isolate affected systems, how you notify customers, and who handles communications. Rehearse it once. The teams that recover fastest are the ones that planned before the fire.</p>
       
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 flowchart TD
     A[Incident Detected] --> B{Severity?}
@@ -697,7 +697,7 @@ flowchart TD
       <h2>The Right Migration Sequence</h2>
       <p>Start with stateless, low-risk services (static sites, internal tools) to validate your process and your runbooks, then move data-heavy or customer-facing systems once the team has hands-on experience with the target platform's failure modes. Sequencing is the strategy; the cloud is just the destination.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Phase 1: Foundation (Weeks 1-2)"
@@ -768,11 +768,11 @@ graph TD
 
       <blockquote>Migrate in a way you can undo. A migration with no rollback plan isn't a plan — it's a hope.</blockquote>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Planning a move to the cloud?</h3>
         <p>We design phased, reversible cloud migrations — right-sized, cost-audited, and compliant from day one, so you grow instead of guessing.</p>
-        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>How Long Does a Typical Cloud Migration Take?</h2>
@@ -830,7 +830,7 @@ graph TD
       <h2>The Three Habits of High-Functioning Remote Teams</h2>
       <p>Default-async communication, radical documentation, and outcomes-based accountability rather than hours-tracked accountability. Teams that try to replicate office habits (mandatory daily meetings, always-online expectations) over video call tend to burn out faster than teams that redesign their workflow around asynchronous collaboration.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Office-Default (Burnout Path)"
@@ -899,10 +899,10 @@ graph TD
         <li>Peer feedback in retros</li>
       </ul>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Building or scaling a remote team?</h3>
-        <p>We operate remote-first by design. Hire us and you get mature async processes, clear docs, and consistent delivery across timezones — not a team learning it on your dime.</        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <p>We operate remote-first by design. Hire us and you get mature async processes, clear docs, and consistent delivery across timezones — not a team learning it on your dime.</        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>How Do You Maintain Team Culture Without an Office?</h2>
@@ -958,7 +958,7 @@ graph TD
       <h2>The Four Things That Actually Matter</h2>
       <p>Four things matter most: relevant portfolio evidence (not just any portfolio, one that matches your project type), clear and honest communication before you've even signed, a pricing model that aligns incentives, and a process for handling scope changes without either party feeling ambushed.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Red Flags (Walk Away)"
@@ -1019,7 +1019,7 @@ graph TD
       <h3>Pricing Models and What They Incentivize</h3>
       <p>Fixed-price works well for well-defined, smaller projects. Time-and-materials suits projects with evolving requirements but needs trust and transparent reporting. Be wary of quotes that seem too low relative to scope — it usually means either corners will be cut or scope disputes are coming. Cheap is expensive when it ships late.</p>
       
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph LR
     subgraph "Fixed Price"
@@ -1058,10 +1058,10 @@ graph LR
         <li>Change merged into sprint backlog</li>
       </ol>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Ready to talk to a partner who scopes honestly?</h3>
-        <p>We show you similar live builds, give you straight timelines with caveats, and put a clear change process in the contract — before you sign.</        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <p>We show you similar live builds, give you straight timelines with caveats, and put a clear change process in the contract — before you sign.</        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>Questions to Ask Before Signing</h2>
@@ -1120,7 +1120,7 @@ graph LR
       <h2>What Separates a Strong Academic Software Project from an Average One?</h2>
       <p>Deliberate architecture and design-pattern choices that are explained and justified, a real test suite (not just manual clicking-through), and documentation that shows the reasoning behind decisions — not just a README that says how to run it. Reviewers can feel the difference between "it runs" and "it was engineered."</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TD
     subgraph "Average Project (Meets Requirements)"
@@ -1191,10 +1191,10 @@ graph TD
       
       <blockquote>You're not being graded on whether the code runs. You're being graded on whether you can defend why it's built that way.</blockquote>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Want a thesis that actually impresses the panel?</h3>
-        <p>We mentor students through architecture, testing, and a defensible write-up — production-grade engineering practice applied to your academic project.</        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <p>We mentor students through architecture, testing, and a defensible write-up — production-grade engineering practice applied to your academic project.</        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>How Does Working with an Experienced Team Change the Outcome?</h2>
@@ -1248,7 +1248,7 @@ graph TD
       <h2>The Decision Framework</h2>
       <p>Build a web app first if your users need to discover you via search, work primarily on desktop, or you need to validate an MVP fast and cheaply. Build mobile first if your core value depends on device features (camera, GPS, push notifications) or your users expect an installed, always-available experience.</p>
 
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 flowchart TD
     Start[What is the Core Use Case?] --> Discovery{How Do Users Discover You?}
@@ -1306,10 +1306,10 @@ flowchart TD
       <h3>When You Need Both from Day One</h3>
       <p>Consumer products competing in a category where users expect an app (marketplaces, social products, fitness) often need both relatively quickly. In that case, a shared backend with a cross-platform mobile framework (React Native/Flutter) plus a web app lets you launch both without doubling the engineering team.</p>
 
-      <div className="cta-box">
+      <div class="cta-box">
         <h3>Not sure which to build first?</h3>
-        <p>We help you pick the right starting platform from your use case and budget — then architect it so adding the other later is cheap, not a rebuild.</        <a href="/contact" className="cta-primary">Talk to our team →</a>
-        <a href="/services" className="cta-secondary">Browse services</a>
+        <p>We help you pick the right starting platform from your use case and budget — then architect it so adding the other later is cheap, not a rebuild.</        <a href="/contact" class="cta-primary">Talk to our team →</a>
+        <a href="/services" class="cta-secondary">Browse services</a>
       </div>
 
       <h2>The Most Cost-Effective Way to Launch Both Eventually</h2>
@@ -1323,7 +1323,7 @@ flowchart TD
       </ul>
 
       <h3>Architecture for Platform Agnosticism</h3>
-      <div className="mermaid-wrapper">
+      <div class="mermaid-wrapper">
         <pre class="mermaid">
 graph TB
     subgraph "Shared Backend (Build Once)"
