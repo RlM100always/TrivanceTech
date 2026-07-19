@@ -69,8 +69,15 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   }
 
   if (href && !disabled) {
+    // Only http(s) destinations leave the site — in-page anchors (#jobs), mailto:,
+    // tel: and wa.me deep links must stay in the current tab.
+    const isExternal = /^https?:\/\//i.test(href);
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      <a
+        href={href}
+        {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className={classes}
+      >
         {children}
       </a>
     );

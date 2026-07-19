@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Search, Calendar, ArrowRight, Clock, Eye, TrendingUp, Loader2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { blogPosts, blogCategories } from '../data/blogPosts';
 import SEO from '../components/seo/SEO';
+import PageShell from '../components/ui/layout/PageShell';
+import PageHero from '../components/ui/layout/PageHero';
+import Section from '../components/ui/layout/Section';
+import GlassCard from '../components/ui/layout/GlassCard';
+import ActionButton from '../components/ui/layout/ActionButton';
+import { StaggerContainer, StaggerItem } from '../components/ui/motion/Reveal';
 
 const Blog: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,18 +33,34 @@ const Blog: React.FC = () => {
     }
   };
 
-  const filteredPosts = blogPosts.filter((post) => {
-    const term = searchTerm.toLowerCase();
-    const matchesSearch =
-      post.title.toLowerCase().includes(term) ||
-      post.excerpt.toLowerCase().includes(term) ||
-      post.tags.some((tag) => tag.toLowerCase().includes(term));
-    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredPosts = useMemo(
+    () =>
+      blogPosts.filter((post) => {
+        const term = searchTerm.toLowerCase();
+        const matchesSearch =
+          post.title.toLowerCase().includes(term) ||
+          post.excerpt.toLowerCase().includes(term) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(term));
+        const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      }),
+    [searchTerm, selectedCategory]
+  );
 
+  const isBrowsingAll = selectedCategory === 'all' && !searchTerm;
   const featuredPost = blogPosts.find((post) => post.featured);
-  const regularPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id);
+
+  // The featured post only gets its own hero card when nothing is filtered. Once the
+  // reader searches or picks a topic it must fall back into the grid, otherwise a
+  // query that matches only the featured post renders an empty list.
+  const gridPosts = isBrowsingAll
+    ? filteredPosts.filter((post) => post.id !== featuredPost?.id)
+    : filteredPosts;
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('all');
+  };
 
   const blogJsonLd = {
     '@context': 'https://schema.org',
@@ -57,7 +79,7 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+    <PageShell>
       <SEO
         title="Tech Insights & Innovation Blog"
         description="Practical, no-hype insights on web development, mobile apps, AI/ML, cybersecurity, cloud, and remote-first tech culture from the AiTechWorlds team."
@@ -66,167 +88,205 @@ const Blog: React.FC = () => {
         jsonLd={blogJsonLd}
       />
 
-      {/* Header */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-neutral-900 text-white">
-        <div className="absolute inset-0">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
-          <span className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-            <TrendingUp size={16} className="mr-2" />
-            {blogPosts.length} articles · {blogCategories.length - 1} topics
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Tech Insights & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-200 to-primary-400">Innovation</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-neutral-200 max-w-3xl mx-auto leading-relaxed">
-            Practical, no-hype playbooks on web, mobile, AI, and security — written from real client work, not from a content calendar.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={`${blogPosts.length} articles · ${blogCategories.length - 1} topics`}
+        eyebrowIcon={<TrendingUp size={13} />}
+        title="Tech insights & innovation"
+        highlight="innovation"
+        description="Practical, no-hype playbooks on web, mobile, AI, and security — written from real client work, not from a content calendar."
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Blog' }]}
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Search and Filter */}
-        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between mb-12">
-          <div className="relative w-full lg:max-w-md">
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
-            <input
-              type="text"
-              placeholder="Search articles, topics, tags…"
-              className="w-full pl-10 pr-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white shadow-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {blogCategories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full font-medium transition-colors duration-200 ${
-                  selectedCategory === category
-                    ? 'bg-primary-600 text-white shadow-md'
-                    : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-neutral-200 dark:border-neutral-700'
-                }`}
-              >
-                {category === 'all' ? 'All Topics' : category}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* Search + topics */}
+      <Section tone="muted" compact>
+        <GlassCard interactive={false} className="p-4 sm:p-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full max-w-md">
+              <Search
+                size={18}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400"
+              />
+              <input
+                type="search"
+                aria-label="Search articles"
+                placeholder="Search articles, topics, tags…"
+                className="w-full rounded-xl border border-neutral-300 bg-white/80 py-3 pl-11 pr-4 text-neutral-900 placeholder-neutral-500 backdrop-blur transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder-neutral-400"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
 
-        {/* Featured Post */}
-        {featuredPost && selectedCategory === 'all' && !searchTerm && (
-          <div className="mb-16">
-            <h2 className="flex items-center text-sm font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400 mb-5">
-              <TrendingUp size={16} className="mr-2" /> Featured
-            </h2>
-            <Link
-              to={`/blog/${featuredPost.id}`}
-              className="group block bg-white dark:bg-neutral-800 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
-            >
-              <div className="md:flex">
-                <div className="md:w-1/2 relative overflow-hidden">
-                  <img
-                    src={featuredPost.featuredImage}
-                    alt={featuredPost.title}
-                    className="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="md:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
-                  <span className="self-start px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium mb-4">
-                    {featuredPost.category}
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-white mb-4 leading-snug group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {featuredPost.title}
-                  </h3>
-                  <p className="text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed">{featuredPost.excerpt}</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400">
-                      <img src={featuredPost.authorImage} alt={featuredPost.author} className="w-9 h-9 rounded-full mr-3" />
-                      <div>
-                        <p className="font-medium text-neutral-900 dark:text-white">{featuredPost.author}</p>
-                        <p className="flex items-center">
-                          <Calendar size={12} className="mr-1" />
+            <div className="flex flex-wrap items-center gap-2">
+              {blogCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  aria-pressed={selectedCategory === category}
+                  className={`rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                    selectedCategory === category
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25'
+                      : 'border border-neutral-200 bg-white/70 text-neutral-600 backdrop-blur hover:border-primary-300 hover:text-primary-700 dark:border-white/10 dark:bg-white/5 dark:text-neutral-300 dark:hover:text-primary-300'
+                  }`}
+                >
+                  {category === 'all' ? 'All Topics' : category}
+                </button>
+              ))}
+            </div>
+          </div>
+        </GlassCard>
+
+        <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400" aria-live="polite">
+          Showing {filteredPosts.length} of {blogPosts.length} articles
+        </p>
+      </Section>
+
+      {/* Featured */}
+      {featuredPost && isBrowsingAll && (
+        <Section tone="plain" compact>
+          <h2 className="mb-5 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-primary-600 dark:text-primary-400">
+            <TrendingUp size={14} /> Featured
+          </h2>
+
+          <GlassCard as="article" flush className="group">
+            <Link to={`/blog/${featuredPost.id}`} className="block md:flex">
+              <div className="relative overflow-hidden md:w-1/2">
+                <img
+                  src={featuredPost.featuredImage}
+                  alt={featuredPost.title}
+                  className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105 md:h-full"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 sm:p-10 md:w-1/2">
+                <span className="mb-4 self-start rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 dark:bg-primary-500/10 dark:text-primary-300">
+                  {featuredPost.category}
+                </span>
+                <h3 className="text-2xl font-bold leading-snug text-neutral-900 transition-colors group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400 sm:text-3xl">
+                  {featuredPost.title}
+                </h3>
+                <p className="mt-4 leading-relaxed text-neutral-600 dark:text-neutral-400">{featuredPost.excerpt}</p>
+
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400">
+                    <img
+                      src={featuredPost.authorImage}
+                      alt=""
+                      loading="lazy"
+                      className="h-9 w-9 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-medium text-neutral-900 dark:text-white">{featuredPost.author}</p>
+                      <p className="flex flex-wrap items-center gap-x-3">
+                        <span className="inline-flex items-center gap-1">
+                          <Calendar size={12} />
                           {new Date(featuredPost.publishDate).toLocaleDateString()}
-                          <Clock size={12} className="ml-3 mr-1" />
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <Clock size={12} />
                           {featuredPost.readTime}
-                        </p>
-                      </div>
+                        </span>
+                      </p>
                     </div>
-                    <span className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg group-hover:bg-primary-700 transition-colors duration-200">
-                      Read more <ArrowRight size={16} className="ml-2" />
-                    </span>
                   </div>
+                  <span className="hidden shrink-0 items-center gap-2 rounded-xl bg-primary-600 px-4 py-2 font-semibold text-white shadow-lg shadow-primary-600/25 transition-colors group-hover:bg-primary-700 sm:inline-flex">
+                    Read more <ArrowRight size={16} />
+                  </span>
                 </div>
               </div>
             </Link>
-          </div>
-        )}
+          </GlassCard>
+        </Section>
+      )}
 
-        {/* Blog Grid */}
-        {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularPosts.map((post) => (
-              <Link key={post.id} to={`/blog/${post.id}`} className="group">
-                <article className="bg-white dark:bg-neutral-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-white/90 dark:bg-neutral-900/90 text-neutral-900 dark:text-white rounded-full text-sm font-medium shadow">
+      {/* Grid */}
+      <Section tone="plain" compact>
+        {gridPosts.length > 0 ? (
+          <StaggerContainer
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 sm:gap-8"
+            stagger={0.07}
+          >
+            {gridPosts.map((post) => (
+              <StaggerItem key={post.id}>
+                <GlassCard as="article" flush className="group h-full">
+                  <Link to={`/blog/${post.id}`} className="flex h-full flex-col">
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={post.featuredImage}
+                        alt={post.title}
+                        loading="lazy"
+                        className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-sm font-medium text-neutral-900 shadow backdrop-blur dark:bg-neutral-900/90 dark:text-white">
                         {post.category}
                       </span>
                     </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-neutral-600 dark:text-neutral-300 mb-5 leading-relaxed line-clamp-3 flex-1">{post.excerpt}</p>
-                    <div className="flex items-center justify-between pt-4 border-t border-neutral-100 dark:border-neutral-700 text-sm text-neutral-500 dark:text-neutral-400">
-                      <div className="flex items-center">
-                        <img src={post.authorImage} alt={post.author} className="w-8 h-8 rounded-full mr-2" />
-                        <span className="font-medium text-neutral-700 dark:text-neutral-300">{post.author}</span>
-                      </div>
-                      <span className="flex items-center">
-                        <Eye size={14} className="mr-1" />
-                        {post.views > 999 ? `${(post.views / 1000).toFixed(1)}k` : post.views}
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search size={32} className="text-neutral-400" />
-            </div>
-            <h3 className="text-xl font-medium text-neutral-900 dark:text-white mb-2">No articles found</h3>
-            <p className="text-neutral-600 dark:text-neutral-300">Try a different keyword or browse all topics.</p>
-          </div>
-        )}
 
-        {/* Newsletter */}
-        <div className="mt-16 rounded-3xl bg-gradient-to-r from-primary-500 to-primary-700 p-8 md:p-12 text-white text-center shadow-xl">
-          <h3 className="text-3xl font-bold mb-4">Never miss a practical guide</h3>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+                    <div className="flex flex-1 flex-col p-6">
+                      <h3 className="line-clamp-2 text-xl font-bold text-neutral-900 transition-colors duration-200 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
+                        {post.title}
+                      </h3>
+                      <p className="mt-3 line-clamp-3 flex-1 leading-relaxed text-neutral-600 dark:text-neutral-400">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="mt-5 flex items-center justify-between border-t border-neutral-200/70 pt-4 text-sm text-neutral-500 dark:border-white/10 dark:text-neutral-400">
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={post.authorImage}
+                            alt=""
+                            loading="lazy"
+                            className="h-8 w-8 rounded-full object-cover"
+                          />
+                          <span className="font-medium text-neutral-700 dark:text-neutral-300">{post.author}</span>
+                        </div>
+                        <span className="inline-flex items-center gap-1">
+                          <Eye size={14} />
+                          {post.views > 999 ? `${(post.views / 1000).toFixed(1)}k` : post.views}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </GlassCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        ) : (
+          <GlassCard interactive={false} className="py-16 text-center">
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-neutral-100 text-neutral-400 dark:bg-white/5">
+              <Search size={32} />
+            </div>
+            <h2 className="text-xl font-semibold text-neutral-900 dark:text-white sm:text-2xl">No articles found</h2>
+            <p className="mx-auto mt-2 max-w-md text-neutral-600 dark:text-neutral-400">
+              Try a different keyword or browse all topics.
+            </p>
+            <div className="mt-6 flex justify-center">
+              <ActionButton onClick={clearFilters}>Clear Filters</ActionButton>
+            </div>
+          </GlassCard>
+        )}
+      </Section>
+
+      {/* Newsletter */}
+      <Section tone="accent" compact>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+            Never miss a practical guide
+          </h2>
+          <p className="mt-3 text-neutral-600 dark:text-neutral-400">
             Get our best breakdowns on web, mobile, AI, and security delivered straight to your inbox.
           </p>
+
           <form
-            className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto"
+            className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
               e.preventDefault();
               subscribe();
             }}
           >
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
               type="email"
               required
               placeholder="you@company.com"
@@ -235,13 +295,9 @@ const Blog: React.FC = () => {
                 setNewsletterEmail(e.target.value);
                 if (subscribeStatus !== 'idle') setSubscribeStatus('idle');
               }}
-              className="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-inner"
+              className="flex-1 rounded-xl border border-neutral-300 bg-white/80 px-4 py-3 text-neutral-900 placeholder-neutral-500 backdrop-blur transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder-neutral-400"
             />
-            <button
-              type="submit"
-              disabled={subscribeStatus === 'loading'}
-              className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-neutral-100 disabled:opacity-70 transition-colors duration-300 flex items-center justify-center gap-2"
-            >
+            <ActionButton type="submit" size="lg" disabled={subscribeStatus === 'loading'} className="shrink-0">
               {subscribeStatus === 'loading' ? (
                 <Loader2 size={18} className="animate-spin" />
               ) : subscribeStatus === 'done' ? (
@@ -251,14 +307,22 @@ const Blog: React.FC = () => {
               ) : (
                 'Subscribe'
               )}
-            </button>
+            </ActionButton>
           </form>
-          {subscribeStatus === 'error' && (
-            <p className="mt-3 text-sm text-white/80">Something went wrong — please try again.</p>
-          )}
+
+          <p aria-live="polite" className="mt-3 text-sm">
+            {subscribeStatus === 'error' && (
+              <span className="text-red-600 dark:text-red-400">Something went wrong — please try again.</span>
+            )}
+            {subscribeStatus === 'done' && (
+              <span className="text-neutral-600 dark:text-neutral-400">
+                You're on the list — watch your inbox.
+              </span>
+            )}
+          </p>
         </div>
-      </div>
-    </div>
+      </Section>
+    </PageShell>
   );
 };
 

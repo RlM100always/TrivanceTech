@@ -1,396 +1,397 @@
-import { Users, Award, Globe, Target, Eye, Heart, Zap, Code, Smartphone, Database, Cloud, Shield, Cpu, ArrowRight, Play, CheckCircle, Star, TrendingUp, Building, MapPin, Bug } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import {
+  Users,
+  Award,
+  Globe,
+  Target,
+  Eye,
+  Heart,
+  Zap,
+  Code,
+  Smartphone,
+  Database,
+  Cloud,
+  Shield,
+  Cpu,
+  ArrowRight,
+  CheckCircle,
+  Star,
+  TrendingUp,
+  MapPin,
+  Bug,
+} from 'lucide-react';
 import SEO from '../components/seo/SEO';
+import PageShell from '../components/ui/layout/PageShell';
+import PageHero from '../components/ui/layout/PageHero';
+import Section from '../components/ui/layout/Section';
+import GlassCard from '../components/ui/layout/GlassCard';
+import ActionButton from '../components/ui/layout/ActionButton';
+import SectionHeading from '../components/ui/motion/SectionHeading';
+import { StaggerContainer, StaggerItem } from '../components/ui/motion/Reveal';
 
-const About = () => {
-  const stats = [
-    { number: '50+', label: 'Projects Completed', icon: CheckCircle },
-    { number: '15+', label: 'Happy Clients', icon: Users },
-    { number: '10+', label: 'Expert Developers', icon: Code },
-    { number: '99%', label: 'Client Satisfaction', icon: Star }
-  ];
+const stats = [
+  { number: '50+', label: 'Projects Completed', icon: CheckCircle },
+  { number: '15+', label: 'Happy Clients', icon: Users },
+  { number: '10+', label: 'Expert Developers', icon: Code },
+  { number: '99%', label: 'Client Satisfaction', icon: Star },
+];
 
-  const services = [
-    {
-      icon: Code,
-      title: 'Web Development',
-      description: 'Custom web applications built with cutting-edge technologies'
-    },
-    {
-      icon: Smartphone,
-      title: 'Mobile Development',
-      description: 'Native and cross-platform mobile applications'
-    },
-    {
-      icon: Database,
-      title: 'Database Solutions',
-      description: 'Scalable database design and optimization'
-    },
-    {
-      icon: Code,
-      title: 'Software Development',
-      description: 'Software solutions tailored to your business needs'
-    },
-    {
-      icon: Cloud,
-      title: 'University Projects & Thesis',
-      description: 'University projects, thesis and assignments for Global Students'
-    },
-    {
-      icon: Shield,
-      title: 'Cybersecurity',
-      description: 'Comprehensive security solutions and audits'
-    },
-    {
-      icon: Cpu,
-      title: 'AI & Machine Learning',
-      description: 'Intelligent solutions powered by AI technology'
-    }
-  ];
+const pillars = [
+  {
+    icon: Target,
+    title: 'Our Mission',
+    description:
+      'To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.',
+  },
+  {
+    icon: Eye,
+    title: 'Our Vision',
+    description:
+      'To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.',
+  },
+  {
+    icon: Heart,
+    title: 'Our Values',
+    description:
+      'Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.',
+  },
+];
 
-  const team = [
-    {
-      name: 'Md. Rakib Hossain',
-      position: 'CEO & Founder',
-      badge: 'Founder',
-      icon: Zap,
-      image: 'https://media.licdn.com/dms/image/v2/D5603AQFVSIKpkRw5FQ/profile-displayphoto-crop_800_800/B56Z866GhOGoAI-/0/1783399738471?e=1785369600&v=beta&t=N8KW4fVDVQzNbaqcDhICasW5Lm5qRR1DQKTNRR3kePs',
-      description: 'Visionary leader with 5+ years in IT industry, driving AiTechWorlds’ remote-first mission worldwide.'
-    },
-    {
-      name: 'Md Al Habib',
-      position: 'Software Engineer & AI Developer',
-      badge: 'Vibe Coding Expert',
-      icon: Cpu,
-      image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2011_40_57%20AM.webp',
-      description: 'AI-focused software engineer turning ideas into intelligent, production-ready products through rapid, AI-assisted development.'
-    },
-    {
-      name: 'Shamshur Rahman',
-      position: 'Problem Solver and Cloud Expert',
-      badge: 'Cloud Expert',
-      icon: Cloud,
-      image: 'https://avatars.githubusercontent.com/u/109974472?v=4',
-      description: 'Solves complex infrastructure challenges and architects reliable, scalable cloud deployments for every project.'
-    },
-    {
-      name: 'Abdullah Al Arman Emon',
-      position: 'Software Testing Expert & Prompt Engineer',
-      badge: 'QA & Prompt Engineering',
-      icon: Bug,
-      image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2001_31_41%20PM.webp',
-      description: 'Ensures every release is bug-free through rigorous testing, and crafts high-precision prompts that power our AI-driven workflows.'
-    }
-  ];
+const services = [
+  { icon: Code, title: 'Web Development', description: 'Custom web applications built with cutting-edge technologies' },
+  { icon: Smartphone, title: 'Mobile Development', description: 'Native and cross-platform mobile applications' },
+  { icon: Database, title: 'Database Solutions', description: 'Scalable database design and optimization' },
+  { icon: Code, title: 'Software Development', description: 'Software solutions tailored to your business needs' },
+  {
+    icon: Cloud,
+    title: 'University Projects & Thesis',
+    description: 'University projects, thesis and assignments for Global Students',
+  },
+  { icon: Shield, title: 'Cybersecurity', description: 'Comprehensive security solutions and audits' },
+  { icon: Cpu, title: 'AI & Machine Learning', description: 'Intelligent solutions powered by AI technology' },
+];
 
-  const milestones = [
-    { year: '2022', title: 'Company Founded', description: 'Started with a vision to make world-class tech solutions accessible to clients everywhere' },
-    { year: '2023', title: 'First Major Client', description: 'Secured partnership with leading financial institution' },
-    { year: '2024', title: 'Team Expansion', description: 'Grew to 10+ talented professionals' },
-    { year: '2025', title: 'Global Expansion', description: 'Serving clients across 5+ countries' }
-  ];
+const team = [
+  {
+    name: 'Md. Rakib Hossain',
+    position: 'CEO & Founder',
+    badge: 'Founder',
+    icon: Zap,
+    image:
+      'https://media.licdn.com/dms/image/v2/D5603AQFVSIKpkRw5FQ/profile-displayphoto-crop_800_800/B56Z866GhOGoAI-/0/1783399738471?e=1785369600&v=beta&t=N8KW4fVDVQzNbaqcDhICasW5Lm5qRR1DQKTNRR3kePs',
+    description:
+      'Visionary leader with 5+ years in IT industry, driving AiTechWorlds’ remote-first mission worldwide.',
+  },
+  {
+    name: 'Md Al Habib',
+    position: 'Software Engineer & AI Developer',
+    badge: 'Vibe Coding Expert',
+    icon: Cpu,
+    image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2011_40_57%20AM.webp',
+    description:
+      'AI-focused software engineer turning ideas into intelligent, production-ready products through rapid, AI-assisted development.',
+  },
+  {
+    name: 'Shamshur Rahman',
+    position: 'Problem Solver and Cloud Expert',
+    badge: 'Cloud Expert',
+    icon: Cloud,
+    image: 'https://avatars.githubusercontent.com/u/109974472?v=4',
+    description:
+      'Solves complex infrastructure challenges and architects reliable, scalable cloud deployments for every project.',
+  },
+  {
+    name: 'Abdullah Al Arman Emon',
+    position: 'Software Testing Expert & Prompt Engineer',
+    badge: 'QA & Prompt Engineering',
+    icon: Bug,
+    image: 'https://img.aitechworlds.com/profile/ChatGPT%20Image%20Jul%209%2C%202026%2C%2001_31_41%20PM.webp',
+    description:
+      'Ensures every release is bug-free through rigorous testing, and crafts high-precision prompts that power our AI-driven workflows.',
+  },
+];
 
-  return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-      <SEO
-        title="About AiTechWorlds — Remote-First AI & Tech Team"
-        description="Meet the remote-first team behind AiTechWorlds — real engineers delivering web, mobile, and AI solutions to clients worldwide, no physical office required."
-        path="/about"
-        keywords={['about AiTechWorlds', 'remote tech team', 'software development company team']}
+const milestones = [
+  {
+    year: '2022',
+    title: 'Company Founded',
+    description: 'Started with a vision to make world-class tech solutions accessible to clients everywhere',
+  },
+  { year: '2023', title: 'First Major Client', description: 'Secured partnership with leading financial institution' },
+  { year: '2024', title: 'Team Expansion', description: 'Grew to 10+ talented professionals' },
+  { year: '2025', title: 'Global Expansion', description: 'Serving clients across 5+ countries' },
+];
+
+const differentiators = [
+  {
+    icon: Globe,
+    title: 'Remote-First, Worldwide',
+    description:
+      'No offices, no timezone excuses — a distributed senior team that works alongside you wherever you are.',
+  },
+  {
+    icon: Award,
+    title: 'Global Standards',
+    description: 'International best practices and cutting-edge technologies applied to every project.',
+  },
+  {
+    icon: CheckCircle,
+    title: 'Proven Track Record',
+    description: '50+ delivered projects and a 99% client satisfaction rate speak for the quality of the work.',
+  },
+];
+
+const About = () => (
+  <PageShell>
+    <SEO
+      title="About AiTechWorlds — Remote-First AI & Tech Team"
+      description="Meet the remote-first team behind AiTechWorlds — real engineers delivering web, mobile, and AI solutions to clients worldwide, no physical office required."
+      path="/about"
+      keywords={['about AiTechWorlds', 'remote tech team', 'software development company team']}
+    />
+
+    <PageHero
+      eyebrow="Remote-First · Serving Clients Worldwide"
+      eyebrowIcon={<MapPin size={13} />}
+      title="The team behind your next product"
+      highlight="your next product"
+      description="No account managers, no outsourced juniors — you work directly with the senior engineers and designers who build your product, wherever you are in the world."
+      crumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]}
+      actions={
+        <>
+          <ActionButton to="/order" size="lg">
+            Start Your Project
+            <ArrowRight size={18} />
+          </ActionButton>
+          <ActionButton to="/contact" variant="ghost" size="lg">
+            Get In Touch
+          </ActionButton>
+        </>
+      }
+    />
+
+    {/* Stats */}
+    <Section tone="muted" compact>
+      <StaggerContainer className="grid grid-cols-2 gap-6 lg:grid-cols-4 sm:gap-8" stagger={0.07}>
+        {stats.map((stat) => (
+          <StaggerItem key={stat.label}>
+            <GlassCard className="group h-full text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
+                <stat.icon size={22} className="text-white" />
+              </div>
+              <div className="text-2xl font-bold text-neutral-900 dark:text-white sm:text-4xl">{stat.number}</div>
+              <div className="mt-1 text-sm font-medium text-neutral-600 dark:text-neutral-400 sm:text-base">
+                {stat.label}
+              </div>
+            </GlassCard>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </Section>
+
+    {/* Mission / Vision / Values */}
+    <Section tone="plain">
+      <SectionHeading
+        eyebrow="What Drives Us"
+        title="Our mission & vision"
+        highlight="mission & vision"
+        description="Driving digital transformation for clients around the world."
+        className="mb-12 sm:mb-16"
       />
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-neutral-900 via-primary-900 to-primary-800 dark:from-neutral-950 dark:via-primary-950 dark:to-primary-900 text-white py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-4 sm:mb-6">
-                <MapPin size={16} className="mr-2" />
-                Remote-First · Serving Clients Worldwide
+
+      <StaggerContainer className="grid grid-cols-1 gap-6 lg:grid-cols-3 sm:gap-8" stagger={0.08}>
+        {pillars.map((pillar) => (
+          <StaggerItem key={pillar.title}>
+            <GlassCard className="group h-full text-center">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-300 group-hover:scale-110">
+                <pillar.icon size={24} className="text-white" />
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                The Team Behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">Your Next Product</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-neutral-200 mb-6 sm:mb-8 leading-relaxed">
-                No account managers, no outsourced juniors — you work directly with the senior engineers and designers who build your product, wherever you are in the world.
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">{pillar.title}</h3>
+              <p className="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-400">{pillar.description}</p>
+            </GlassCard>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </Section>
+
+    {/* Expertise */}
+    <Section tone="muted">
+      <SectionHeading
+        eyebrow="Capabilities"
+        title="Our expertise"
+        highlight="expertise"
+        description="Comprehensive technology solutions tailored to meet your business needs."
+        className="mb-12 sm:mb-16"
+      />
+
+      <StaggerContainer
+        className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 sm:gap-8"
+        stagger={0.06}
+      >
+        {services.map((service) => (
+          <StaggerItem key={service.title}>
+            <GlassCard className="group h-full">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
+                <service.icon size={22} className="text-white" />
+              </div>
+              <h3 className="text-lg font-bold text-neutral-900 dark:text-white sm:text-xl">{service.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base">
+                {service.description}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <button className="group inline-flex items-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105">
-                  <Play size={20} className="mr-2 group-hover:scale-110 transition-transform" />
-                  Watch Our Story
-                </button>
-                <Link 
-                  to="/contact" 
-                  className="inline-flex items-center px-6 py-3 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300"
-                >
-                  Get In Touch <ArrowRight size={20} className="ml-2" />
-                </Link>
-              </div>
-            </div>
-            
-            <div className="relative order-first lg:order-last">
-              <div className="aspect-video bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl shadow-2xl overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group">
-                    <Play size={24} className="text-white ml-1 group-hover:scale-110 transition-transform sm:w-8 sm:h-8" />
-                  </button>
+            </GlassCard>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </Section>
+
+    {/* Team */}
+    <Section tone="plain">
+      <SectionHeading
+        eyebrow="The People"
+        title="Meet the team you'll actually work with"
+        highlight="actually work with"
+        description="Experienced professionals driving digital transformation for clients worldwide."
+        className="mb-12 sm:mb-16"
+      />
+
+      <StaggerContainer
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-8"
+        stagger={0.08}
+      >
+        {team.map((member) => (
+          <StaggerItem key={member.name}>
+            <GlassCard as="article" className="group h-full text-center">
+              <div className="relative mb-6">
+                <div className="mx-auto h-32 w-32 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 p-1 shadow-lg transition-shadow duration-300 group-hover:shadow-primary-500/30 sm:h-36 sm:w-36">
+                  <div className="h-full w-full overflow-hidden rounded-full ring-4 ring-white dark:ring-neutral-900">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
                 </div>
-                <img 
-                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" 
-                  alt="AiTechWorlds Team" 
-                  className="w-full h-full object-cover opacity-60"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-12 sm:py-16 bg-white dark:bg-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <stat.icon size={20} className="text-white sm:w-7 sm:h-7" />
+                <div className="absolute -bottom-1 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 shadow-md ring-4 ring-white dark:ring-neutral-900">
+                  <member.icon size={16} className="text-white" />
                 </div>
-                <div className="text-2xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-2">{stat.number}</div>
-                <div className="text-neutral-600 dark:text-neutral-300 font-medium text-sm sm:text-base">{stat.label}</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Mission & Vision</h2>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              Driving digital transformation for clients around the world
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
-                <Target size={20} className="text-white sm:w-7 sm:h-7" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Mission</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                To empower businesses worldwide with cutting-edge technology solutions that drive growth, efficiency, and innovation in the digital age.
+              <span className="mb-3 inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700 dark:bg-primary-500/10 dark:text-primary-300">
+                {member.badge}
+              </span>
+              <h3 className="text-lg font-bold text-neutral-900 dark:text-white sm:text-xl">{member.name}</h3>
+              <p className="mt-1 text-sm font-semibold text-primary-600 dark:text-primary-400">{member.position}</p>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                {member.description}
               </p>
-            </div>
+            </GlassCard>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </Section>
 
-            <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
-                <Eye size={20} className="text-white sm:w-7 sm:h-7" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Vision</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                To become a globally trusted and innovative technology solutions provider, setting new standards for excellence in every project we deliver.
-              </p>
-            </div>
+    {/* Timeline */}
+    <Section tone="muted">
+      <SectionHeading
+        eyebrow="Our Journey"
+        title="From first commit to global delivery"
+        highlight="global delivery"
+        description="Key milestones on the path to becoming a trusted technology partner."
+        className="mb-12 sm:mb-16"
+      />
 
-            <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-2xl p-6 sm:p-8 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
-                <Heart size={20} className="text-white sm:w-7 sm:h-7" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Our Values</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                Innovation, integrity, excellence, and client satisfaction are at the core of everything we do. We believe in building lasting partnerships through trust and quality.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="relative mx-auto max-w-3xl">
+        {/* Rail: left-aligned on mobile, centred from sm up. */}
+        <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-4 top-0 w-px bg-gradient-to-b from-primary-500/60 via-primary-500/30 to-transparent sm:left-1/2 sm:-translate-x-1/2"
+        />
 
-      {/* Services Overview */}
-      <section className="py-16 sm:py-20 bg-white dark:bg-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Expertise</h2>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              Comprehensive IT solutions tailored to meet your business needs
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="bg-white dark:bg-neutral-900 rounded-xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-neutral-100 dark:border-neutral-700">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
-                  <service.icon size={20} className="text-white sm:w-6 sm:h-6" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3">{service.title}</h3>
-                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Meet Our Leadership Team</h2>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              Experienced professionals driving digital transformation for clients worldwide
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {team.map((member, index) => (
+        <StaggerContainer className="space-y-8 sm:space-y-12" stagger={0.1}>
+          {milestones.map((milestone, index) => (
+            <StaggerItem key={milestone.year}>
               <div
-                key={index}
-                className="group relative bg-white dark:bg-neutral-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-neutral-100 dark:border-neutral-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-300 transform hover:-translate-y-2 text-center"
+                className={`relative flex items-start gap-6 pl-12 sm:pl-0 ${
+                  index % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'
+                }`}
               >
-                <div className="relative mb-5 sm:mb-6">
-                  <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto rounded-full p-1 bg-gradient-to-br from-primary-500 via-primary-500 to-primary-500 shadow-lg group-hover:shadow-primary-500/30 transition-shadow duration-300">
-                    <div className="w-full h-full rounded-full overflow-hidden ring-4 ring-white dark:ring-neutral-800">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
+                <div className="sm:w-1/2">
+                  <GlassCard className={index % 2 === 0 ? 'sm:text-right' : 'sm:text-left'}>
+                    <div className="text-xl font-bold text-primary-600 dark:text-primary-400 sm:text-2xl">
+                      {milestone.year}
                     </div>
-                  </div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-md ring-4 ring-white dark:ring-neutral-800">
-                    <member.icon size={16} className="text-white" />
-                  </div>
+                    <h3 className="mt-2 text-lg font-bold text-neutral-900 dark:text-white sm:text-xl">
+                      {milestone.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base">
+                      {milestone.description}
+                    </p>
+                  </GlassCard>
                 </div>
-                <span className="inline-block px-3 py-1 mb-3 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
-                  {member.badge}
-                </span>
-                <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-1.5">{member.name}</h3>
-                <p className="text-primary-600 dark:text-primary-400 font-semibold text-sm mb-3">{member.position}</p>
-                <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">{member.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Company Timeline */}
-      <section className="py-16 sm:py-20 bg-white dark:bg-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Our Journey</h2>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              Key milestones in our path to becoming a trusted global technology partner
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary-500 to-primary-700 rounded-full"></div>
-            
-            <div className="space-y-8 sm:space-y-12">
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                  <div className={`w-full sm:w-1/2 ${index % 2 === 0 ? 'pr-4 sm:pr-8 text-right' : 'pl-4 sm:pl-8 text-left'}`}>
-                    <div className="bg-white dark:bg-neutral-900 rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-neutral-700">
-                      <div className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400 mb-2">{milestone.year}</div>
-                      <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-2 sm:mb-3">{milestone.title}</h3>
-                      <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">{milestone.description}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="relative z-10 flex-shrink-0">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center shadow-lg">
-                      <TrendingUp size={16} className="text-white sm:w-5 sm:h-5" />
-                    </div>
-                  </div>
-                  
-                  <div className="w-full sm:w-1/2"></div>
+                <div className="absolute left-4 top-6 z-10 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg ring-4 ring-neutral-50 dark:ring-neutral-950 sm:static sm:h-12 sm:w-12 sm:translate-x-0 sm:ring-0">
+                  <TrendingUp size={16} className="text-white" />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 sm:py-20 bg-neutral-50 dark:bg-neutral-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white mb-4">Why Choose AiTechWorlds?</h2>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              We combine local expertise with global standards to deliver exceptional results
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <Building size={20} className="text-white sm:w-7 sm:h-7" />
+                <div className="hidden sm:block sm:w-1/2" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Local Expertise</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
-                Hands-on experience across web, mobile, AI, and academic domains, honed on real client projects.
-              </p>
-            </div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </div>
+    </Section>
 
-            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <Globe size={20} className="text-white sm:w-7 sm:h-7" />
+    {/* Why choose us */}
+    <Section tone="plain">
+      <SectionHeading
+        eyebrow="Why AiTechWorlds"
+        title="Why teams choose us"
+        highlight="choose us"
+        description="A distributed senior team held to global engineering standards."
+        className="mb-12 sm:mb-16"
+      />
+
+      <StaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:gap-8" stagger={0.08}>
+        {differentiators.map((item) => (
+          <StaggerItem key={item.title}>
+            <GlassCard className="group h-full text-center">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-300 group-hover:scale-110">
+                <item.icon size={24} className="text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Global Standards</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
-                International best practices and cutting-edge technologies in every project.
+              <h3 className="text-lg font-bold text-neutral-900 dark:text-white sm:text-xl">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base">
+                {item.description}
               </p>
-            </div>
+            </GlassCard>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+    </Section>
 
-            <div className="text-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <Award size={20} className="text-white sm:w-7 sm:h-7" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white mb-3 sm:mb-4">Proven Track Record</h3>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
-                500+ successful projects and 99% client satisfaction rate speaks for our quality.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 dark:from-primary-800 dark:via-primary-900 dark:to-neutral-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-6">Like What You See? Let's Build Yours.</h2>
-          <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-neutral-200 max-w-3xl mx-auto">
-            The same team, process and standards you just read about — applied to your project. Get a quote in 24 hours.
+    {/* CTA */}
+    <Section tone="accent" compact>
+      <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+            Like what you see? Let's build yours.
+          </h2>
+          <p className="mt-2 max-w-xl text-neutral-600 dark:text-neutral-400">
+            The same team, process and standards you just read about — applied to your project. Get a quote in 24
+            hours.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/order"
-              className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105"
-            >
-              Start Your Project <ArrowRight size={20} className="ml-2" />
-            </Link>
-            <Link 
-              to="/projects" 
-              className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300"
-            >
-              View Our Work
-            </Link>
-          </div>
         </div>
-      </section>
-    </div>
-  );
-};
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+          <ActionButton to="/order" size="lg">
+            Start Your Project
+            <ArrowRight size={18} />
+          </ActionButton>
+          <ActionButton to="/projects" variant="ghost" size="lg">
+            View Our Work
+          </ActionButton>
+        </div>
+      </div>
+    </Section>
+  </PageShell>
+);
 
 export default About;

@@ -1,7 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, DollarSign, Users, Award, Heart, Globe, ChevronRight, Star, Play, Briefcase, GraduationCap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import {
+  Search,
+  MapPin,
+  Clock,
+  DollarSign,
+  Users,
+  Award,
+  Heart,
+  Globe,
+  ChevronRight,
+  Star,
+  Briefcase,
+  GraduationCap,
+  ArrowRight,
+} from 'lucide-react';
 import { CONTACT_EMAIL } from '../utils/socialLinks';
+import SEO from '../components/seo/SEO';
+import PageShell from '../components/ui/layout/PageShell';
+import PageHero from '../components/ui/layout/PageHero';
+import Section from '../components/ui/layout/Section';
+import GlassCard from '../components/ui/layout/GlassCard';
+import ActionButton from '../components/ui/layout/ActionButton';
+import SectionHeading from '../components/ui/motion/SectionHeading';
+import { StaggerContainer, StaggerItem } from '../components/ui/motion/Reveal';
 
 interface Job {
   id: string;
@@ -18,510 +39,387 @@ interface Job {
   isUrgent?: boolean;
 }
 
+/**
+ * Open roles. Intentionally empty while nothing is being hired for — the
+ * listing section renders its "no roles open" state and the CTA below points
+ * candidates at the speculative-application route instead.
+ */
+const OPEN_JOBS: Job[] = [];
+
+const perks = [
+  {
+    icon: Users,
+    title: 'Diverse Team',
+    description: 'Work with talented professionals from diverse backgrounds and cultures.',
+  },
+  {
+    icon: Globe,
+    title: 'Fully Remote',
+    description: 'Work from anywhere — we have been remote-first since day one, not as a perk bolted on later.',
+  },
+  {
+    icon: Award,
+    title: 'Growth Opportunities',
+    description: 'Continuous learning and career advancement with mentorship programs.',
+  },
+  {
+    icon: Heart,
+    title: 'Great Benefits',
+    description: 'Competitive pay, flexible time off, and a genuine respect for your hours.',
+  },
+];
+
+const internshipPoints = [
+  'Paid internships with competitive stipends',
+  'Mentorship from senior developers',
+  'Opportunity for full-time conversion',
+  'Work on international client projects',
+];
+
+const BADGE_STYLES: Record<string, string> = {
+  hot: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-300 dark:border-red-500/30',
+  new: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-300 dark:border-green-500/30',
+  urgent:
+    'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-300 dark:border-orange-500/30',
+};
+
 const Careers: React.FC = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
     department: 'all',
     location: 'all',
     type: 'all',
-    experience: 'all'
+    experience: 'all',
   });
 
-  // Sample job data
-  const sampleJobs: Job[] = [
-    // {
-    //   id: '1',
-    //   title: 'Senior Frontend Developer (React)',
-    //   department: 'Engineering',
-    //   location: 'Dhaka/Remote',
-    //   type: 'Full-time',
-    //   experience: '3-5 years',
-    //   salary: '$40,000 - $60,000',
-    //   description: 'Build modern UI for our SaaS and client projects. Work with international teams, students welcome for junior roles.',
-    //   postedDate: '2024-01-15',
-    //   isHot: true
-    // }
-    
-  ];
+  // Derived, not mirrored into state — one source of truth for the visible list.
+  const filteredJobs = useMemo(() => {
+    let filtered = OPEN_JOBS;
 
-  useEffect(() => {
-    setJobs(sampleJobs);
-    setFilteredJobs(sampleJobs);
-  }, []);
-
-  useEffect(() => {
-    filterJobs();
-  }, [searchTerm, filters, jobs]);
-
-  const filterJobs = () => {
-    let filtered = jobs;
-
-    // Search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(job =>
-        job.title.toLowerCase().includes(term) ||
-        job.department.toLowerCase().includes(term) ||
-        job.description.toLowerCase().includes(term)
+      filtered = filtered.filter(
+        (job) =>
+          job.title.toLowerCase().includes(term) ||
+          job.department.toLowerCase().includes(term) ||
+          job.description.toLowerCase().includes(term)
       );
     }
 
-    // Department filter
     if (filters.department !== 'all') {
-      filtered = filtered.filter(job => job.department === filters.department);
+      filtered = filtered.filter((job) => job.department === filters.department);
     }
-
-    // Location filter
     if (filters.location !== 'all') {
-      filtered = filtered.filter(job => job.location.includes(filters.location));
+      filtered = filtered.filter((job) => job.location.includes(filters.location));
     }
-
-    // Type filter
     if (filters.type !== 'all') {
-      filtered = filtered.filter(job => job.type === filters.type);
+      filtered = filtered.filter((job) => job.type === filters.type);
     }
-
-    // Experience filter
     if (filters.experience !== 'all') {
-      filtered = filtered.filter(job => job.experience.includes(filters.experience));
+      filtered = filtered.filter((job) => job.experience.includes(filters.experience));
     }
 
-    setFilteredJobs(filtered);
-  };
+    return filtered;
+  }, [searchTerm, filters]);
 
-  const getBadgeColor = (type: string) => {
-    switch (type) {
-      case 'hot': return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800';
-      case 'new': return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800';
-      case 'urgent': return 'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800';
-      default: return 'bg-neutral-100 text-neutral-800 border-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700';
-    }
-  };
+  const selectClass =
+    'rounded-xl border border-neutral-300 bg-white/80 px-3 py-3 text-sm text-neutral-900 backdrop-blur transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white';
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-                <Briefcase size={16} className="mr-2" />
-                Join Our Team
-              </div>
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Build the Future with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">AiTechWorlds</span>
-              </h1>
-              <p className="text-xl text-neutral-200 mb-8 leading-relaxed">
-                Join our remote-first team and work on cutting-edge projects with international clients. We offer competitive pay, flexible work arrangements, and excellent growth opportunities.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="#jobs"
-                  className="inline-flex items-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-neutral-100 transition-all duration-300 transform hover:scale-105"
-                >
-                  View Open Positions
-                  <ChevronRight size={20} className="ml-2" />
-                </a>
-                <button className="inline-flex items-center px-6 py-3 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300">
-                  <Play size={20} className="mr-2" />
-                  Watch Culture Video
-                </button>
-              </div>
-            </div>
-            
-            <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl shadow-2xl overflow-hidden">
-                <img 
-                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" 
-                  alt="Team at work" 
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300">
-                    <Play size={24} className="text-white ml-1" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <PageShell>
+      <SEO
+        title="Careers — Build With a Remote-First Engineering Team"
+        description="Join AiTechWorlds: a remote-first team building web, mobile, and AI products for clients worldwide. Open roles, internships, and speculative applications."
+        path="/careers"
+        keywords={['tech careers', 'remote developer jobs', 'software internships', 'AiTechWorlds careers']}
+      />
 
-      {/* Company Culture */}
-      <section className="py-16 bg-white dark:bg-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">Why Work With Us?</h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              We believe in creating an environment where talented individuals can thrive and make a meaningful impact.
+      <PageHero
+        eyebrow="Join Our Team"
+        eyebrowIcon={<Briefcase size={13} />}
+        title="Build the future with AiTechWorlds"
+        highlight="AiTechWorlds"
+        description="Join our remote-first team and work on real projects with international clients. Competitive pay, genuine flexibility, and room to grow."
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Careers' }]}
+        actions={
+          <>
+            <ActionButton href="#jobs" size="lg">
+              View Open Positions
+              <ChevronRight size={18} />
+            </ActionButton>
+            <ActionButton href={`mailto:${CONTACT_EMAIL}`} variant="ghost" size="lg">
+              Send Your Resume
+            </ActionButton>
+          </>
+        }
+      />
+
+      {/* Why work with us */}
+      <Section tone="muted">
+        <SectionHeading
+          eyebrow="Culture"
+          title="Why work with us?"
+          highlight="work with us"
+          description="We believe in creating an environment where talented individuals can thrive and make a meaningful impact."
+          className="mb-12 sm:mb-16"
+        />
+
+        <StaggerContainer
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 sm:gap-8"
+          stagger={0.07}
+        >
+          {perks.map((perk) => (
+            <StaggerItem key={perk.title}>
+              <GlassCard className="group h-full text-center">
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-300 group-hover:scale-110">
+                  <perk.icon size={24} className="text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-white sm:text-xl">{perk.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-base">
+                  {perk.description}
+                </p>
+              </GlassCard>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </Section>
+
+      {/* Students & graduates */}
+      <Section tone="plain">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary-200 bg-primary-50/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-primary-600 backdrop-blur dark:border-primary-500/30 dark:bg-primary-500/10 dark:text-primary-400">
+              <GraduationCap size={13} />
+              For Students & New Graduates
+            </span>
+
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-4xl">
+              Internships &{' '}
+              <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent dark:from-primary-300 dark:to-primary-500">
+                campus hiring
+              </span>
+            </h2>
+
+            <p className="mt-5 leading-relaxed text-neutral-600 dark:text-neutral-400 sm:text-lg">
+              We welcome talented students and fresh graduates. Our internship programme provides hands-on experience
+              with real projects and dedicated mentorship.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-xl bg-neutral-50 dark:bg-neutral-700 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Users size={28} className="text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Diverse Team</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Work with talented professionals from diverse backgrounds and cultures.</p>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-neutral-50 dark:bg-neutral-700 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Globe size={28} className="text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Remote Friendly</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Flexible work arrangements with remote and hybrid options available.</p>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-neutral-50 dark:bg-neutral-700 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Award size={28} className="text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Growth Opportunities</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Continuous learning and career advancement with mentorship programs.</p>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-neutral-50 dark:bg-neutral-700 hover:shadow-lg transition-all duration-300">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Heart size={28} className="text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">Great Benefits</h3>
-              <p className="text-neutral-600 dark:text-neutral-300">Competitive salary, health benefits, and flexible time off policies.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Student-Friendly Section */}
-      <section className="py-16 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-                <GraduationCap size={16} className="mr-2" />
-                For Students & New Graduates
-              </div>
-              <h2 className="text-4xl font-bold text-neutral-900 dark:text-white mb-6">
-                Internships & Campus Hiring
-              </h2>
-              <p className="text-lg text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed">
-                We welcome talented students and fresh graduates to join our team. Our internship program provides hands-on experience with real projects and dedicated mentorship.
-              </p>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3"></div>
-                  <span className="text-neutral-700 dark:text-neutral-300">Paid internships with competitive stipends</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3"></div>
-                  <span className="text-neutral-700 dark:text-neutral-300">Mentorship from senior developers</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3"></div>
-                  <span className="text-neutral-700 dark:text-neutral-300">Opportunity for full-time conversion</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3"></div>
-                  <span className="text-neutral-700 dark:text-neutral-300">Work on international client projects</span>
-                </div>
-              </div>
-              <Link
-                to="#jobs"
-                className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors duration-300"
-              >
-                View Internship Opportunities
-                <ChevronRight size={20} className="ml-2" />
-              </Link>
-            </div>
-            
-            <div className="relative">
-              <img 
-                src="https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1" 
-                alt="Students working" 
-                className="rounded-2xl shadow-xl"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-white dark:bg-neutral-800 rounded-xl p-4 shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                  <span className="text-sm font-medium text-neutral-900 dark:text-white">4.9/5 Intern Rating</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Job Listings */}
-      <section id="jobs" className="py-16 bg-white dark:bg-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">Open Positions</h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-300">
-              Find your next career opportunity with us
-            </p>
-          </div>
-
-          {/* Search and Filters */}
-          <div className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="lg:col-span-2">
-                <div className="relative">
-                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
-                  <input
-                    type="text"
-                    placeholder="Search jobs..."
-                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+            <ul className="mt-8 space-y-3">
+              {internshipPoints.map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500"
                   />
-                </div>
-              </div>
-              
-              <select
-                className="px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
-                value={filters.department}
-                onChange={(e) => setFilters({...filters, department: e.target.value})}
-              >
-                <option value="all">All Departments</option>
-                <option value="Engineering">Engineering</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Sales">Sales</option>
-              </select>
-              
-              <select
-                className="px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
-                value={filters.type}
-                onChange={(e) => setFilters({...filters, type: e.target.value})}
-              >
-                <option value="all">All Types</option>
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Contract">Contract</option>
-                <option value="Internship">Internship</option>
-              </select>
-              
-              <select
-                className="px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
-                value={filters.location}
-                onChange={(e) => setFilters({...filters, location: e.target.value})}
-              >
-                <option value="all">All Locations</option>
-                <option value="Dhaka">Dhaka</option>
-                <option value="Remote">Remote</option>
-              </select>
+                  <span className="text-neutral-700 dark:text-neutral-300">{point}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8">
+              <ActionButton href="#jobs" size="lg">
+                View Internship Opportunities
+                <ChevronRight size={18} />
+              </ActionButton>
             </div>
           </div>
 
-          {/* Job Cards */}
-          <div className="space-y-6">
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => (
-                <div key={job.id} className="bg-white dark:bg-neutral-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-100 dark:border-neutral-700 overflow-hidden group">
-                  <div className="p-6">
-                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between mb-4">
-                          <div>
-                            <div className="flex items-center mb-2">
-                              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mr-3">
-                                {job.title}
-                              </h3>
-                              <div className="flex space-x-2">
-                                {job.isHot && (
-                                  <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getBadgeColor('hot')}`}>
-                                    🔥 Hot
-                                  </span>
-                                )}
-                                {job.isNew && (
-                                  <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getBadgeColor('new')}`}>
-                                    ✨ New
-                                  </span>
-                                )}
-                                {job.isUrgent && (
-                                  <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getBadgeColor('urgent')}`}>
-                                    ⚡ Urgent
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-wrap items-center text-sm text-neutral-600 dark:text-neutral-300 space-x-4 mb-3">
-                              <div className="flex items-center">
-                                <Briefcase size={16} className="mr-1" />
-                                {job.department}
-                              </div>
-                              <div className="flex items-center">
-                                <MapPin size={16} className="mr-1" />
-                                {job.location}
-                              </div>
-                              <div className="flex items-center">
-                                <Clock size={16} className="mr-1" />
-                                {job.type}
-                              </div>
-                              {job.salary && (
-                                <div className="flex items-center">
-                                  <DollarSign size={16} className="mr-1" />
-                                  {job.salary}
-                                </div>
-                              )}
-                            </div>
-                            
-                            <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                              {job.description}
-                            </p>
-                            
-                            <div className="text-sm text-neutral-500 dark:text-neutral-400">
-                              Posted: {new Date(job.postedDate).toLocaleDateString()}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col sm:flex-row gap-3 lg:ml-6">
-                        <Link
-                          to={`/careers/job/${job.id}`}
-                          className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 font-medium rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors duration-300 text-center"
-                        >
-                          View Details
-                        </Link>
-                        <Link
-                          to={`/careers/apply/${job.id}`}
-                          className="px-6 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors duration-300 text-center group-hover:shadow-lg"
-                        >
-                          Apply Now
-                        </Link>
+          <div className="relative">
+            <GlassCard flush interactive={false} className="overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&dpr=1"
+                alt="Students collaborating on a software project"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </GlassCard>
+            <GlassCard
+              interactive={false}
+              className="absolute -bottom-6 -right-2 flex items-center gap-2 p-4 sm:-right-6"
+            >
+              <Star className="h-5 w-5 fill-current text-yellow-400" />
+              <span className="text-sm font-medium text-neutral-900 dark:text-white">4.9/5 Intern Rating</span>
+            </GlassCard>
+          </div>
+        </div>
+      </Section>
+
+      {/* Open positions */}
+      <Section tone="muted" id="jobs">
+        <SectionHeading
+          eyebrow="Open Roles"
+          title="Open positions"
+          highlight="positions"
+          description="Find your next opportunity with us."
+          className="mb-10 sm:mb-12"
+        />
+
+        <GlassCard interactive={false} className="p-4 sm:p-5">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <div className="lg:col-span-2">
+              <div className="relative">
+                <Search
+                  size={18}
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400"
+                />
+                <input
+                  type="search"
+                  aria-label="Search jobs"
+                  placeholder="Search jobs..."
+                  className="w-full rounded-xl border border-neutral-300 bg-white/80 py-3 pl-11 pr-4 text-neutral-900 placeholder-neutral-500 backdrop-blur transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder-neutral-400"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <select
+              aria-label="Filter by department"
+              className={selectClass}
+              value={filters.department}
+              onChange={(e) => setFilters({ ...filters, department: e.target.value })}
+            >
+              <option value="all">All Departments</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Design">Design</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Sales">Sales</option>
+            </select>
+
+            <select
+              aria-label="Filter by employment type"
+              className={selectClass}
+              value={filters.type}
+              onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+            >
+              <option value="all">All Types</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+
+            <select
+              aria-label="Filter by location"
+              className={selectClass}
+              value={filters.location}
+              onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+            >
+              <option value="all">All Locations</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+        </GlassCard>
+
+        <div className="mt-8 space-y-6">
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map((job) => (
+              <GlassCard as="article" key={job.id} className="group">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex-1">
+                    <div className="mb-2 flex flex-wrap items-center gap-3">
+                      <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{job.title}</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {job.isHot && (
+                          <span className={`rounded-full border px-2 py-1 text-xs font-medium ${BADGE_STYLES.hot}`}>
+                            🔥 Hot
+                          </span>
+                        )}
+                        {job.isNew && (
+                          <span className={`rounded-full border px-2 py-1 text-xs font-medium ${BADGE_STYLES.new}`}>
+                            ✨ New
+                          </span>
+                        )}
+                        {job.isUrgent && (
+                          <span className={`rounded-full border px-2 py-1 text-xs font-medium ${BADGE_STYLES.urgent}`}>
+                            ⚡ Urgent
+                          </span>
+                        )}
                       </div>
                     </div>
+
+                    <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+                      <span className="inline-flex items-center gap-1">
+                        <Briefcase size={15} />
+                        {job.department}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <MapPin size={15} />
+                        {job.location}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Clock size={15} />
+                        {job.type}
+                      </span>
+                      {job.salary && (
+                        <span className="inline-flex items-center gap-1">
+                          <DollarSign size={15} />
+                          {job.salary}
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-neutral-600 dark:text-neutral-400">{job.description}</p>
+
+                    <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-500">
+                      Posted: {new Date(job.postedDate).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:ml-6">
+                    <ActionButton to={`/careers/job/${job.id}`} variant="ghost">
+                      View Details
+                    </ActionButton>
+                    <ActionButton to={`/careers/apply/${job.id}`}>Apply Now</ActionButton>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-24 h-24 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search size={32} className="text-neutral-400" />
-                </div>
-                <h3 className="text-xl font-medium text-neutral-900 dark:text-white mb-2">No jobs found</h3>
-                <p className="text-neutral-600 dark:text-neutral-300">Try adjusting your search criteria or check back later for new opportunities.</p>
+              </GlassCard>
+            ))
+          ) : (
+            <GlassCard interactive={false} className="py-16 text-center">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-neutral-100 text-neutral-400 dark:bg-white/5">
+                <Search size={32} />
               </div>
-            )}
-          </div>
+              <h3 className="text-xl font-semibold text-neutral-900 dark:text-white sm:text-2xl">
+                No roles open right now
+              </h3>
+              <p className="mx-auto mt-2 max-w-md text-neutral-600 dark:text-neutral-400">
+                We hire in bursts as projects land. Send your resume and we'll reach out when something matching opens
+                up.
+              </p>
+              <div className="mt-6 flex justify-center">
+                <ActionButton href={`mailto:${CONTACT_EMAIL}`}>Send Your Resume</ActionButton>
+              </div>
+            </GlassCard>
+          )}
         </div>
-      </section>
+      </Section>
 
-      {/* Employee Testimonials */}
-      <section className="py-16 bg-neutral-50 dark:bg-neutral-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">What Our Team Says</h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-300">
-              Hear from our employees about their experience working at AiTechWorlds
+      {/* CTA */}
+      <Section tone="accent" compact>
+        <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+              Ready to join our team?
+            </h2>
+            <p className="mt-2 max-w-xl text-neutral-600 dark:text-neutral-400">
+              Don't see a position that fits? Send us your resume and we'll keep you in mind for future opportunities.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg">
-              <div className="flex mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-4 italic">
-                "Working at AiTechWorlds has been an incredible journey. The team is supportive, and I've learned so much working on international projects."
-              </p>
-              <div className="flex items-center">
-                <img 
-                  src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1" 
-                  alt="Employee" 
-                  className="w-10 h-10 rounded-full mr-3"
-                />
-                <div>
-                  <div className="font-semibold text-neutral-900 dark:text-white">Arif Hassan</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-300">Senior Developer</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg">
-              <div className="flex mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-4 italic">
-                "The internship program here is fantastic. I got hands-on experience with real projects and amazing mentorship from day one."
-              </p>
-              <div className="flex items-center">
-                <img 
-                  src="https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1" 
-                  alt="Employee" 
-                  className="w-10 h-10 rounded-full mr-3"
-                />
-                <div>
-                  <div className="font-semibold text-neutral-900 dark:text-white">Fatima Rahman</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-300">UI/UX Designer</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow-lg">
-              <div className="flex mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-4 italic">
-                "Great work-life balance and the flexibility to work remotely. The company truly cares about employee wellbeing and growth."
-              </p>
-              <div className="flex items-center">
-                <img 
-                  src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1" 
-                  alt="Employee" 
-                  className="w-10 h-10 rounded-full mr-3"
-                />
-                <div>
-                  <div className="font-semibold text-neutral-900 dark:text-white">Karim Ahmed</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-300">DevOps Engineer</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-primary-500 to-primary-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Join Our Team?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Don't see a position that fits? Send us your resume and we'll keep you in mind for future opportunities.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/contact"
-              className="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-neutral-100 transition-colors duration-300"
-            >
-              Contact HR Team
-            </Link>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="px-8 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg hover:bg-white/20 transition-colors duration-300 border border-white/20"
-            >
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <ActionButton href={`mailto:${CONTACT_EMAIL}`} size="lg">
               Send Resume
-            </a>
+              <ArrowRight size={18} />
+            </ActionButton>
+            <ActionButton to="/contact" variant="ghost" size="lg">
+              Contact Us
+            </ActionButton>
           </div>
         </div>
-      </section>
-    </div>
+      </Section>
+    </PageShell>
   );
 };
 

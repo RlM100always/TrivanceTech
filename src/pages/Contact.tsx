@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom';
 import { SOCIAL_LINKS, CONTACT_EMAIL, whatsappChatLink } from '../utils/socialLinks';
 import SEO from '../components/seo/SEO';
 import TurnstileWidget from '../components/ui/Turnstile';
+import PageShell from '../components/ui/layout/PageShell';
+import PageHero from '../components/ui/layout/PageHero';
+import Section from '../components/ui/layout/Section';
+import GlassCard from '../components/ui/layout/GlassCard';
+import ActionButton from '../components/ui/layout/ActionButton';
 
 const TURNSTILE_ENABLED = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY);
 
@@ -17,12 +22,31 @@ interface ContactFormInputs {
   message: string;
 }
 
+/** Shared field styling — matches the glass inputs on /projects and /blog. */
+const INPUT_BASE =
+  'w-full rounded-xl border bg-white/80 px-4 py-3 text-neutral-900 placeholder-neutral-500 backdrop-blur transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-white/5 dark:text-white dark:placeholder-neutral-400';
+const INPUT_IDLE = 'border-neutral-300 dark:border-white/10';
+const INPUT_ERROR = 'border-red-500 dark:border-red-500';
+
+const fieldClass = (hasError: boolean) =>
+  `${INPUT_BASE} ${hasError ? INPUT_ERROR : INPUT_IDLE}`;
+
+const LABEL_CLASS = 'mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300';
+const ERROR_CLASS = 'mt-1.5 text-sm text-red-600 dark:text-red-400';
+
+/** Soft tinted icon tile — the same treatment used across the home sections. */
+const ICON_TILE =
+  'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-500/10 dark:text-primary-400';
+
+const LINK_CLASS =
+  'text-neutral-600 transition-colors hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400';
+
 const Contact = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset
+    reset,
   } = useForm<ContactFormInputs>();
 
   const [submitError, setSubmitError] = useState('');
@@ -59,256 +83,292 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-16 sm:py-20">
+    <PageShell>
       <SEO
         title="Contact Us — Get In Touch"
         description="Have a quick question? Reach AiTechWorlds via email, WhatsApp, Telegram, or LinkedIn — remote-first, replying to clients worldwide."
         path="/contact"
         keywords={['contact AiTechWorlds', 'hire a developer', 'software company contact']}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400 mb-4">
-            <Mail size={16} className="mr-2" />
-            Quick Inquiry
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-4 sm:mb-6">
-            Have a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700">Question?</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto leading-relaxed">
+
+      <PageHero
+        eyebrow="Quick Inquiry"
+        eyebrowIcon={<Mail size={13} />}
+        title="Have a question?"
+        highlight="a question?"
+        crumbs={[{ label: 'Home', to: '/' }, { label: 'Contact' }]}
+        description={
+          <>
             Reach out for general questions, quick quotes, or anything else. Ready to kick off a full project?{' '}
-            <Link to="/order" className="text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+            <Link
+              to="/order"
+              className="font-semibold text-primary-600 hover:underline dark:text-primary-400"
+            >
               Submit a project order →
             </Link>
-          </p>
-        </div>
+          </>
+        }
+      />
 
-        <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl overflow-hidden">
-          <div className="md:flex">
-            <div className="md:w-2/5 bg-gradient-to-br from-primary-700 to-primary-900 text-white p-8">
-              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <Mail className="w-6 h-6 mr-4 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold">Email</h3>
-                    <p className="text-primary-100">
-                      <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-white transition-colors">
-                        {CONTACT_EMAIL}
-                      </a>
-                    </p>
-                  </div>
+      <Section tone="plain">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
+          {/* Contact details */}
+          <GlassCard interactive={false} className="lg:col-span-2">
+            <h2 className="text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">
+              Contact information
+            </h2>
+
+            <div className="mt-6 space-y-6">
+              <div className="flex items-start gap-4">
+                <div className={ICON_TILE}>
+                  <Mail size={20} />
                 </div>
-
-                <div className="flex items-start">
-                  <MessageCircle className="w-6 h-6 mr-4 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold">WhatsApp / Telegram</h3>
-                    <p className="text-primary-100">
-                      <a href={whatsappChatLink("Hi AiTechWorlds! I have a quick question.")} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                        Chat on WhatsApp
-                      </a><br />
-                      <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                        Message on Telegram
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <Linkedin className="w-6 h-6 mr-4 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold">LinkedIn</h3>
-                    <p className="text-primary-100">
-                      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                        linkedin.com/company/aitechworlds
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <Globe className="w-6 h-6 mr-4 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold">Availability</h3>
-                    <p className="text-primary-100">Remote-first — serving clients worldwide</p>
-                  </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">Email</h3>
+                  <p className="mt-0.5 break-words">
+                    <a href={`mailto:${CONTACT_EMAIL}`} className={LINK_CLASS}>
+                      {CONTACT_EMAIL}
+                    </a>
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-12 pt-6 border-t border-white/20">
-                <h3 className="text-xl font-semibold mb-4">Response Time</h3>
-                <p className="text-sm text-primary-100 leading-relaxed">
-                  We typically reply within 24 hours by email, and even faster via Telegram or WhatsApp.
-                </p>
+              <div className="flex items-start gap-4">
+                <div className={ICON_TILE}>
+                  <MessageCircle size={20} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">WhatsApp / Telegram</h3>
+                  <p className="mt-0.5 flex flex-col gap-0.5">
+                    <a
+                      href={whatsappChatLink('Hi AiTechWorlds! I have a quick question.')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={LINK_CLASS}
+                    >
+                      Chat on WhatsApp
+                    </a>
+                    <a
+                      href={SOCIAL_LINKS.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={LINK_CLASS}
+                    >
+                      Message on Telegram
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className={ICON_TILE}>
+                  <Linkedin size={20} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">LinkedIn</h3>
+                  <p className="mt-0.5 break-words">
+                    <a
+                      href={SOCIAL_LINKS.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={LINK_CLASS}
+                    >
+                      linkedin.com/company/aitechworlds
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className={ICON_TILE}>
+                  <Globe size={20} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-neutral-900 dark:text-white">Availability</h3>
+                  <p className="mt-0.5 text-neutral-600 dark:text-neutral-400">
+                    Remote-first — serving clients worldwide
+                  </p>
+                </div>
               </div>
             </div>
-            
-            <div className="md:w-3/5 p-8">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-6">Send Us a Message</h2>
 
+            <div className="mt-8 border-t border-neutral-200/70 pt-6 dark:border-white/10">
+              <h3 className="font-semibold text-neutral-900 dark:text-white">Response time</h3>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                We typically reply within 24 hours by email, and even faster via Telegram or WhatsApp.
+              </p>
+            </div>
+          </GlassCard>
+
+          {/* Form */}
+          <GlassCard interactive={false} className="lg:col-span-3">
+            <h2 className="text-xl font-bold text-neutral-900 dark:text-white sm:text-2xl">
+              Send us a message
+            </h2>
+
+            <div aria-live="polite" role="status">
               {submitted && (
-                <div className="mb-6 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-4 py-3 text-sm text-green-700 dark:text-green-300">
+                <div className="mt-6 rounded-xl border border-green-200 bg-green-50/80 px-4 py-3 text-sm text-green-700 backdrop-blur dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-300">
                   Thanks! Your message has been sent — we'll get back to you within 24 hours.
                 </div>
               )}
               {submitError && (
-                <div className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+                <div className="mt-6 rounded-xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-700 backdrop-blur dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
                   {submitError}
                 </div>
               )}
+            </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                      Full Name *
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
-                      placeholder="Your full name"
-                      {...register('name', { required: 'Name is required' })}
-                    />
-                    {errors.name && (
-                      <p className="mt-1 text-red-500 text-sm">{errors.name.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                      Email Address *
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
-                      placeholder="your.email@example.com"
-                      {...register('email', { 
-                        required: 'Email is required',
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: 'Invalid email address'
-                        }
-                      })}
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-red-500 text-sm">{errors.email.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="phone" className="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                      <MessageCircle size={14} className="text-green-500" />
-                      WhatsApp Number *
-                    </label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      className={`w-full px-4 py-2 border ${errors.phone ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
-                      placeholder="+8801XXXXXXXXX (with country code)"
-                      {...register('phone', {
-                        required: 'WhatsApp number is required',
-                        pattern: {
-                          value: /^[+]?[\d\s-]{7,}$/,
-                          message: 'Enter a valid WhatsApp number with country code',
-                        },
-                      })}
-                    />
-                    {errors.phone ? (
-                      <p className="mt-1 text-red-500 text-sm">{errors.phone.message}</p>
-                    ) : (
-                      <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">We reply fastest on WhatsApp — include your country code.</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                      Company/Institution
-                    </label>
-                    <input
-                      id="company"
-                      type="text"
-                      className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white"
-                      placeholder="Your company or institution"
-                      {...register('company')}
-                    />
-                  </div>
-                </div>
-
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                    Subject *
+                  <label htmlFor="name" className={LABEL_CLASS}>
+                    Full Name *
                   </label>
                   <input
-                    id="subject"
+                    id="name"
                     type="text"
-                    className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
-                    placeholder="What is your message about?"
-                    {...register('subject', { required: 'Subject is required' })}
+                    className={fieldClass(Boolean(errors.name))}
+                    placeholder="Your full name"
+                    {...register('name', { required: 'Name is required' })}
                   />
-                  {errors.subject && (
-                    <p className="mt-1 text-red-500 text-sm">{errors.subject.message}</p>
-                  )}
+                  {errors.name && <p className={ERROR_CLASS}>{errors.name.message}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                    Message *
+                  <label htmlFor="email" className={LABEL_CLASS}>
+                    Email Address *
                   </label>
-                  <textarea
-                    id="message"
-                    rows={6}
-                    className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-neutral-300 dark:border-neutral-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white`}
-                    placeholder="What's your question? We'll get back to you shortly..."
-                    {...register('message', { 
-                      required: 'Message is required',
-                      minLength: {
-                        value: 20,
-                        message: 'Message must be at least 20 characters'
-                      }
+                  <input
+                    id="email"
+                    type="email"
+                    className={fieldClass(Boolean(errors.email))}
+                    placeholder="your.email@example.com"
+                    {...register('email', {
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'Invalid email address',
+                      },
                     })}
-                  ></textarea>
-                  {errors.message && (
-                    <p className="mt-1 text-red-500 text-sm">{errors.message.message}</p>
+                  />
+                  {errors.email && <p className={ERROR_CLASS}>{errors.email.message}</p>}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <label htmlFor="phone" className={`${LABEL_CLASS} flex items-center gap-1.5`}>
+                    <MessageCircle size={14} className="text-green-500" />
+                    WhatsApp Number *
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    className={fieldClass(Boolean(errors.phone))}
+                    placeholder="+8801XXXXXXXXX (with country code)"
+                    {...register('phone', {
+                      required: 'WhatsApp number is required',
+                      pattern: {
+                        value: /^[+]?[\d\s-]{7,}$/,
+                        message: 'Enter a valid WhatsApp number with country code',
+                      },
+                    })}
+                  />
+                  {errors.phone ? (
+                    <p className={ERROR_CLASS}>{errors.phone.message}</p>
+                  ) : (
+                    <p className="mt-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+                      We reply fastest on WhatsApp — include your country code.
+                    </p>
                   )}
                 </div>
 
-                <TurnstileWidget onVerify={setTurnstileToken} className="mb-2" />
-
                 <div>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || (TURNSTILE_ENABLED && !turnstileToken)}
-                    className="w-full sm:w-auto px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center transform hover:scale-105 shadow-lg"
-                  >
-                    {isSubmitting ? 'Sending...' : (
-                      <>
-                        Send Message <Send size={18} className="ml-2" />
-                      </>
-                    )}
-                  </button>
+                  <label htmlFor="company" className={LABEL_CLASS}>
+                    Company/Institution
+                  </label>
+                  <input
+                    id="company"
+                    type="text"
+                    className={fieldClass(false)}
+                    placeholder="Your company or institution"
+                    {...register('company')}
+                  />
                 </div>
-              </form>
-            </div>
-          </div>
-        </div>
+              </div>
 
-        {/* Remote-first note */}
-        <div className="mt-16 rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-primary-500 to-primary-700 p-10 text-center text-white">
-          <Globe size={40} className="mx-auto mb-4 opacity-90" />
-          <h3 className="text-2xl font-bold mb-2">Remote-First, Worldwide</h3>
-          <p className="text-primary-50 max-w-2xl mx-auto">
-            AiTechWorlds works with clients across the globe. No office visit needed — everything from consultation to delivery happens online via email, Telegram, or WhatsApp.
+              <div>
+                <label htmlFor="subject" className={LABEL_CLASS}>
+                  Subject *
+                </label>
+                <input
+                  id="subject"
+                  type="text"
+                  className={fieldClass(Boolean(errors.subject))}
+                  placeholder="What is your message about?"
+                  {...register('subject', { required: 'Subject is required' })}
+                />
+                {errors.subject && <p className={ERROR_CLASS}>{errors.subject.message}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="message" className={LABEL_CLASS}>
+                  Message *
+                </label>
+                <textarea
+                  id="message"
+                  rows={6}
+                  className={fieldClass(Boolean(errors.message))}
+                  placeholder="What's your question? We'll get back to you shortly..."
+                  {...register('message', {
+                    required: 'Message is required',
+                    minLength: {
+                      value: 20,
+                      message: 'Message must be at least 20 characters',
+                    },
+                  })}
+                />
+                {errors.message && <p className={ERROR_CLASS}>{errors.message.message}</p>}
+              </div>
+
+              <TurnstileWidget onVerify={setTurnstileToken} />
+
+              <ActionButton
+                type="submit"
+                size="lg"
+                disabled={isSubmitting || (TURNSTILE_ENABLED && !turnstileToken)}
+                className="w-full sm:w-auto"
+              >
+                {isSubmitting ? (
+                  'Sending...'
+                ) : (
+                  <>
+                    Send Message <Send size={18} />
+                  </>
+                )}
+              </ActionButton>
+            </form>
+          </GlassCard>
+        </div>
+      </Section>
+
+      {/* Remote-first note */}
+      <Section tone="accent" compact>
+        <div className="mx-auto max-w-2xl text-center">
+          <div className={`${ICON_TILE} mx-auto`}>
+            <Globe size={20} />
+          </div>
+          <h2 className="mt-5 text-2xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-3xl">
+            Remote-first, worldwide
+          </h2>
+          <p className="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-400">
+            AiTechWorlds works with clients across the globe. No office visit needed — everything from consultation
+            to delivery happens online via email, Telegram, or WhatsApp.
           </p>
         </div>
-      </div>
-    </div>
+      </Section>
+    </PageShell>
   );
 };
 
