@@ -13,17 +13,28 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 
   const [
     totalClients, activeClients, newLeads, totalLeads,
-    openConversations, unpaidRevenue, paidRevenue, openTasks,
+    openConversations, billed, paidRevenue, openTasks,
+    activeProjects, completedProjects,
   ] = await Promise.all([
     one('SELECT COUNT(*) as n FROM clients'),
     one("SELECT COUNT(*) as n FROM clients WHERE status = 'active'"),
     one("SELECT COUNT(*) as n FROM leads WHERE status = 'new'"),
     one('SELECT COUNT(*) as n FROM leads'),
     one("SELECT COUNT(*) as n FROM conversations WHERE status = 'open'"),
-    one("SELECT COALESCE(SUM(due_amount),0) as n FROM orders WHERE status IN ('sent','draft')"),
-    one("SELECT COALESCE(SUM(amount),0) as n FROM orders WHERE status = 'paid'"),
+    // Revenue now comes from the invoice/payment ledger, not orders.due_amount —
+    // that column is deprecated and no longer written to.
+    one(`SELECT COALESCE(SUM(amount),0) as n FROM invoices
+         WHERE deleted_at IS NULL AND status NOT IN ('draft','void')`),
+    one(`SELECT COALESCE(SUM(payments.amount),0) as n FROM payments
+         JOIN invoices ON invoices.id = payments.invoice_id
+         WHERE invoices.deleted_at IS NULL AND invoices.status != 'void'`),
     one("SELECT COUNT(*) as n FROM tasks WHERE status != 'done'"),
+    one(`SELECT COUNT(*) as n FROM projects
+         WHERE deleted_at IS NULL AND status NOT IN ('completed','cancelled')`),
+    one("SELECT COUNT(*) as n FROM projects WHERE deleted_at IS NULL AND status = 'completed'"),
   ]);
+
+  const unpaidRevenue = Math.round((billed - paidRevenue) * 100) / 100;
 
   // Leads per day for the last 14 days (for the reports chart).
   const { results: leadsTrend } = await env.DB.prepare(
@@ -40,6 +51,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     stats: {
       totalClients, activeClients, newLeads, totalLeads,
       openConversations, unpaidRevenue, paidRevenue, openTasks,
+      billedRevenue: billed, activeProjects, completedProjects,
     },
     leadsTrend,
     recentLeads,

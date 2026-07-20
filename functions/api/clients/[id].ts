@@ -1,6 +1,7 @@
 import type { Env } from '../../_lib/types';
 import { requireAdmin, logActivity } from '../../_lib/guard';
 import { json, notFound } from '../../_lib/http';
+import { INVOICE_SELECT } from '../../_lib/billing';
 
 const STAGES = ['new', 'contacted', 'proposal', 'active', 'completed', 'archived'];
 
@@ -25,11 +26,23 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env, params })
     'SELECT * FROM orders WHERE client_id = ? AND deleted_at IS NULL ORDER BY created_at DESC'
   ).bind(clientId).all();
 
+  const { results: projects } = await env.DB.prepare(
+    `SELECT projects.*,
+            (SELECT COUNT(*) FROM milestones WHERE project_id = projects.id) as milestone_count,
+            (SELECT COUNT(*) FROM milestones WHERE project_id = projects.id AND status = 'done') as milestone_done
+     FROM projects WHERE client_id = ? AND deleted_at IS NULL ORDER BY created_at DESC`
+  ).bind(clientId).all();
+
+  const { results: invoices } = await env.DB.prepare(
+    `SELECT ${INVOICE_SELECT} FROM invoices
+     WHERE client_id = ? AND deleted_at IS NULL ORDER BY created_at DESC`
+  ).bind(clientId).all();
+
   const { results: activity } = await env.DB.prepare(
     'SELECT * FROM activity_log WHERE client_id = ? ORDER BY created_at DESC LIMIT 30'
   ).bind(clientId).all();
 
-  return json({ client, files, conversations, orders, activity });
+  return json({ client, files, conversations, orders, projects, invoices, activity });
 };
 
 export const onRequestPatch: PagesFunction<Env> = async ({ request, env, params }) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Users, MessageSquare, CheckSquare, ShoppingCart, BarChart3, Settings, X, LogOut, Bell } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquare, CheckSquare, ShoppingCart, BarChart3, Settings, X, LogOut, Bell, FolderKanban, Receipt } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import DarkModeToggle from '../ui/DarkModeToggle';
 import Logo from '../ui/Logo';
@@ -13,6 +13,8 @@ const nav = [
   { name: 'Messages', path: '/admin/messages', icon: MessageSquare },
   { name: 'Tasks', path: '/admin/tasks', icon: CheckSquare },
   { name: 'Orders', path: '/admin/orders', icon: ShoppingCart },
+  { name: 'Projects', path: '/admin/projects', icon: FolderKanban },
+  { name: 'Finance', path: '/admin/finance', icon: Receipt },
   { name: 'Reports', path: '/admin/reports', icon: BarChart3 },
   { name: 'Settings', path: '/admin/settings', icon: Settings },
 ];

@@ -1,23 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Send, Paperclip, Loader2, FileText } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Send, Paperclip, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { uploadFileToDrive } from '../../lib/driveUpload';
+import MessageBubble from './MessageBubble';
+import { useChatMessages } from './useChatMessages';
+import type { ChatMessage } from './types';
 
-export interface ChatMessage {
-  seq: number;
-  id: string;
-  conversation_id: string;
-  sender_type: 'client' | 'admin';
-  sender_email: string;
-  sender_name: string;
-  body: string;
-  drive_file_id: string | null;
-  drive_file_name: string | null;
-  created_at: string;
-}
-
-const POLL_INTERVAL_MS = 3500;
-const IDLE_TIMEOUT_MS = 10 * 60 * 1000; // stop polling after 10 minutes of no activity
+export type { ChatMessage } from './types';
 
 interface ChatPanelProps {
   conversationId: string;
@@ -27,40 +16,13 @@ interface ChatPanelProps {
 
 const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload = false, className }) => {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const {
+    messages, upsert, editMessage, deleteMessage, markActive, lastSeqRef,
+  } = useChatMessages(conversationId);
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const lastSeqRef = useRef(0);
-  const lastActivityRef = useRef(Date.now());
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const fetchNewMessages = useCallback(async () => {
-    const res = await fetch(`/api/messages?conversationId=${conversationId}&since=${lastSeqRef.current}`, {
-      credentials: 'include',
-    });
-    if (!res.ok) return;
-    const data: { messages: ChatMessage[] } = await res.json();
-    if (data.messages.length === 0) return;
-
-    lastSeqRef.current = data.messages[data.messages.length - 1].seq;
-    setMessages((prev) => [...prev, ...data.messages]);
-  }, [conversationId]);
-
-  useEffect(() => {
-    lastSeqRef.current = 0;
-    setMessages([]);
-    fetchNewMessages();
-  }, [conversationId, fetchNewMessages]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (document.visibilityState !== 'visible') return;
-      if (Date.now() - lastActivityRef.current > IDLE_TIMEOUT_MS) return;
-      fetchNewMessages();
-    }, POLL_INTERVAL_MS);
-    return () => clearInterval(interval);
-  }, [fetchNewMessages]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -69,7 +31,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
   const sendMessage = async (body: string, driveFileId?: string, driveFileName?: string) => {
     if (!body.trim()) return;
     setSending(true);
-    lastActivityRef.current = Date.now();
+    markActive();
     try {
       const res = await fetch('/api/messages', {
         method: 'POST',
@@ -80,7 +42,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
       if (res.ok) {
         const data: { message: ChatMessage } = await res.json();
         lastSeqRef.current = Math.max(lastSeqRef.current, data.message.seq);
-        setMessages((prev) => [...prev, data.message]);
+        upsert([data.message]);
         setDraft('');
       }
     } finally {
@@ -90,14 +52,19 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
 
   const handleFileUpload = async (file: File) => {
     setUploading(true);
-    lastActivityRef.current = Date.now();
+    markActive();
     try {
       const uploaded = await uploadFileToDrive(file);
       await fetch('/api/drive/register', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ driveFileId: uploaded.id, fileName: uploaded.name, mimeType: uploaded.mimeType }),
+        body: JSON.stringify({
+          driveFileId: uploaded.id,
+          fileName: uploaded.name,
+          mimeType: uploaded.mimeType,
+          webViewLink: uploaded.webViewLink,
+        }),
       });
       await sendMessage(`Shared a file: ${uploaded.name}`, uploaded.id, uploaded.name);
     } catch (e) {
@@ -115,32 +82,15 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
             No messages yet — say hello!
           </p>
         )}
-        {messages.map((msg) => {
-          const mine = msg.sender_email === user?.email;
-          return (
-            <div key={msg.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
-                mine
-                  ? 'bg-primary-600 text-white rounded-br-sm'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-sm'
-              }`}>
-                {!mine && <p className="text-xs font-semibold opacity-70 mb-0.5">{msg.sender_name}</p>}
-                <p className="text-sm leading-relaxed break-words">{msg.body}</p>
-                {msg.drive_file_id && (
-                  <a
-                    href={`https://drive.google.com/file/d/${msg.drive_file_id}/view`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`mt-1.5 flex items-center gap-1.5 text-xs underline ${mine ? 'text-primary-100' : 'text-primary-600 dark:text-primary-400'}`}
-                  >
-                    <FileText size={13} />
-                    {msg.drive_file_name}
-                  </a>
-                )}
-              </div>
-            </div>
-          );
-        })}
+        {messages.map((msg) => (
+          <MessageBubble
+            key={msg.id}
+            message={msg}
+            mine={msg.sender_email === user?.email}
+            onEdit={editMessage}
+            onDelete={deleteMessage}
+          />
+        ))}
       </div>
 
       <form
@@ -162,7 +112,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ conversationId, allowFileUpload =
           type="text"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          onFocus={() => { lastActivityRef.current = Date.now(); }}
+          onFocus={markActive}
           placeholder="Type a message..."
           className="flex-1 px-4 py-2.5 rounded-full bg-gray-100 dark:bg-gray-700 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
         />

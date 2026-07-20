@@ -40,6 +40,29 @@ export const STATUS_TONE: Record<string, keyof typeof TONES> = {
   todo: 'gray', doing: 'blue', done: 'green',
   low: 'gray', medium: 'amber', high: 'red',
   active: 'green', completed: 'green', archived: 'gray',
+  // project lifecycle
+  planning: 'gray', in_progress: 'blue', review: 'purple', delivered: 'green', on_hold: 'amber',
+  // invoice lifecycle
+  partial: 'amber', void: 'gray', unpaid: 'red',
+};
+
+// Slim progress bar shared by the admin project board and the client portal.
+export const ProgressBar: React.FC<{ value: number; className?: string }> = ({ value, className = '' }) => {
+  const pct = Math.max(0, Math.min(100, Math.round(value || 0)));
+  return (
+    <div
+      className={`h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ${className}`}
+      role="progressbar"
+      aria-valuenow={pct}
+      aria-valuemin={0}
+      aria-valuemax={100}
+    >
+      <div
+        className={`h-full rounded-full transition-all duration-300 ${pct === 100 ? 'bg-green-500' : 'bg-primary-600'}`}
+        style={{ width: `${pct}%` }}
+      />
+    </div>
+  );
 };
 
 export const EmptyState: React.FC<{ icon?: React.ReactNode; title: string; hint?: string }> = ({ icon, title, hint }) => (

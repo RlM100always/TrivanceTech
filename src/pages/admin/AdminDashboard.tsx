@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Inbox, MessageSquare, DollarSign, CheckSquare, TrendingUp, ArrowRight } from 'lucide-react';
+import { Users, Inbox, MessageSquare, DollarSign, CheckSquare, TrendingUp, ArrowRight, FolderKanban } from 'lucide-react';
 import { api, DashboardStats, Lead } from '../../utils/adminApi';
 import { Card, Badge, STATUS_TONE, Spinner, formatDate, money } from '../../components/admin/ui';
 
@@ -27,6 +27,7 @@ const AdminDashboard: React.FC = () => {
     { label: 'New Leads', value: s.newLeads, sub: `${s.totalLeads} all-time`, icon: Inbox, tone: 'text-purple-600 bg-purple-50 dark:bg-purple-900/30' },
     { label: 'Open Chats', value: s.openConversations, sub: 'conversations', icon: MessageSquare, tone: 'text-teal-600 bg-teal-50 dark:bg-teal-900/30' },
     { label: 'Open Tasks', value: s.openTasks, sub: 'to do', icon: CheckSquare, tone: 'text-amber-600 bg-amber-50 dark:bg-amber-900/30' },
+    { label: 'Active Projects', value: s.activeProjects, sub: `${s.completedProjects} completed`, icon: FolderKanban, tone: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30' },
     { label: 'Revenue (paid)', value: money(s.paidRevenue), sub: `${money(s.unpaidRevenue)} outstanding`, icon: DollarSign, tone: 'text-green-600 bg-green-50 dark:bg-green-900/30' },
   ];
 

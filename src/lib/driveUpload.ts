@@ -4,6 +4,7 @@ export interface UploadedDriveFile {
   id: string;
   name: string;
   mimeType: string;
+  webViewLink?: string;
 }
 
 const FOLDER_NAME = 'AiTechWorlds Client Files';
@@ -49,8 +50,13 @@ async function getOrCreateClientFilesFolder(accessToken: string): Promise<string
  * /api/drive/register.
  */
 export async function uploadFileToDrive(file: File): Promise<UploadedDriveFile> {
+  // Portal attachments are capped on purpose — large deliverables are exchanged
+  // over WhatsApp, so the message points there rather than to a bigger limit.
   if (file.size > MAX_FILE_SIZE_BYTES) {
-    throw new Error(`File is too large (max ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB).`);
+    throw new Error(
+      `File is too large (max ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB). ` +
+      'Please send large files over WhatsApp, or paste a share link in the chat.'
+    );
   }
 
   const accessToken = await requestDriveAccessToken();
@@ -61,7 +67,7 @@ export async function uploadFileToDrive(file: File): Promise<UploadedDriveFile> 
   form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
   form.append('file', file);
 
-  const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType', {
+  const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType,webViewLink', {
     method: 'POST',
     headers: { Authorization: `Bearer ${accessToken}` },
     body: form,

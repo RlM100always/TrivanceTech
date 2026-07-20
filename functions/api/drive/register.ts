@@ -16,6 +16,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     driveFileId?: string;
     fileName?: string;
     mimeType?: string;
+    webViewLink?: string;
   } | null;
 
   if (!body?.driveFileId || !body.fileName) return badRequest('driveFileId and fileName are required');
@@ -25,10 +26,19 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     .first<{ id: string }>();
   if (!client) return badRequest('Client profile not found');
 
+  // client_files.url is NOT NULL — fall back to Drive's canonical view URL, which
+  // is derivable from the file id when the client didn't send a webViewLink.
+  const viewUrl = body.webViewLink ?? `https://drive.google.com/file/d/${body.driveFileId}/view`;
+
   const id = uuid();
   await env.DB.prepare(
-    'INSERT INTO client_files (id, client_id, drive_file_id, file_name, mime_type, uploaded_by) VALUES (?, ?, ?, ?, ?, ?)'
-  ).bind(id, client.id, body.driveFileId, body.fileName, body.mimeType ?? null, session.email).run();
+    `INSERT INTO client_files
+       (id, client_id, url, drive_file_id, drive_view_url, file_name, mime_type, uploaded_by)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(
+    id, client.id, viewUrl, body.driveFileId, viewUrl,
+    body.fileName, body.mimeType ?? null, session.email
+  ).run();
 
   const file = await env.DB.prepare('SELECT * FROM client_files WHERE id = ?').bind(id).first();
   return json({ file }, { status: 201 });

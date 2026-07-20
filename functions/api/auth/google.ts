@@ -27,10 +27,26 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           'UPDATE clients SET name = ?, avatar_url = ?, email = ?, last_login_at = datetime(\'now\') WHERE id = ?'
         ).bind(identity.name, identity.picture ?? null, identity.email, existing.id).run();
       } else {
-        clientId = uuid();
-        await env.DB.prepare(
-          'INSERT INTO clients (id, google_sub, email, name, avatar_url) VALUES (?, ?, ?, ?, ?)'
-        ).bind(clientId, identity.sub, identity.email, identity.name, identity.picture ?? null).run();
+        // An admin may have already created this client by converting a lead, before
+        // the person ever signed in — that row carries a `pending:` placeholder
+        // google_sub. Claim it on first sign-in instead of inserting a second row,
+        // which would collide on the UNIQUE email constraint and lose their history.
+        const byEmail = await env.DB.prepare(
+          'SELECT id FROM clients WHERE email = ? AND google_sub LIKE \'pending:%\''
+        ).bind(identity.email).first<{ id: string }>();
+
+        if (byEmail) {
+          clientId = byEmail.id;
+          await env.DB.prepare(
+            `UPDATE clients SET google_sub = ?, name = ?, avatar_url = ?,
+                                last_login_at = datetime('now') WHERE id = ?`
+          ).bind(identity.sub, identity.name, identity.picture ?? null, byEmail.id).run();
+        } else {
+          clientId = uuid();
+          await env.DB.prepare(
+            'INSERT INTO clients (id, google_sub, email, name, avatar_url) VALUES (?, ?, ?, ?, ?)'
+          ).bind(clientId, identity.sub, identity.email, identity.name, identity.picture ?? null).run();
+        }
       }
 
       // Link any lead(s) with a matching email that haven't been linked yet — makes

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Search, Inbox, Mail, MessageCircle, Building2, ExternalLink, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Inbox, Mail, MessageCircle, MessagesSquare, Building2, ExternalLink, Trash2 } from 'lucide-react';
 import { api, Lead, Order } from '../../utils/adminApi';
 import { Card, PageHeader, Badge, Spinner, EmptyState, formatDate, money } from '../../components/admin/ui';
 import { whatsappLinkTo } from '../../utils/socialLinks';
@@ -36,6 +37,8 @@ const InquiriesTab: React.FC = () => {
   const [status, setStatus] = useState('all');
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
+  const [converting, setConverting] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const load = useCallback(() => {
     const params = new URLSearchParams();
@@ -52,6 +55,19 @@ const InquiriesTab: React.FC = () => {
   const setLeadStatus = async (id: string, newStatus: string) => {
     setLeads((prev) => prev?.map((l) => (l.id === id ? { ...l, status: newStatus as Lead['status'] } : l)) ?? null);
     await api.patch(`/api/leads/${id}`, { status: newStatus }).catch(() => load());
+  };
+
+  const convertAndChat = async (lead: Lead) => {
+    setConverting(lead.id);
+    try {
+      const { conversation_id } = await api.post<{ conversation_id: string }>(
+        '/api/leads/convert', { lead_id: lead.id }
+      );
+      navigate(`/admin/messages?c=${conversation_id}`);
+    } catch (e) {
+      alert((e as Error).message);
+      setConverting(null);
+    }
   };
 
   const remove = async (id: string) => {
@@ -138,6 +154,17 @@ const InquiriesTab: React.FC = () => {
                     Message on WhatsApp
                   </a>
                 )}
+
+                {/* Converts the lead into a real client + open thread, then drops
+                    the admin straight into that conversation. */}
+                <button
+                  onClick={() => convertAndChat(l)}
+                  disabled={converting === l.id}
+                  className="mt-2 inline-flex items-center justify-center gap-2 w-full px-3 py-2 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  <MessagesSquare size={15} />
+                  {converting === l.id ? 'Opening…' : 'Convert & chat in portal'}
+                </button>
 
                 {meta && (
                   <div className="mt-2 flex flex-wrap gap-1.5">

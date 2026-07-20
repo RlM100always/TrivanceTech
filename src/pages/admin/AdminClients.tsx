@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Search, Users, X, Mail, MessageCircle, Building2, Plus, Clock, CheckCircle2, Download } from 'lucide-react';
-import { api, Client, Order, Activity } from '../../utils/adminApi';
-import { Card, PageHeader, Badge, STATUS_TONE, Spinner, EmptyState, formatDate, money } from '../../components/admin/ui';
+import { useNavigate } from 'react-router-dom';
+import { Search, Users, X, Mail, MessageCircle, MessagesSquare, Building2, Plus, Clock, CheckCircle2, Download } from 'lucide-react';
+import {
+  api, Client, Order, Activity, Project, Invoice, Conversation,
+  invoiceBalance, formatStatus,
+} from '../../utils/adminApi';
+import {
+  Card, PageHeader, Badge, STATUS_TONE, Spinner, EmptyState, ProgressBar, formatDate, money,
+} from '../../components/admin/ui';
 import { whatsappLinkTo } from '../../utils/socialLinks';
 
 const STAGES = ['new', 'contacted', 'proposal', 'active', 'completed', 'archived'];
@@ -132,15 +138,37 @@ const ClientDrawer: React.FC<{ client: Client; onClose: () => void; onSaved: (c:
   const [status, setStatus] = useState(client.status);
   const [stage, setStage] = useState(client.stage);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [activity, setActivity] = useState<Activity[]>([]);
   const [saving, setSaving] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
+  const navigate = useNavigate();
 
   const reload = useCallback(() => {
-    api.get<{ orders: Order[]; activity: Activity[] }>(`/api/clients/${client.id}`)
-      .then((d) => { setOrders(d.orders ?? []); setActivity(d.activity ?? []); })
+    api.get<{ orders: Order[]; projects: Project[]; invoices: Invoice[]; activity: Activity[] }>(
+      `/api/clients/${client.id}`
+    )
+      .then((d) => {
+        setOrders(d.orders ?? []);
+        setProjects(d.projects ?? []);
+        setInvoices(d.invoices ?? []);
+        setActivity(d.activity ?? []);
+      })
       .catch(() => {});
   }, [client.id]);
+
+  // Jump into this client's chat thread, opening one if they don't have it yet.
+  const openPortalChat = async () => {
+    try {
+      const { conversations } = await api.get<{ conversations: Conversation[] }>('/api/conversations');
+      const existing = conversations.find((c) => c.client_id === client.id);
+      if (existing) { navigate(`/admin/messages?c=${existing.id}`); return; }
+      navigate('/admin/messages');
+    } catch (e) {
+      alert((e as Error).message);
+    }
+  };
 
   useEffect(() => { reload(); }, [reload]);
 
@@ -228,6 +256,15 @@ const ClientDrawer: React.FC<{ client: Client; onClose: () => void; onSaved: (c:
             </a>
           )}
 
+          {/* Opens (or creates) this client's portal thread and jumps to it. */}
+          <button
+            onClick={openPortalChat}
+            className="inline-flex items-center justify-center gap-2 w-full px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            <MessagesSquare size={15} />
+            Message in portal
+          </button>
+
           {/* Lifecycle stage pipeline — one tap advances the client */}
           <div>
             <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Lifecycle stage</label>
@@ -264,6 +301,69 @@ const ClientDrawer: React.FC<{ client: Client; onClose: () => void; onSaved: (c:
           <button onClick={save} disabled={saving} className="w-full py-2 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 disabled:opacity-60">
             {saving ? 'Saving…' : 'Save changes'}
           </button>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Projects</h3>
+              <button
+                onClick={() => navigate('/admin/projects')}
+                className="text-xs text-primary-600"
+              >
+                Manage
+              </button>
+            </div>
+            {projects.length === 0 ? (
+              <p className="text-xs text-gray-400 py-2">No projects yet.</p>
+            ) : (
+              <ul className="space-y-2.5">
+                {projects.map((p) => (
+                  <li key={p.id} className="border border-gray-100 dark:border-gray-800 rounded-lg px-3 py-2">
+                    <div className="flex items-center justify-between gap-2 text-sm">
+                      <span className="text-gray-900 dark:text-white truncate">{p.title}</span>
+                      <Badge tone={STATUS_TONE[p.status] ?? 'gray'}>{formatStatus(p.status)}</Badge>
+                    </div>
+                    <ProgressBar value={p.progress} className="mt-2" />
+                    <p className="mt-1 text-[11px] text-gray-400">
+                      {p.milestone_done ?? 0}/{p.milestone_count ?? 0} milestones · {p.progress}%
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Invoices</h3>
+              <button
+                onClick={() => navigate('/admin/finance')}
+                className="text-xs text-primary-600"
+              >
+                Manage
+              </button>
+            </div>
+            {invoices.length === 0 ? (
+              <p className="text-xs text-gray-400 py-2">No invoices yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {invoices.map((inv) => {
+                  const balance = invoiceBalance(inv);
+                  return (
+                    <li key={inv.id} className="flex items-center justify-between gap-2 border border-gray-100 dark:border-gray-800 rounded-lg px-3 py-2">
+                      <div className="min-w-0">
+                        <p className="text-sm text-gray-900 dark:text-white">{inv.number}</p>
+                        <p className="text-[11px] text-gray-400">
+                          {money(inv.amount, inv.currency)}
+                          {balance > 0 && ` · ${money(balance, inv.currency)} due`}
+                        </p>
+                      </div>
+                      <Badge tone={STATUS_TONE[inv.status] ?? 'gray'}>{formatStatus(inv.status)}</Badge>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
 
           <div>
             <div className="flex items-center justify-between mb-2">

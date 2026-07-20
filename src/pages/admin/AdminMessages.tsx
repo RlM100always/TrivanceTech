@@ -1,24 +1,17 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Send, MessageSquare, ArrowLeft, FileText, Check, CheckCheck } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { Send, MessageSquare, ArrowLeft, Check, CheckCheck } from 'lucide-react';
 import { api, Conversation } from '../../utils/adminApi';
 import { Card, PageHeader, Spinner, EmptyState, formatDate } from '../../components/admin/ui';
-
-interface Message {
-  seq: number;
-  id: string;
-  sender_type: 'client' | 'admin';
-  sender_name: string;
-  body: string;
-  drive_file_id?: string | null;
-  drive_file_name?: string | null;
-  read_at?: string | null;
-  created_at: string;
-}
+import MessageBubble from '../../components/chat/MessageBubble';
+import { useChatMessages } from '../../components/chat/useChatMessages';
+import type { ChatMessage } from '../../components/chat/types';
 
 const AdminMessages: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[] | null>(null);
   const [active, setActive] = useState<Conversation | null>(null);
   const [error, setError] = useState('');
+  const [searchParams] = useSearchParams();
 
   const loadConversations = useCallback(() => {
     api.get<{ conversations: Conversation[] }>('/api/conversations')
@@ -31,6 +24,17 @@ const AdminMessages: React.FC = () => {
     const t = setInterval(loadConversations, 8000); // keep unread counts fresh
     return () => clearInterval(t);
   }, [loadConversations]);
+
+  // Deep link from "Convert & chat" on a lead card: /admin/messages?c=<id>.
+  // Only auto-opens once, so it doesn't yank the admin back after they browse away.
+  useEffect(() => {
+    if (!conversations || active) return;
+    const target = searchParams.get('c');
+    if (!target) return;
+    const match = conversations.find((c) => c.id === target);
+    if (match) openConversation(match);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversations, searchParams]);
 
   const openConversation = (c: Conversation) => {
     setActive(c);
@@ -91,36 +95,28 @@ const AdminMessages: React.FC = () => {
 };
 
 const Thread: React.FC<{ conversation: Conversation; onBack: () => void }> = ({ conversation, onBack }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  // Shared with the client portal: polls with both a seq and an updated_at cursor
+  // and reconciles by id, so edits, deletes and read receipts all land in place.
+  const {
+    messages, upsert, refresh, editMessage, deleteMessage, markActive,
+  } = useChatMessages(conversation.id);
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-
-  // Full refetch each poll (since=0) so read-receipt changes on already-shown
-  // messages are reflected — threads are small, so this stays cheap.
-  const poll = useCallback(async () => {
-    try {
-      const { messages: all } = await api.get<{ messages: Message[] }>(`/api/messages?conversationId=${conversation.id}&since=0`);
-      setMessages(all);
-    } catch { /* ignore transient */ }
-  }, [conversation.id]);
-
-  useEffect(() => {
-    setMessages([]);
-    poll();
-    const t = setInterval(poll, 3500);
-    return () => clearInterval(t);
-  }, [poll]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages.length]);
 
   const send = async () => {
     if (!body.trim()) return;
     setSending(true);
+    markActive();
     try {
-      await api.post('/api/messages', { conversationId: conversation.id, body });
+      const { message } = await api.post<{ message: ChatMessage }>(
+        '/api/messages', { conversationId: conversation.id, body }
+      );
       setBody('');
-      await poll();
+      upsert([message]);
+      await refresh();
     } catch (e) {
       alert((e as Error).message);
     } finally {
@@ -142,25 +138,20 @@ const Thread: React.FC<{ conversation: Conversation; onBack: () => void }> = ({ 
         {messages.map((m) => {
           const mine = m.sender_type === 'admin';
           return (
-            <div key={m.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm ${mine ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-700'}`}>
-                <p className="whitespace-pre-wrap break-words">{m.body}</p>
-                {m.drive_file_id && (
-                  <a
-                    href={`https://drive.google.com/file/d/${m.drive_file_id}/view`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`mt-1.5 flex items-center gap-1.5 text-xs underline ${mine ? 'text-primary-100' : 'text-primary-600 dark:text-primary-400'}`}
-                  >
-                    <FileText size={13} />{m.drive_file_name}
-                  </a>
-                )}
+            <MessageBubble
+              key={m.id}
+              message={m}
+              mine={mine}
+              canModerate
+              onEdit={editMessage}
+              onDelete={deleteMessage}
+              footer={
                 <div className={`flex items-center gap-1 text-[10px] mt-1 ${mine ? 'text-primary-100 justify-end' : 'text-gray-400'}`}>
                   <span>{m.sender_name}</span>
                   {mine && (m.read_at ? <CheckCheck size={13} className="text-sky-200" /> : <Check size={13} />)}
                 </div>
-              </div>
-            </div>
+              }
+            />
           );
         })}
         <div ref={bottomRef} />
@@ -170,6 +161,7 @@ const Thread: React.FC<{ conversation: Conversation; onBack: () => void }> = ({ 
         <input
           value={body}
           onChange={(e) => setBody(e.target.value)}
+          onFocus={markActive}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
           placeholder="Type a reply…"
           className="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"

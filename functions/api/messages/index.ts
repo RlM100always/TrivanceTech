@@ -1,29 +1,7 @@
 import type { Env } from '../../_lib/types';
 import { getSession } from '../../_lib/session';
 import { json, unauthorized, forbidden, badRequest, uuid } from '../../_lib/http';
-
-interface ConversationRow {
-  id: string;
-  client_id: string;
-  client_google_sub: string;
-}
-
-async function loadConversationForSession(
-  env: Env,
-  conversationId: string,
-  session: { sub: string; role: 'client' | 'admin' }
-): Promise<ConversationRow | null> {
-  const row = await env.DB.prepare(
-    `SELECT conversations.id, conversations.client_id, clients.google_sub as client_google_sub
-     FROM conversations JOIN clients ON clients.id = conversations.client_id
-     WHERE conversations.id = ?`
-  ).bind(conversationId).first<ConversationRow>();
-
-  if (!row) return null;
-  if (session.role === 'admin') return row;
-  if (row.client_google_sub === session.sub) return row;
-  return null;
-}
+import { loadConversationForSession, MESSAGE_COLUMNS } from '../../_lib/chat';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const session = await getSession(request, env.SESSION_SECRET);
@@ -32,6 +10,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
   const conversationId = url.searchParams.get('conversationId');
   const since = Number(url.searchParams.get('since') ?? '0');
+  // Cursor for mutations: rows whose body/read state changed after this timestamp
+  // are re-sent even though their seq is already below `since`. Without it, an
+  // edit or delete would never reach a client that had already fetched the row.
+  const sinceTime = url.searchParams.get('sinceTime');
   if (!conversationId) return badRequest('conversationId is required');
 
   const conversation = await loadConversationForSession(env, conversationId, session);
@@ -44,14 +26,17 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   ).bind(conversationId, session.role).run();
 
   const { results } = await env.DB.prepare(
-    `SELECT rowid as seq, id, conversation_id, sender_type, sender_email, sender_name, body,
-            drive_file_id, drive_file_name, read_at, created_at
+    `SELECT ${MESSAGE_COLUMNS}
      FROM messages
-     WHERE conversation_id = ? AND rowid > ?
+     WHERE conversation_id = ?
+       AND (rowid > ? OR (? IS NOT NULL AND updated_at > ?))
+       AND (? = 'admin' OR is_internal_note = 0)
      ORDER BY rowid ASC`
-  ).bind(conversationId, since).all();
+  ).bind(conversationId, since, sinceTime, sinceTime, session.role).all();
 
-  return json({ messages: results });
+  // Clients reconcile by id, so re-sent (edited/deleted) rows overwrite in place.
+  // `serverTime` becomes their next sinceTime cursor.
+  return json({ messages: results, serverTime: new Date().toISOString().replace('T', ' ').slice(0, 19) });
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
@@ -100,7 +85,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   const message = await env.DB.prepare(
-    'SELECT rowid as seq, * FROM messages WHERE id = ?'
+    `SELECT ${MESSAGE_COLUMNS} FROM messages WHERE id = ?`
   ).bind(id).first();
 
   return json({ message }, { status: 201 });

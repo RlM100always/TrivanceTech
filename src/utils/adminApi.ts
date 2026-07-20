@@ -84,7 +84,10 @@ export interface DashboardStats {
   openConversations: number;
   unpaidRevenue: number;
   paidRevenue: number;
+  billedRevenue: number;
   openTasks: number;
+  activeProjects: number;
+  completedProjects: number;
 }
 
 export interface Conversation {
@@ -102,8 +105,104 @@ export interface Conversation {
 export interface Activity {
   id: string;
   client_id?: string | null;
-  admin_email: string;
+  actor_type?: 'admin' | 'client' | 'system';
+  actor_email?: string | null;
+  admin_email?: string | null;
   action: string;
+  entity_type?: string | null;
+  entity_id?: string | null;
   detail?: string | null;
   created_at: string;
 }
+
+export const PROJECT_STATUSES = [
+  'planning', 'in_progress', 'review', 'delivered', 'completed', 'on_hold', 'cancelled',
+] as const;
+export type ProjectStatus = typeof PROJECT_STATUSES[number];
+
+export interface Milestone {
+  id: string;
+  project_id: string;
+  title: string;
+  status: 'todo' | 'doing' | 'done';
+  sort_order: number;
+  due_date?: string | null;
+  completed_at?: string | null;
+}
+
+export interface Project {
+  id: string;
+  client_id: string;
+  client_name?: string;
+  client_email?: string;
+  order_id?: string | null;
+  title: string;
+  description?: string | null;
+  status: ProjectStatus;
+  /** Derived server-side from milestones — never write this directly. */
+  progress: number;
+  start_date?: string | null;
+  target_date?: string | null;
+  delivered_at?: string | null;
+  repo_url?: string | null;
+  live_url?: string | null;
+  deliverable_url?: string | null;
+  delivery_note?: string | null;
+  milestone_count?: number;
+  milestone_done?: number;
+  milestones?: Milestone[];
+  created_at: string;
+}
+
+export const PAYMENT_METHODS = ['bkash', 'nagad', 'bank', 'wise', 'paypal', 'cash', 'other'] as const;
+export type PaymentMethod = typeof PAYMENT_METHODS[number];
+
+export interface Invoice {
+  id: string;
+  client_id: string;
+  client_name?: string;
+  client_email?: string;
+  order_id?: string | null;
+  project_id?: string | null;
+  project_title?: string | null;
+  number: string;
+  amount: number;
+  /** Sum of this invoice's payments, computed server-side on every read. */
+  paid: number;
+  currency: string;
+  status: 'draft' | 'sent' | 'partial' | 'paid' | 'void';
+  issued_at: string;
+  due_at?: string | null;
+  notes?: string | null;
+  created_at: string;
+}
+
+export interface Payment {
+  id: string;
+  invoice_id: string;
+  invoice_number?: string;
+  client_id: string;
+  client_name?: string;
+  amount: number;
+  currency: string;
+  method: PaymentMethod;
+  reference?: string | null;
+  paid_at: string;
+  recorded_by_admin_email?: string;
+  note?: string | null;
+}
+
+export interface BillingTotals {
+  billed: number;
+  collected: number;
+  outstanding: number;
+}
+
+/** Outstanding money on an invoice. Always derive it — never trust a stored due. */
+export const invoiceBalance = (inv: Pick<Invoice, 'amount' | 'paid'>): number =>
+  Math.round(((inv.amount ?? 0) - (inv.paid ?? 0)) * 100) / 100;
+
+// Currency formatting lives in components/admin/ui.tsx as `money()` — use that.
+
+export const formatStatus = (status: string): string =>
+  status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());

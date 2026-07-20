@@ -26,6 +26,8 @@ import AdminClients from './pages/admin/AdminClients';
 import AdminMessages from './pages/admin/AdminMessages';
 import AdminTasks from './pages/admin/AdminTasks';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminProjects from './pages/admin/AdminProjects';
+import AdminFinance from './pages/admin/AdminFinance';
 import AdminReports from './pages/admin/AdminReports';
 import AdminSettings from './pages/admin/AdminSettings';
 
@@ -63,6 +65,8 @@ function App() {
         <Route path="messages" element={<AdminMessages />} />
         <Route path="tasks" element={<AdminTasks />} />
         <Route path="orders" element={<AdminOrders />} />
+        <Route path="projects" element={<AdminProjects />} />
+        <Route path="finance" element={<AdminFinance />} />
         <Route path="reports" element={<AdminReports />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
